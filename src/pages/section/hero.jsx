@@ -6,12 +6,12 @@ function Hero() {
     <section className="flex flex-col md:flex-row justify-between items-center p-6 md:p-12 bg-white relative min-h-screen overflow-hidden">
       <div className="w-full md:w-1/2 mb-18 md:mb-0 z-10 p-4 md:p-8 mt-[0%] md:mt-[-10%]">
         <div className="flex flex-col md:flex-row space-x-0 md:space-x-8">
-          <h1 className="text-4xl md:text-5xl lg:text-8xl font-extrabold mb-2  text-zinc-800">
+          <h1 className="text-4xl md:text-5xl lg:text-8xl font-extrabold mb-2 font-sans text-zinc-800">
             Where young minds code their future
           </h1>
         </div>
 
-        <p className="mb-4 md:mb-6 text-base md:text-lg lg:text-2xl mt-2 text-gray-700 mt-2">
+        <p className="mb-4 md:mb-6 text-base md:text-lg lg:text-2xl mt-2 text-gray-700 mt-2 font-sans">
           We believe that teaching programming in colleges should be
           personalized, fun, effective, and industry- oriented..
         </p>
