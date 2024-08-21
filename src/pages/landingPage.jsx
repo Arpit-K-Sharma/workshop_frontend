@@ -43,6 +43,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./navbar/navbar";
 import Offers from "./section/offers";
+import Hero from "./section/hero";
 const Counter = ({ endValue }) => {
   const [count, setCount] = useState(0);
 
@@ -143,117 +144,9 @@ const LandingPage = () => {
     <div className="font-sans">
       {/* Header */}
       <Navbar />
-      <section className="flex flex-col md:flex-row justify-between items-center p-6 md:p-12 bg-white relative min-h-screen overflow-hidden">
-        <div className="w-full md:w-1/2 mb-18 md:mb-0 z-10 p-4 md:p-8 mt-[0%] md:mt-[-10%]">
-          <div className="flex flex-col md:flex-row space-x-0 md:space-x-8">
-            <h1 className="text-4xl md:text-5xl lg:text-8xl font-extrabold mb-2  text-zinc-800">
-              Where young minds code their{" "}
-              <span className="text-red-600">future</span>
-            </h1>
-          </div>
+      <Hero />
 
-          <p className="mb-4 md:mb-6 text-base md:text-lg lg:text-2xl mt-2 text-gray-700 mt-2">
-            We believe that teaching programming in colleges should be
-            personalized, fun, effective, and industry- oriented..
-          </p>
-          <Button
-            size="lg"
-            className="bg-buttonColor text-white font-semibold py-2 md:py-3 px-4 md:px-6 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300"
-          >
-            Start Learning
-          </Button>
-        </div>
-        <div className="w-full md:w-1/2 md:absolute md:right-0 md:top-0 md:bottom-0 h-full z-20">
-          <img
-            src={homepage}
-            alt="Student studying"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </section>
-      {/* Stats Section */}
-      {/* <section className="p-8 bg-gray-100">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: Video, title: "100+", description: "Video Courses" },
-            { icon: Users, title: "500+", description: "Students" },
-            { icon: BookOpen, title: "50+", description: "Subjects" },
-            { icon: Award, title: "100%", description: "Satisfaction" },
-          ].map((stat, index) => (
-            <MotionCard
-              key={index}
-              icon={stat.icon}
-              title={stat.title}
-              description={stat.description}
-              index={index}
-            />
-          ))}
-        </div>
-      </section> */}
       <Offers />
-
-      {/* Hero Section */}
-      <section className="flex flex-col md:flex-row justify-between items-center p-4 md:p-8 bg-white relative overflow-hidden">
-        <div className="w-full md:w-[40%] z-10 mb-6 md:mb-0">
-          <h1 className="text-3xl lg:text-5xl font-extrabold mb-4 md:mb-6 text-homeText">
-            Most Popular <span className="text-joinButton">Courses</span>
-          </h1>
-          <p className="text-base lg:text-lg mb-6 font-semibold text-gray-700">
-            Discover a world of knowledge at your fingertips. Start your
-            learning journey today!
-          </p>
-          <div className="flex flex-wrap space-x-0 md:space-x-2 lg:space-x-4">
-            <Button
-              size="lg"
-              className="bg-homeText rounded-full border mt-2 border-homeText text-primary-foreground hover:bg-homeText"
-            >
-              UI/UX Design
-            </Button>
-            <Button
-              size="lg"
-              className="bg-white rounded-full border mt-2 border-homeText text-black hover:bg-homeText hover:text-white"
-            >
-              Python/Django
-            </Button>
-            <Button
-              size="lg"
-              className="bg-white rounded-full border mt-2 border-homeText text-black hover:bg-homeText hover:text-white"
-            >
-              JavaScript/React
-            </Button>
-          </div>
-        </div>
-        <div className="w-full md:w-[60%] mt-6 md:mt-0">
-          <div className="flex flex-col md:flex-row md:space-x-4">
-            <motion.img
-              src={Teaching}
-              alt="Digital Learning"
-              className="w-full md:w-1/2 h-[200px] md:h-[300px] rounded-lg mb-4 md:mb-0"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-            />
-            <div className="w-full md:w-1/2 flex flex-col space-y-2">
-              <motion.img
-                src={Image2}
-                alt="Digital Learning"
-                className="w-full rounded-lg object-cover h-[100px] md:h-[150px]"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-              />
-              <motion.img
-                src={Image3}
-                alt="Digital Learning"
-                className="w-full rounded-lg object-cover h-[100px] md:h-[150px]"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="w-full">
         <video
