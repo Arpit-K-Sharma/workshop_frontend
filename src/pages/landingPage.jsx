@@ -49,6 +49,7 @@ import System from "./section/system";
 import Mentors from "./section/mentors";
 import MakeADifference from "./section/makeadifference";
 import Testimonials from "./section/testimonials";
+import Bars from "./section/bars";
 const Counter = ({ endValue }) => {
   const [count, setCount] = useState(0);
 
@@ -152,6 +153,7 @@ const LandingPage = () => {
       <Hero />
 
       <Videos />
+      <Bars />
 
       <System />
       <Mentors />

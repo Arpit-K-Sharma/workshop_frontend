@@ -11,22 +11,22 @@ function Navbar() {
   };
 
   return (
-    <div className="shadow-xl">
-      <header className="flex px-8 justify-between items-center py-2 bg-white ">
+    <div className="shadow-xl font-sans">
+      <header className="flex px-8 justify-between items-center py-2 bg-white font-sans">
         <div className="flex text-2xl font-bold">
-          <img src={logo} alt="Logo" className="h-14 w-full" />
+          <img src={logo} alt="Logo" className="w-full" />
         </div>
 
         <div className="flex items-center space-x-4">
           <nav className="hidden md:block text-black mr-10">
             <ul className="flex space-x-[5rem] text-black text-m">
-              <li className="cursor-pointer">Courses</li>
-              <li className="cursor-pointer">About Us</li>
-              <li className="cursor-pointer">Schools</li>
+              <li className="cursor-pointer font-sans">Courses</li>
+              <li className="cursor-pointer font-sans">About Us</li>
+              <li className="cursor-pointer font-sans">Schools</li>
             </ul>
           </nav>
           <Button
-            className="bg-[#004EFF] hover:bg-joinButton-hover px-8 font-bold py-6"
+            className="bg-[#004EFF] hover:bg-joinButton-hover px-8 font-bold py-6 font-sans"
             onClick={handleJoinUsClick}
           >
             Join Us
