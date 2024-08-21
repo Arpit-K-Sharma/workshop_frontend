@@ -16,14 +16,15 @@ function Navbar() {
         <div className="flex text-2xl font-bold">
           <img src={logo} alt="Logo" className="h-14 w-full" />
         </div>
-        <nav className="hidden md:block text-black">
-          <ul className="flex space-x-[5rem] text-black text-m">
-            <li className="cursor-pointer">Courses</li>
-            <li className="cursor-pointer">About Us</li>
-            <li className="cursor-pointer">Schools</li>
-          </ul>
-        </nav>
+
         <div className="flex items-center space-x-4">
+          <nav className="hidden md:block text-black mr-10">
+            <ul className="flex space-x-[5rem] text-black text-m">
+              <li className="cursor-pointer">Courses</li>
+              <li className="cursor-pointer">About Us</li>
+              <li className="cursor-pointer">Schools</li>
+            </ul>
+          </nav>
           <Button
             className="bg-[#004EFF] hover:bg-joinButton-hover px-8 font-bold py-6"
             onClick={handleJoinUsClick}
