@@ -45,6 +45,10 @@ import Navbar from "./navbar/navbar";
 import Offers from "./section/offers";
 import Hero from "./section/hero";
 import Videos from "./section/videos";
+import System from "./section/system";
+import Mentors from "./section/mentors";
+import MakeADifference from "./section/makeadifference";
+import Testimonials from "./section/testimonials";
 const Counter = ({ endValue }) => {
   const [count, setCount] = useState(0);
 
@@ -147,126 +151,12 @@ const LandingPage = () => {
       <Navbar />
       <Hero />
 
-      <Offers />
       <Videos />
 
-      <section
-        className="relative h-[300px] object-cover"
-        style={{ backgroundImage: `url(${Image5})` }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-white text-center max-w-5xl px-4">
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 md:mb-6">
-              See Us In Action
-            </h2>
-            <p className="text-base md:text-lg mb-4 md:mb-6">
-              Discover a vibrant collection of moments from our educational
-              journey. From interactive workshops and inspiring lectures to
-              student achievements and community events, each snapshot captures
-              the essence of our learning environment. Browse through and get a
-              glimpse of the dynamic and engaging experiences that define our
-              platform.
-            </p>
-            <Button
-              size="md"
-              className="bg-homeText text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-homeText-hover transition duration-300"
-            >
-              Explore More
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section className="p-4 md:p-8 bg-gray-100">
-        <div className="relative pb-16">
-          <Slider {...settings}>
-            {carouselImages.map((imageSet, index) => (
-              <div key={index}>
-                <div className="flex flex-col md:flex-row justify-between items-center mb-[30px] space-y-4 md:space-y-0 md:space-x-4">
-                  <div className="w-full md:w-1/3 space-y-4">
-                    <img
-                      src={imageSet[0]}
-                      alt={`Image ${index * 5 + 1}`}
-                      className="w-full h-[150px] md:h-[200px] object-cover rounded-lg"
-                    />
-                    <img
-                      src={imageSet[1]}
-                      alt={`Image ${index * 5 + 2}`}
-                      className="w-full h-[150px] md:h-[200px] object-cover rounded-lg"
-                    />
-                  </div>
-                  <div className="w-full md:w-1/3">
-                    <img
-                      src={imageSet[2]}
-                      alt={`Image ${index * 5 + 3}`}
-                      className="w-full h-[250px] md:h-[400px] object-cover rounded-lg"
-                    />
-                  </div>
-                  <div className="w-full md:w-1/3 space-y-4">
-                    <img
-                      src={imageSet[3]}
-                      alt={`Image ${index * 5 + 4}`}
-                      className="w-full h-[150px] md:h-[200px] object-cover rounded-lg"
-                    />
-                    <img
-                      src={imageSet[4]}
-                      alt={`Image ${index * 5 + 5}`}
-                      className="w-full h-[150px] md:h-[200px] object-cover rounded-lg"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Slider>
-        </div>
-      </section>
-
-      <section className="p-8">
-        <h2 className="text-5xl font-extrabold text-center text-homeText mb-[70px]">
-          Meet Our <span className="text-joinButton">Team</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {teamData.map((member, index) => (
-            <div className="flex flex-col items-center" key={member.id}>
-              {" "}
-              {/* Centering the card */}
-              <div className="w-full max-w-[400px] flex flex-col items-center">
-                {" "}
-                {/* Centering the content */}
-                <p className="flex justify-center items-center text-center mb-[20px] text-2xl font-bold text-homeText">
-                  {member.name}
-                </p>
-                <Avatar className="w-[300px] h-[400px] aspect-square flex items-center justify-center">
-                  {" "}
-                  {/* Centering the image */}
-                  <AvatarImage
-                    src={member.image}
-                    alt={`Team Member ${member.id}`}
-                    className="object-cover h-[400px]"
-                  />
-                  <AvatarFallback>TM</AvatarFallback>
-                </Avatar>
-              </div>
-              <Card
-                className={`h-[450px] border-none w-full max-w-[300px] mt-[-160px] overflow-hidden ${
-                  index === 1 ? "bg-homeText" : "bg-[#eeeae4]"
-                }`}
-              >
-                <CardHeader className="p-0"></CardHeader>
-                <CardContent
-                  className={`text-center mt-[180px] ${
-                    index === 1 ? "text-white" : ""
-                  }`}
-                >
-                  <h3 className="font-bold text-2xl">{member.position}</h3>
-                  <p className="text-lg mt-[25px]">{member.position}</p>
-                  <p className="text-lg underline">{member.email}</p>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </section>
+      <System />
+      <Mentors />
+      <MakeADifference />
+      <Testimonials />
 
       {/* Footer */}
       <footer className="p-8 bg-gray-100 text-center">
