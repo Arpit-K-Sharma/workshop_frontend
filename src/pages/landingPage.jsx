@@ -17,7 +17,7 @@ import { motion } from "framer-motion";
 import Image2 from "gallery/images/pexels-august-de-richelieu-4260323 2.png";
 import Image1 from "gallery/images/pexels-max-fischer-5212340 1.png";
 import Image3 from "gallery/images/pexels-julia-m-cameron-4145354 1.png";
-import classroomVideo from "gallery/images/215475.mp4";
+
 import Image4 from "gallery/images/pexels-john-fischer-5212695.png";
 import Image5 from "gallery/images/ai-generated-8663328.png";
 import Image6 from "gallery/images/abstract-blur-restaurant-interior 1.png";
@@ -44,6 +44,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./navbar/navbar";
 import Offers from "./section/offers";
 import Hero from "./section/hero";
+import Videos from "./section/videos";
 const Counter = ({ endValue }) => {
   const [count, setCount] = useState(0);
 
@@ -147,46 +148,7 @@ const LandingPage = () => {
       <Hero />
 
       <Offers />
-
-      <section className="w-full">
-        <video
-          className="w-full h-[400px] object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src={classroomVideo} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </section>
-
-      <section className="flex flex-col md:flex-row mb-[10px] items-center p-10 mt-[5px] bg-background">
-        <div className="w-full md:w-1/2 md:pr-8">
-          <img
-            src={Image1}
-            alt="Classroom"
-            className="rounded-lg w-full  h-[350px] object-cover shadow-lg"
-          />
-        </div>
-        <div className="w-full md:w-1/2 mt-8 md:mt-0 md:pl-8">
-          <h2 className="text-[45px] font-extrabold text-homeText">
-            Our Commitment to <span className="text-joinButton">Education</span>
-          </h2>
-          <p className="text-lg font-bold mb-4 mt-4">
-            Empowering minds through innovative and accessible learning
-            experiences.
-          </p>
-          <p className="text-base font-semibold">
-            We are dedicated to transforming the way education is delivered and
-            experienced. Our mission is to create a dynamic and inclusive
-            learning environment that empowers students to reach their full
-            potential. With a team of passionate educators and innovative
-            thinkers, we offer a diverse range of courses and resources designed
-            to inspire curiosity and foster lifelong learning.{" "}
-          </p>
-        </div>
-      </section>
+      <Videos />
 
       <section
         className="relative h-[300px] object-cover"
