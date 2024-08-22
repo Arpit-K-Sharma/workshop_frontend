@@ -7,12 +7,12 @@ function Hero() {
       <div className="absolute inset-0 bg-white opacity-60"></div>
       <div className="w-full md:w-1/2 mb-18 md:mb-0 z-10 p-4 md:p-8 mt-[0%] md:mt-[-10%]">
         <div className="flex flex-col md:flex-row space-x-0 md:space-x-8">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-2 font-sans text-zinc-800 max-sm:text-5xl">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-2 font-sans text-zinc-800 max-sm:text-5xl max-sm:mt-1">
             Where young minds code their future
           </h1>
         </div>
 
-        <p className="mb-4 md:mb-6 text-base md:text-lg lg:text-2xl mt-2 text-gray-700 font-sans">
+        <p className="mb-4 md:mb-6 text-base md:text-lg lg:text-2xl mt-2 text-gray-700 font-sans max-sm:mt-10">
           We believe that teaching programming in colleges should be
           personalized, fun, effective, and industry- oriented..
         </p>

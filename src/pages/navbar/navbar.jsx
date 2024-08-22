@@ -96,18 +96,23 @@ function Navbar() {
             <AnimatePresence>
               {isOpen && (
                 <motion.nav
-                  className="flex flex-col space-y-3 mt-6 p-4"
+                  className="flex flex-col space-y-6 mt-24 p-4" // Changed space-y-3 to space-y-8 and mt-8 to mt-12
                   initial="closed"
                   animate="open"
                   exit="closed"
                   variants={menuVariants}
                 >
+                  {/* <img
+                    src={logo}
+                    alt="Logo"
+                    className="w-[540px] h-auto object-contain"
+                  /> */}
                   {["Dashboard", "Courses", "About Us", "Schools"].map(
                     (item, index) => (
                       <motion.a
                         key={item}
                         href="#"
-                        className="text-base font-sans"
+                        className="text-xl font-sans font-light" // Removed mt-8 from here
                         onClick={
                           item === "Dashboard" ? handleJoinUsClick : undefined
                         }
