@@ -37,25 +37,27 @@ function Mentors() {
             deliver.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {mentors.map((mentor, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
-            >
-              <img
-                src={mentor.image}
-                alt={mentor.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  {mentor.name}
-                </h3>
-                <p className="text-gray-600">{mentor.role}</p>
+        <div className="overflow-x-auto pb-4">
+          <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-8 w-max sm:w-auto">
+            {mentors.map((mentor, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-md overflow-hidden flex-shrink-0 w-64 sm:w-auto"
+              >
+                <img
+                  src={mentor.image}
+                  alt={mentor.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {mentor.name}
+                  </h3>
+                  <p className="text-gray-600">{mentor.role}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
