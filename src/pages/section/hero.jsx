@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import Background from "../../gallery/images/Background.jpg";
 
 function Hero() {
   return (

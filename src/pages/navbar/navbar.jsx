@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "gallery/Logo.png";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerWidth <= 768) {
-        // Mobile breakpoint
+        // Only apply sticky behavior on mobile
         setIsSticky(window.scrollY > 0);
       } else {
         setIsSticky(false);
@@ -28,28 +27,21 @@ function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
+    window.addEventListener("resize", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 
   const menuVariants = {
     closed: {
       x: "-100%",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40,
-      },
+      transition: { type: "spring", stiffness: 400, damping: 40 },
     },
     open: {
       x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40,
-      },
+      transition: { type: "spring", stiffness: 400, damping: 40 },
     },
   };
 
@@ -59,24 +51,24 @@ function Navbar() {
   };
 
   return (
-    <div className={`shadow-xl font-sans ${isSticky ? "md:relative" : ""}`}>
+    <div className="font-sans">
       <header
-        className={`flex px-4 justify-between items-center bg-white font-sans ${
-          isSticky ? "fixed top-0 left-0 right-0 z-50 md:relative" : ""
+        className={`flex px-4 py-2 justify-between items-center bg-white font-sans shadow-md max-sm:h-[78px] lg:h-28 ${
+          isSticky ? "md:relative fixed top-0 left-0 right-0 z-50" : ""
         }`}
       >
         {/* Mobile Navigation */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="none" size="icon" onClick={toggleMenu}>
+            <Button variant="ghost" size="sm" onClick={toggleMenu}>
               <motion.div
                 animate={isOpen ? "open" : "closed"}
-                className="relative w-6 h-6"
+                className="relative w-5 h-5"
               >
                 <motion.span
                   variants={{
                     closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 8 },
+                    open: { rotate: 45, y: 6 },
                   }}
                   transition={{ duration: 0.3 }}
                   className="absolute w-full h-0.5 bg-black"
@@ -87,24 +79,24 @@ function Navbar() {
                     open: { opacity: 0 },
                   }}
                   transition={{ duration: 0.3 }}
-                  className="absolute w-full h-0.5 bg-black top-2.5"
+                  className="absolute w-full h-0.5 bg-black top-2"
                 />
                 <motion.span
                   variants={{
                     closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -8 },
+                    open: { rotate: -45, y: -6 },
                   }}
                   transition={{ duration: 0.3 }}
-                  className="absolute w-full h-0.5 bg-black top-5"
+                  className="absolute w-full h-0.5 bg-black top-4"
                 />
               </motion.div>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0">
+          <SheetContent side="left" className="p-8">
             <AnimatePresence>
               {isOpen && (
                 <motion.nav
-                  className="flex flex-col space-y-4 mt-8 p-6 "
+                  className="flex flex-col space-y-3 mt-6 p-4"
                   initial="closed"
                   animate="open"
                   exit="closed"
@@ -115,7 +107,7 @@ function Navbar() {
                       <motion.a
                         key={item}
                         href="#"
-                        className="text-lg font-sans"
+                        className="text-base font-sans"
                         onClick={
                           item === "Dashboard" ? handleJoinUsClick : undefined
                         }
@@ -133,17 +125,19 @@ function Navbar() {
         </Sheet>
 
         {/* Logo */}
-        <div className="flex-1 flex justify-center md:justify-start">
+        {/* Logo */}
+        {/* Logo */}
+        <div className="flex-1 flex justify-center md:justify-start items-center">
           <img
             src={logo}
             alt="Logo"
-            className="h-auto max-w-[182px] md:max-w-[230px]"
+            className="h-auto w-auto max-h-[110px] md:max-h-[110px] lg:max-h-[125px] object-contain"
           />
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:block text-black mr-10">
-          <ul className="flex space-x-[5rem] text-black text-m">
+        <nav className="hidden md:block text-black mr-6">
+          <ul className="flex space-x-8 text-black text-sm">
             <li className="cursor-pointer font-sans">Courses</li>
             <li className="cursor-pointer font-sans">About Us</li>
             <li className="cursor-pointer font-sans">Schools</li>
@@ -152,7 +146,7 @@ function Navbar() {
 
         {/* Join Us Button */}
         <Button
-          className="bg-[#004EFF] hover:bg-joinButton-hover px-4 md:px-8 font-bold py-2 md:py-6 font-sans text-sm md:text-base"
+          className="bg-[#004EFF] hover:bg-joinButton-hover px-3 md:px-4 py-1 md:py-2 font-bold font-sans text-xs md:text-sm"
           onClick={handleJoinUsClick}
         >
           Join Us
