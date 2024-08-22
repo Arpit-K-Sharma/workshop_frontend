@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import logo from "gallery/Logo.png";
 
 const Footer = () => {
   return (
@@ -9,8 +10,12 @@ const Footer = () => {
           {/* Logo and tagline */}
           <div className="mb-8 md:mb-0">
             {/* Placeholder for logo */}
-            <div className="w-48 h-12 bg-white mb-2 flex items-center justify-center text-[#1D293F] font-bold">
-              DIGITAL HORIZONS
+            <div className="flex-1 flex justify-center md:justify-start items-center">
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-auto w-auto max-h-[110px] md:max-h-[110px] lg:max-h-[125px] object-contain"
+              />
             </div>
             <p className="text-sm">Everything we do in a single place</p>
           </div>

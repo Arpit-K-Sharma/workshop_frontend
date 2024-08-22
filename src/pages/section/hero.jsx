@@ -1,27 +1,45 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import Circle from "../../gallery/Circle.svg";
 
 function Hero() {
   return (
-    <section className="flex flex-col md:flex-row justify-between items-center p-6 md:p-12 relative min-h-screen overflow-hidden">
-      <div className="absolute inset-0 bg-white opacity-60"></div>
-      <div className="w-full md:w-1/2 mb-18 md:mb-0 z-10 p-4 md:p-8 mt-[0%] md:mt-[-10%]">
-        <div className="flex flex-col md:flex-row space-x-0 md:space-x-8">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-2 font-sans text-zinc-800 max-sm:text-5xl max-sm:mt-1">
+    <section className="flex flex-col md:flex-row justify-between items-center p-4 sm:p-6 md:p-12 relative  overflow-hidden">
+      <div className="absolute inset-0 "></div>
+
+      {/* Text Section */}
+      <div className="w-full md:w-1/2 mb-8 md:mb-0 z-10 p-4 md:p-8 mt-4 md:mt-[-10%]">
+        <div className="flex flex-col space-y-4">
+          <h1 className="text-5xl sm:text-8xl md:text-8xl lg:text-6xl xl:text-7xl font-extrabold mb-2 font-sans text-zinc-800">
             Where young minds code their future
           </h1>
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-sans max-w-2xl">
+            We believe that teaching programming in colleges should be
+            personalized, fun, effective, and industry-oriented.
+          </p>
+
+          <Button className="bg-buttonColor text-white font-semibold w-[140px]  mt-8 text-sm py-2 px-4 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300 font-sans hidden sm:block">
+            Start Studying
+          </Button>
         </div>
 
-        <p className="mb-4 md:mb-6 text-base md:text-lg lg:text-2xl mt-2 text-gray-700 font-sans max-sm:mt-10">
-          We believe that teaching programming in colleges should be
-          personalized, fun, effective, and industry- oriented..
-        </p>
-        <Button
-          size="lg"
-          className="bg-buttonColor text-white font-semibold py-2 md:py-3 px-4 md:px-6 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300 font-sans max-sm:hidden"
-        >
-          Start Studying
-        </Button>
+        {/* Mobile Image */}
+        <div className="w-full flex justify-center items-center mt-8 md:hidden">
+          <img
+            src={Circle}
+            alt="Circle"
+            className="w-[60%] h-auto object-contain"
+          />
+        </div>
+      </div>
+
+      {/* Desktop Image */}
+      <div className="w-full md:w-1/2 flex justify-center items-center mt-8 md:mt-0 hidden md:flex">
+        <img
+          src={Circle}
+          alt="Circle"
+          className="w-auto h-auto max-w-[80%] xl:max-w-full object-contain"
+        />
       </div>
     </section>
   );

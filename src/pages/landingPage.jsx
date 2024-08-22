@@ -14,6 +14,7 @@ import Bars from "./section/bars";
 import ImageCarousel from "./section/wedo";
 import Footer from "footer/footer";
 import TestimonialSection from "./section/testimonial1";
+import Simple from "./section/simple";
 
 const LandingPage = () => {
   return (
@@ -22,6 +23,7 @@ const LandingPage = () => {
       <Navbar />
       <Hero />
       <TestimonialSection />
+      {/* <Simple /> */}
 
       <Videos />
       <Bars />
