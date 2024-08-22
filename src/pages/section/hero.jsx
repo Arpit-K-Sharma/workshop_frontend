@@ -19,7 +19,7 @@ function Hero() {
         </p>
         <Button
           size="lg"
-          className="bg-buttonColor text-white font-semibold py-2 md:py-3 px-4 md:px-6 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300 font-sans"
+          className="bg-buttonColor text-white font-semibold py-2 md:py-3 px-4 md:px-6 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300 font-sans max-sm:hidden"
         >
           Start Studying
         </Button>

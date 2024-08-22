@@ -51,6 +51,7 @@ import MakeADifference from "./section/makeadifference";
 import Testimonials from "./section/testimonials";
 import Bars from "./section/bars";
 import ImageCarousel from "./section/wedo";
+import Footer from "footer/footer";
 const Counter = ({ endValue }) => {
   const [count, setCount] = useState(0);
 
@@ -163,9 +164,7 @@ const LandingPage = () => {
       <Testimonials />
 
       {/* Footer */}
-      <footer className="p-8 bg-gray-100 text-center">
-        <p>&copy; 2024 Digital Horizon. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
