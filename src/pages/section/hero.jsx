@@ -4,9 +4,8 @@ import Circle from "../../gallery/Circle.svg";
 
 function Hero() {
   return (
-    <section className="flex flex-col md:flex-row justify-between items-center p-4 sm:p-6 md:p-12 relative  overflow-hidden">
+    <section className="flex flex-col md:flex-row min-h-screen justify-between items-center p-4 sm:p-6 md:p-12 relative  overflow-hidden">
       <div className="absolute inset-0 "></div>
-
       {/* Text Section */}
       <div className="w-full md:w-1/2 mb-8 md:mb-0 z-10 p-4 md:p-8 mt-4 md:mt-[-10%]">
         <div className="flex flex-col space-y-4">
@@ -28,7 +27,7 @@ function Hero() {
           <img
             src={Circle}
             alt="Circle"
-            className="w-[60%] h-auto object-contain"
+            className="w-[60%] h-auto object-contain max-sm:w-full"
           />
         </div>
       </div>
