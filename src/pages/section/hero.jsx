@@ -9,17 +9,18 @@ function Hero() {
       {/* Text Section */}
       <div className="w-full md:w-1/2 mb-8 md:mb-0 z-10 p-4 md:p-8 mt-4 md:mt-[-10%]">
         <div className="flex flex-col space-y-4">
-          <h1 className="text-5xl sm:text-8xl md:text-8xl lg:text-6xl xl:text-7xl font-extrabold mb-2 font-sans text-zinc-800">
+          <h1 className="text-5xl sm:text-8xl md:text-8xl lg:text-6xl xl:text-7xl font-extrabold lg:mb-8 font-sans text-zinc-800">
             Where young minds code their future
           </h1>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-sans max-w-2xl">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl lg:mb-14 text-gray-700 font-sans max-w-2xl my-7">
             We believe that teaching programming in colleges should be
             personalized, fun, effective, and industry-oriented.
           </p>
-
-          <Button className="bg-buttonColor text-white font-semibold w-[140px]  mt-8 text-sm py-2 px-4 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300 font-sans hidden sm:block">
-            Start Studying
-          </Button>
+          <div className="mt-4">
+            <Button className="bg-buttonColor text-white font-semibold w-[140px] lg:mt-9 text-sm py-2 px-4 rounded-lg shadow-lg hover:bg-buttonColor-hover transition duration-300 font-sans hidden sm:block">
+              Start Studying
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Image */}
