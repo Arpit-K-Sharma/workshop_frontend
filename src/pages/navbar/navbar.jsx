@@ -18,6 +18,10 @@ function Navbar() {
     navigate("/about");
   };
 
+  const loginClick = () => {
+    navigate("/login");
+  };
+
   const coursesClick = () => {
     navigate("/courses");
   };
@@ -166,9 +170,9 @@ function Navbar() {
             </li>
             <li
               className="cursor-pointer font-sans text-lg"
-              onClick={aboutUsClick}
+              onClick={loginClick}
             >
-              Sign Up
+              Login
             </li>
           </ul>
         </nav>

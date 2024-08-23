@@ -4,13 +4,17 @@ import LandingPage from "../pages/landingPage";
 import SignInPage from "pages/authentication/login";
 import AboutUs from "pages/aboutus/aboutus";
 import Courses from "pages/courses/courses";
+import MentorLogin from "pages/authentication/mentorlogin";
+import StudentProfile from "pages/student/studentProfile";
 
 const PublicRoutes = [
   <Routes>
     <Route key="landing" path="/" element={<LandingPage />} />,
     <Route key="auth" path="/login" element={<SignInPage />} />,
+    <Route key="auth" path="/mlogin" element={<MentorLogin />} />,
     <Route key="aboutus" path="/about" element={<AboutUs />} />,
     <Route key="courses" path="/courses" element={<Courses />} />,
+    <Route key="student" path="/student" element={<StudentProfile />} />
   </Routes>,
 ];
 

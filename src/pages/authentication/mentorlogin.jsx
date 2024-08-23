@@ -4,19 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Logo from "../../gallery/Logo.png";
 import Blur from "../../gallery/images/blur.jpg";
-import { useNavigate } from "react-router-dom";
 
-function SignInPage() {
-  const navigate = useNavigate();
-
-  const mentorLogin = () => {
-    navigate("/mlogin");
-  };
-
-  const studentLogin = () => {
-    navigate("/student");
-  };
-
+function MentorLogin() {
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
@@ -37,7 +26,7 @@ function SignInPage() {
           </div>
 
           <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-gray-800 font-sans">
-            Sign In to Your School
+            Sign In as Mentor
           </h2>
 
           <form className="space-y-4">
@@ -77,7 +66,6 @@ function SignInPage() {
             <Button
               type="submit"
               className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 font-sans"
-              onClick={studentLogin}
             >
               Sign In
             </Button>
@@ -87,15 +75,8 @@ function SignInPage() {
               <a
                 href="#"
                 className="text-sm text-blue-600 hover:underline font-sans"
-                onClick={mentorLogin}
               >
-                Are you a mentor?
-              </a>
-              <a
-                href="#"
-                className="text-sm text-blue-600 hover:underline font-sans"
-              >
-                Help
+                Forgot Password
               </a>
             </div>
           </form>
@@ -105,4 +86,4 @@ function SignInPage() {
   );
 }
 
-export default SignInPage;
+export default MentorLogin;
