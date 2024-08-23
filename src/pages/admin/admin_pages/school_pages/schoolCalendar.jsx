@@ -14,13 +14,12 @@ const SchoolCalendar = () => {
         <div className="flex h-screen bg-gray-100">
             <SchoolSidebar />
             <div className="flex-1 overflow-auto">
-                <h1 className="text-3xl font-bold mt-[15px] text-gray-800 ml-56 flex items-center justify-center animate-fade-in">
+                <h1 className="text-3xl font-bold mt-[15px] text-gray-800 flex items-center justify-center animate-fade-in">
                     <FaCalendarAlt className="mr-4 text-gray-600" />
                     School Calendar
                 </h1>
-                <main className="p-4 ml-56">
+                <main className="p-4">
                     <div className="grid grid-cols-2 gap-[15px] animate-fade-in-up">
-                        {/* Calendar and Today's Event Column */}
                         <div>
         
                             <div className="mb-[15px] min-h-[37vh]">

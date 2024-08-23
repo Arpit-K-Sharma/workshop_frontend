@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import apiClient from "config/apiClient";
+import {Calendar} from 'lucide-react';
 
 const TodayEvent = ({ date, school_id }) => {
   const selectedYear = date.getFullYear();
@@ -205,26 +206,29 @@ const TodayEvent = ({ date, school_id }) => {
         )}
       </div>
       <div className=" overflow-y-scroll">
-      <section className="p-4 space-y-4 h-[40vh]">
-        {events.length > 0 ? (
-          events.map((event) => (
-            <div
-              key={event.id}
-              className="p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition border border-gray-300"
-              onClick={() => handleEventClick(event)}
-            >
-              <section className="text-lg font-medium">{event.event_name}</section>
-              <section className="text-sm text-gray-600">
-                {event.event_description}
-              </section>
-            </div>
-          ))
-        ) : (
-          <section className="text-center text-gray-600">
-            No events for {selectedDay}, {date.toLocaleString("default", { month: "short" })}
-          </section>
-        )}
-      </section>
+        <section className="p-4 space-y-4 h-[40vh]">
+          {events.length > 0 ? (
+            events.map((event) => (
+              <div
+                key={event.id}
+                className="p-2 px-4 rounded-lg hover:bg-gray-50 cursor-pointer transition border border-gray-300"
+                onClick={() => handleEventClick(event)}
+              >
+                <div className="flex items-center mb-2">
+                  <Calendar className="h-5 w-5 text-gray-500 mr-2" />
+                  <section className="text-lg font-medium">{event.event_name}</section>
+                </div>
+                <section className="text-sm text-gray-600">
+                  {event.event_description}
+                </section>
+              </div>
+            ))
+          ) : (
+            <section className="text-center text-gray-600">
+              No events for {selectedDay}, {date.toLocaleString("default", { month: "short" })}
+            </section>
+          )}
+        </section>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

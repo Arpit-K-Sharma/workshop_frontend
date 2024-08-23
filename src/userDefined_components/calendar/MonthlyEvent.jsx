@@ -80,7 +80,7 @@ const MonthlyEvent = ({ date, school_id }) => {
           )
         ) : (
           <div className="text-center text-gray-500 mt-8">
-            <p className="text-lg font-medium">No events for this month.</p>
+            <p className="">No events for this month.</p>
           </div>
         )}
       </section>
