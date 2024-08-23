@@ -88,31 +88,41 @@ const Footer = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="w-1/3 sm:w-auto">
-                  <h3 className="font-semibold text-lg sm:text-xl mb-4 sm:mb-16">
-                    Contact
-                  </h3>
-                  <p className="mb-2 sm:mb-6 text-sm sm:text-base">
-                    info@digitalhorizons.com
-                  </p>
-                  <div className="mt-4 sm:mt-8 flex space-x-4 sm:space-x-9">
-                    <a href="#" className="text-white hover:text-gray-300">
-                      <FaLinkedin size={20} />
-                    </a>
-                    <a href="#" className="text-white hover:text-gray-300">
-                      <FaFacebook size={20} />
-                    </a>
-                    <a href="#" className="text-white hover:text-gray-300">
-                      <FaInstagram size={20} />
-                    </a>
+
+                <div className="">
+                  <div className="w-1/3 sm:w-auto max-sm:w-full max-sm:mx-auto max-sm:flex-col">
+                    <h3 className="font-semibold text-lg sm:text-xl mb-4 sm:mb-16">
+                      Contact
+                    </h3>
+                    <p className="mb-2 sm:mb-6 text-sm sm:text-base">
+                      info@digitalhorizons.com
+                    </p>
+                    <div className="mt-4 sm:mt-8 flex space-x-4 sm:space-x-9">
+                      <a href="#" className="text-white hover:text-gray-300">
+                        <FaLinkedin size={20} />
+                      </a>
+                      <a href="#" className="text-white hover:text-gray-300">
+                        <FaFacebook size={20} />
+                      </a>
+                      <a href="#" className="text-white hover:text-gray-300">
+                        <FaInstagram size={20} />
+                      </a>
+                    </div>
                   </div>
                 </div>
+                <button
+                  onClick={scrollToTop}
+                  className=" bottom-5 right-5 p-2 rounded-full text-white max-sm:text-center max-sm:mx-auto max-sm:flex max-sm:mt-9 max-sm:mb-14 lg:hidden"
+                >
+                  <FaArrowUp size={24} />
+                </button>
               </div>
             </div>
           </div>
+
           <button
             onClick={scrollToTop}
-            className=" bottom-5 right-5 p-2 rounded-full text-white max-sm:text-center max-sm:mx-auto max-sm:flex max-sm:mt-9 max-sm:mb-14"
+            className=" bottom-5 right-5 p-2 rounded-full text-white max-sm:text-center max-sm:mx-auto max-sm:flex max-sm:mt-9 max-sm:mb-14 max-sm:hidden"
           >
             <FaArrowUp size={24} />
           </button>

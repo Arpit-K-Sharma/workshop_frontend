@@ -1,4 +1,5 @@
 import Navbar from "pages/navbar/navbar";
+import Offers from "pages/section/offers";
 import React from "react";
 
 function UnlockingOpportunities() {
@@ -43,9 +44,10 @@ function Courses() {
   return (
     <div>
       <Navbar />
-      <div className="mt-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Courses</h1>
+      <div className="">
+        {/* <h1 className="text-3xl font-bold text-center mb-8">Courses</h1> */}
         <UnlockingOpportunities />
+        <Offers />
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ function Offers() {
     <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl sm:text-5xl text-center font-bold mb-12 text-gray-800 font-poppins">
-          What we can offer to you
+          What courses we can offer to mentor on
         </h2>
 
         <div className="flex flex-col items-center mb-12">
