@@ -104,33 +104,32 @@ function Navbar() {
             <AnimatePresence>
               {isOpen && (
                 <motion.nav
-                  className="flex flex-col space-y-6 mt-24 p-4" // Changed space-y-3 to space-y-8 and mt-8 to mt-12
+                  className="flex flex-col space-y-6 mt-24 p-4"
                   initial="closed"
                   animate="open"
                   exit="closed"
                   variants={menuVariants}
                 >
-                  {/* <img
-                    src={logo}
-                    alt="Logo"
-                    className="w-[540px] h-auto object-contain"
-                  /> */}
-                  {["Dashboard", "Courses", "About Us", "Schools"].map(
-                    (item, index) => (
-                      <motion.a
-                        key={item}
-                        href="#"
-                        className="text-xl font-sans font-light" // Removed mt-8 from here
-                        onClick={
-                          item === "Dashboard" ? handleJoinUsClick : undefined
-                        }
-                        variants={menuItemVariants}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        {item}
-                      </motion.a>
-                    )
-                  )}
+                  {[
+                    { name: "Home", route: "/" },
+                    { name: "Dashboard", route: "/admin" },
+                    { name: "Courses", route: "/courses" },
+                    { name: "About Us", route: "/about" },
+                    { name: "Schools", route: "/" }, // Assuming no specific route for Schools yet
+                  ].map((item, index) => (
+                    <motion.a
+                      key={item.name}
+                      className="text-xl font-sans font-light cursor-pointer"
+                      onClick={() => {
+                        navigate(item.route);
+                        setIsOpen(false); // Close the mobile menu after navigation
+                      }}
+                      variants={menuItemVariants}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      {item.name}
+                    </motion.a>
+                  ))}
                 </motion.nav>
               )}
             </AnimatePresence>
@@ -144,7 +143,10 @@ function Navbar() {
           <img
             src={logo}
             alt="Logo"
-            className="h-auto w-auto max-h-[110px] md:max-h-[110px] lg:max-h-[125px] object-contain"
+            className="h-auto w-auto max-h-[110px] md:max-h-[110px] lg:max-h-[125px] object-contain cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105"
+            onClick={() => {
+              navigate("/");
+            }}
           />
         </div>
 

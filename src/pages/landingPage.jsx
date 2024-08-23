@@ -24,10 +24,8 @@ const LandingPage = () => {
       <Hero />
       <TestimonialSection />
       {/* <Simple /> */}
-
       <Videos />
       <Bars />
-
       <System />
       <Mentors />
       <ImageCarousel />
