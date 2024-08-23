@@ -25,8 +25,9 @@ const LandingPage = () => {
       <System />
       <Mentors />
       <ImageCarousel />
-      <MakeADifference />
+
       <Testimonials />
+      <MakeADifference />
 
       {/* Footer */}
       <Footer />
