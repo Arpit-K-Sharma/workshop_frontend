@@ -23,7 +23,7 @@ const LandingPage = () => {
       <Videos />
       <Bars />
       <System />
-      <Mentors />
+      {/* <Mentors /> */}
       <ImageCarousel />
 
       <Testimonials />

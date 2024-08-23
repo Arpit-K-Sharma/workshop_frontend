@@ -152,13 +152,22 @@ function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:block text-black mr-6">
           <ul className="flex space-x-8 text-black text-sm">
-            <li className="cursor-pointer font-sans" onClick={coursesClick}>
+            <li
+              className="cursor-pointer font-sans text-lg"
+              onClick={coursesClick}
+            >
               Courses
             </li>
-            <li className="cursor-pointer font-sans" onClick={aboutUsClick}>
+            <li
+              className="cursor-pointer font-sans text-lg"
+              onClick={aboutUsClick}
+            >
               About Us
             </li>
-            <li className="cursor-pointer font-sans" onClick={aboutUsClick}>
+            <li
+              className="cursor-pointer font-sans text-lg"
+              onClick={aboutUsClick}
+            >
               Sign Up
             </li>
           </ul>

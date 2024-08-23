@@ -11,7 +11,7 @@ const TestimonialSection = () => {
             <h2 className="text-lg font-bold text-gray-900 mb-20">
               TESTIMONIALS
             </h2>
-            <h3 className="text-6xl font-semibold text-gray-800 mt-15 max-w-2xl">
+            <h3 className="text-6xl font-bold text-gray-800 mt-15 max-w-2xl font-sans">
               What People Say About Us.
             </h3>
           </div>

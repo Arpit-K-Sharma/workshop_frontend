@@ -42,7 +42,7 @@ function SignInPage() {
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                className="mt-1 block w-full font-sans"
+                className="mt-1 block w-full font-sans border border-gray-200 rounded-md"
               />
             </div>
 
@@ -58,7 +58,7 @@ function SignInPage() {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                className="mt-1 block w-full font-sans"
+                className="mt-1 block w-full font-sans border border-gray-200 rounded-md"
               />
             </div>
 
