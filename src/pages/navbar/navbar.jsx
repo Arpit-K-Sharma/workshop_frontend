@@ -100,11 +100,11 @@ function Navbar() {
               </motion.div>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-8">
+          <SheetContent side="left" className="p-8" className="bg-white">
             <AnimatePresence>
               {isOpen && (
                 <motion.nav
-                  className="flex flex-col space-y-6 mt-24 p-4"
+                  className="flex flex-col space-y-6 mt-24 p-4 "
                   initial="closed"
                   animate="open"
                   exit="closed"
@@ -115,7 +115,6 @@ function Navbar() {
                     { name: "Dashboard", route: "/admin" },
                     { name: "Courses", route: "/courses" },
                     { name: "About Us", route: "/about" },
-                    { name: "Schools", route: "/" }, // Assuming no specific route for Schools yet
                   ].map((item, index) => (
                     <motion.a
                       key={item.name}
@@ -159,16 +158,18 @@ function Navbar() {
             <li className="cursor-pointer font-sans" onClick={aboutUsClick}>
               About Us
             </li>
-            <li className="cursor-pointer font-sans">Schools</li>
+            <li className="cursor-pointer font-sans" onClick={aboutUsClick}>
+              Sign Up
+            </li>
           </ul>
         </nav>
 
         {/* Join Us Button */}
         <Button
-          className="bg-[#004EFF] hover:bg-joinButton-hover px-3 md:px-4 py-1 md:py-2 font-bold font-sans text-xs md:text-sm"
+          className="bg-[#004EFF] text-white hover:bg-blue-900 hover:text-white px-3 md:px-4 py-1 md:py-2 font-bold font-sans text-xs md:text-sm"
           onClick={handleJoinUsClick}
         >
-          Join Us
+          Dashboard
         </Button>
       </header>
     </div>

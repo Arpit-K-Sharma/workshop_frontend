@@ -1,18 +1,28 @@
 import Navbar from "pages/navbar/navbar";
 import React from "react";
+import OurTeam from "./members";
+import DotPattern from "../../gallery/DotPattern.png";
+import MakeADifference from "pages/section/makeadifference";
+import Footer from "footer/footer";
 
 function ChangeGameStory() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 mt-14 max-sm:p-14">
+    <div className="container mx-auto px-4 py-8 md:py-12 lg:mt-14 max-sm:p-14 max-sm:mt-4 ">
       <div className="flex flex-col md:flex-row items-center md:space-x-8">
         {/* Image Section */}
         <div className="md:w-1/2 mb-6 md:mb-0 relative">
           <img
             src="https://via.placeholder.com/400x400"
             alt="Placeholder"
-            className="rounded-lg shadow-lg object-cover w-full max-w-md mx-auto"
+            className="rounded-lg shadow-lg object-cover w-full max-w-md mx-auto relative z-10"
+          />
+          <img
+            src={DotPattern}
+            alt="Dot Pattern"
+            className="absolute top-0 bottom-[14%] left-[14%] h-auto w-32 -mt-4 -ml-4 z-0 max-sm:hidden"
           />
         </div>
+
         {/* Text Section */}
         <div className="md:w-1/2">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-navy-blue">
@@ -47,14 +57,18 @@ function AboutUs() {
       <div className="flex justify-center items-center mt-12">
         <h1 className="text-4xl font-sans font-semibold">About Us</h1>
       </div>
-      <div className="flex justify-center items-center mt-4">
+      <div className="flex justify-center items-center mt-4 max-sm:px-9">
         <p className="text-lg font-sans mt-2 max-w-2xl text-center">
           Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem
           Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
           Lorem Ipsum
         </p>
       </div>
+
       <ChangeGameStory />
+      <OurTeam />
+      <MakeADifference />
+      <Footer />
     </div>
   );
 }
