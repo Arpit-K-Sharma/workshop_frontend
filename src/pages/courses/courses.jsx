@@ -3,6 +3,7 @@ import Navbar from "pages/navbar/navbar";
 import MakeADifference from "pages/section/makeadifference";
 import Offers from "pages/section/offers";
 import React from "react";
+import BlueBG from "../../gallery/MentorBG.png";
 
 function UnlockingOpportunities() {
   return (
@@ -10,7 +11,7 @@ function UnlockingOpportunities() {
       {/* Image Section */}
       <div className="w-full md:w-1/2 relative">
         <img
-          src="https://via.placeholder.com/800x600"
+          src={BlueBG}
           alt="Educational moment"
           className="w-full h-full object-cover"
         />

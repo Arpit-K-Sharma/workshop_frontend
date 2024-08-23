@@ -112,7 +112,7 @@ function AboutUs() {
 
       <NewStory />
 
-      <OurTeam />
+      {/* <OurTeam /> */}
       <MakeADifference />
 
       <Footer />
