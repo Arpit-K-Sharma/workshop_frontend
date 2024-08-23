@@ -40,7 +40,7 @@ function Offers() {
   };
 
   return (
-    <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8 mt-20">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl sm:text-5xl text-center font-bold mb-12 text-gray-800 font-poppins">
           What courses we can offer to mentor on

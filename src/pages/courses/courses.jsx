@@ -1,4 +1,6 @@
+import Footer from "footer/footer";
 import Navbar from "pages/navbar/navbar";
+import MakeADifference from "pages/section/makeadifference";
 import Offers from "pages/section/offers";
 import React from "react";
 
@@ -48,6 +50,8 @@ function Courses() {
         {/* <h1 className="text-3xl font-bold text-center mb-8">Courses</h1> */}
         <UnlockingOpportunities />
         <Offers />
+        <MakeADifference />
+        <Footer />
       </div>
     </div>
   );
