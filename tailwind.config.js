@@ -98,8 +98,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> b4159c4b03ade55900019e7f1edfeb79ab121495

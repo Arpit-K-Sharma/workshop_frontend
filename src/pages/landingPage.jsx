@@ -1,8 +1,5 @@
 import React from "react";
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import Navbar from "./navbar/navbar";
 import Hero from "./section/hero";
 import Videos from "./section/videos";
@@ -14,7 +11,6 @@ import Bars from "./section/bars";
 import ImageCarousel from "./section/wedo";
 import Footer from "footer/footer";
 import TestimonialSection from "./section/testimonial1";
-import Simple from "./section/simple";
 
 const LandingPage = () => {
   return (
