@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { FaSpinner } from 'react-icons/fa';
-import LoadingSpinner from '@/components/ui/loadingSpinner';
+import LoadingSpinner from 'userDefined_components/loading_spinner/loadingSpinner';
 
 const CourseCard = ({ course, isAssigned, onToggle }) => {
     return (
@@ -107,10 +107,15 @@ const SchoolCourses = () => {
         <div className="flex h-screen">
             <SchoolSidebar />
             <div className="flex-1 overflow-auto">
-                <main className="p-6 ml-56">
-                    <h1 className="text-2xl font-bold mb-6">Course Management</h1>
+                <main className="p-6">
+                    <div className='flex justify-between items-end'>
+                        <div>
+                    <h1 className="text-2xl font-bold">Course Management</h1>
+                    </div>
+                    <div>
                     <Button onClick={() => setIsDialogOpen(true)} disabled={isLoading}>Manage Courses</Button>
-
+                    </div>
+                    </div>
                     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                         <DialogContent className="max-w-3xl">
                             <DialogHeader>
