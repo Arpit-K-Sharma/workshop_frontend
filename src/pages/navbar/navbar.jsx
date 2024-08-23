@@ -14,6 +14,10 @@ function Navbar() {
     navigate("/admin");
   };
 
+  const aboutUsClick = () => {
+    navigate("/about");
+  };
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
@@ -144,7 +148,9 @@ function Navbar() {
         <nav className="hidden md:block text-black mr-6">
           <ul className="flex space-x-8 text-black text-sm">
             <li className="cursor-pointer font-sans">Courses</li>
-            <li className="cursor-pointer font-sans">About Us</li>
+            <li className="cursor-pointer font-sans" onClick={aboutUsClick}>
+              About Us
+            </li>
             <li className="cursor-pointer font-sans">Schools</li>
           </ul>
         </nav>

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Logo from "../../gallery/Logo.png";
+import Blur from "../../gallery/images/blur.jpg";
 
 function SignInPage() {
   return (
@@ -10,7 +11,7 @@ function SignInPage() {
       {/* Left Half: Placeholder Image */}
       <div className="hidden lg:flex lg:w-1/2 bg-gray-100 justify-center items-center">
         <img
-          src="https://placehold.co/600x400"
+          src={Blur}
           alt="Placeholder"
           className="w-full h-full object-cover"
         />

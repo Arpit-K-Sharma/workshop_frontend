@@ -1,6 +1,6 @@
 import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import logo from "gallery/Logo.png";
+import logo from "gallery/WhiteLogo.png";
 
 const Footer = () => {
   return (
@@ -14,47 +14,49 @@ const Footer = () => {
               <img
                 src={logo}
                 alt="Logo"
-                className="h-auto w-auto max-h-[110px] md:max-h-[110px] lg:max-h-[125px] object-contain"
+                className="h-auto w-auto md:max-h-[110px] lg:max-h-[225px] object-contain"
               />
             </div>
-            <p className="text-sm">Everything we do in a single place</p>
           </div>
-
-          {/* Navigation links */}
-          <div className="flex flex-wrap gap-x-12 gap-y-8">
-            <div>
-              <h3 className="font-semibold mb-3">Company</h3>
-              <ul className="space-y-2 mt-5">
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Privacy Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Learn More</h3>
-              <ul className="space-y-2 mt-5">
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    Courses
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-300">
-                    FAQ
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Contact</h3>
-              <p>info@digitalhorizons.com</p>
+          <div className="max-sm:px-16">
+            {/* Navigation links */}
+            <div className="flex flex-wrap gap-x-12 gap-y-8 ">
+              <div>
+                <h3 className="font-semibold mb-3">Company</h3>
+                <ul className="space-y-2 mt-5">
+                  <li>
+                    <a href="#" className="hover:text-gray-300">
+                      About Us
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-gray-300">
+                      Privacy Policy
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-3">Learn More</h3>
+                <ul className="space-y-2 mt-5">
+                  <li>
+                    <a href="#" className="hover:text-gray-300">
+                      Courses
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-gray-300">
+                      FAQ
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-3 max-sm:mt-8 max-sm:mb-12">
+                  Contact
+                </h3>
+                <p>info@digitalhorizons.com</p>
+              </div>
             </div>
           </div>
         </div>
