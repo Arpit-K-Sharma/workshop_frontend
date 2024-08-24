@@ -51,12 +51,12 @@ const StudentDashboard = () => {
     <div className="flex h-screen bg-gray-100">
       <StudentSidebar />
       <div className="flex-1 overflow-auto">
-        <main className="p-6 ml-56">
+        <main className="p-6">
           <h1 className="text-4xl font-bold mb-8 text-gray-800">
             Student Dashboard
           </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-md font-medium">
@@ -101,7 +101,7 @@ const StudentDashboard = () => {
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
