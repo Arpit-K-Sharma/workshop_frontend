@@ -6,6 +6,8 @@ import AboutUs from "pages/aboutus/aboutus";
 import Courses from "pages/courses/courses";
 import MentorLogin from "pages/authentication/mentorlogin";
 import StudentProfile from "pages/student/studentProfile";
+import ClassesDashboard from "pages/student/studentClasses";
+import StudentDashboard from "pages/student/studentDashboard";
 
 const PublicRoutes = [
   <Routes>
@@ -14,7 +16,13 @@ const PublicRoutes = [
     <Route key="auth" path="/mlogin" element={<MentorLogin />} />,
     <Route key="aboutus" path="/about" element={<AboutUs />} />,
     <Route key="courses" path="/courses" element={<Courses />} />,
-    <Route key="student" path="/student" element={<StudentProfile />} />
+    <Route key="student" path="/student" element={<StudentDashboard />} />
+    <Route
+      key="student"
+      path="/student/classes"
+      element={<ClassesDashboard />}
+    />
+    <Route key="student" path="/student/profile" element={<StudentProfile />} />
   </Routes>,
 ];
 

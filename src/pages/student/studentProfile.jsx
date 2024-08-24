@@ -33,7 +33,7 @@ const StudentProfile = () => {
       <StudentSidebar />
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <Card className="w-full max-w-2xl shadow-xl rounded-xl overflow-hidden bg-white">
-          <CardHeader className="bg-gradient-to-r from-green-700 to-green-900 text-white p-6">
+          <CardHeader className="bg-gradient-to-r from-emerald-600 to-green-900 text-white p-6">
             <div className="flex items-center space-x-4">
               <Avatar className="h-24 w-24 border-4 border-white shadow-lg">
                 <AvatarImage
