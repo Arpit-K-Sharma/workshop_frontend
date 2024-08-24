@@ -17,6 +17,10 @@ function SignInPage() {
     navigate("/student");
   };
 
+  const homeRedirect = () => {
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
@@ -33,11 +37,16 @@ function SignInPage() {
         <div className="w-full max-w-md">
           {/* Logo at the top */}
           <div className="flex justify-center mb-6">
-            <img src={Logo} alt="Logo" className="h-auto w-96" />
+            <img
+              src={Logo}
+              alt="Logo"
+              className="h-auto w-96"
+              onClick={homeRedirect}
+            />
           </div>
 
           <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-gray-800 font-sans">
-            Sign In to Your School
+            Sign In
           </h2>
 
           <form className="space-y-4">

@@ -32,7 +32,7 @@ const StudentSidebar = () => {
 
   return (
     <aside className="w-56 h-screen bg-emerald-700 text-white shadow-lg font-archivo">
-      <div className="p-4 flex items-center justify-center flex-col">
+      <div className="p-4 flex items-center justify-center flex-col mt-10">
         <div className="mb-6">
           <img
             src={logo}

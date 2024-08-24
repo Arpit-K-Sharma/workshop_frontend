@@ -45,7 +45,7 @@ const StudentDashboard = () => {
   const totalEnrolledCourses = staticData.courses.length;
   const upcomingClasses = staticData.upcomingClasses;
   const upcomingEvents = staticData.upcomingEvents;
-  const upcomingQuizzes = staticData.upcomingQuizzes;
+const upcomingQuizzes = staticData.upcomingQuizzes;
 
   return (
     <div className="flex h-screen bg-gray-100">

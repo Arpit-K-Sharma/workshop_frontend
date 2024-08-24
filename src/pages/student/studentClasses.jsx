@@ -70,7 +70,7 @@ const ClassesDashboard = () => {
               key={classItem.id}
               className="transition-shadow duration-300 border border-gray-200 rounded-3xl bg-white"
             >
-              <CardHeader className="bg-emerald-800 text-white p-4 rounded-lg font-sans">
+              <CardHeader className="bg-emerald-600 text-white p-4 rounded-lg font-sans">
                 <CardTitle className="text-lg font-sans">
                   {classItem.name}
                 </CardTitle>
@@ -96,7 +96,7 @@ const ClassesDashboard = () => {
                 </Badge>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="w-[55%] bg-emerald-800 hover:bg-black text-white text-sm rounded-xl mx-auto flex font-sans">
+                    <Button className="w-[55%] bg-emerald-700 hover:bg-black text-white text-sm rounded-xl mx-auto flex font-sans">
                       View Details
                     </Button>
                   </DialogTrigger>
