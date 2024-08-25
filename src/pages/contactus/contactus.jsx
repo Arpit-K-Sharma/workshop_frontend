@@ -1,6 +1,7 @@
 import Footer from "footer/footer";
 import Navbar from "pages/navbar/navbar";
 import React from "react";
+import Maps from "../../gallery/Maps.png";
 
 function ContactUs() {
   return (
@@ -9,11 +10,12 @@ function ContactUs() {
       <div className="flex-grow container mx-auto px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="md:flex rounded-2xl">
-            <div className="md:w-1/2 p-6 rounded-2xl">
-              <h2 className="text-2xl font-bold mb-4">
-                Get in <span className="text-blue-500">touch</span>
+            <div className="md:w-1/2 lg:p-20 max-sm:p-4 rounded-2xl">
+              <h2 className="text-4xl font-bold mb-4 flex text-center w-full mx-[30%]">
+                <span className="mr-2">Get in</span>
+                <span className="text-blue-500">touch</span>
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-14 mt-14">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </p>
@@ -80,13 +82,15 @@ function ContactUs() {
               </div>
             </div>
             {/* Updated Image Section with Blue Background */}
-            <div className="md:w-1/2 h-96 md:h-auto relative max-sm:bg-white max-sm:mx-auto max-sm:flex max-sm:px-50%]">
+            <div className="md:w-1/2 h-96 md:h-auto relative max-sm:bg-white max-sm:mx-auto max-sm:flex max-sm:px-50% rounded-2xl">
               <div className="absolute inset-y-0 right-0 w-1/2 lg:bg-blue-600 md:bg-blue-600  z-1"></div>
-              <img
-                src="https://via.placeholder.com/800x600.png?text=Map+Placeholder"
-                alt="Map placeholder"
-                className="absolute w-auto h-full object-cover p-4 max-lgright-4 rounded-2xl"
-              />
+              <div className="rounded-3xl overflow-hidden">
+                <img
+                  src={Maps}
+                  alt="Map placeholder"
+                  className="absolute w-auto h-full object-cover p-11 right-1 rounded-2xl"
+                />
+              </div>
               <div className="absolute top-4 left-2 bg-white px-2 py-5 rounded shadow mt-5 ml-5">
                 <p className="text-sm">Digital Horizons,</p>
                 <p className="text-sm">Dhana Mana Bhawan</p>
