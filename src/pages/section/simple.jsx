@@ -26,7 +26,7 @@ function Simple() {
 
   return (
     <div className="container mx-auto px-1 py-8 mb-16">
-      <h1 className="text-3xl md:text-4xl font-bold text-center mt-14 mb-24 text-[#1e293b]">
+      <h1 className="text-4xl md:text-4xl font-bold text-center mt-14 mb-24 text-[#1e293b]">
         Working with our System is simple.
       </h1>
       <div className="flex flex-col md:flex-row justify-between items-start relative">

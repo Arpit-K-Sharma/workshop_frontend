@@ -60,14 +60,6 @@ const Footer = () => {
                         href="#"
                         className="hover:text-gray-300 text-sm sm:text-base font-light text-gray-300"
                       >
-                        About Us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-gray-300 text-sm sm:text-base font-light text-gray-300"
-                      >
                         Privacy Policy
                       </a>
                     </li>
@@ -78,14 +70,6 @@ const Footer = () => {
                     Learn More
                   </h3>
                   <ul className="space-y-3 sm:space-y-9 mt-2 sm:mt-6">
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-gray-300 text-sm sm:text-base font-light text-gray-300"
-                      >
-                        Courses
-                      </a>
-                    </li>
                     <li>
                       <a
                         href="#"

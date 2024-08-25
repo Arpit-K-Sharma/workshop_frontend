@@ -11,6 +11,7 @@ import Bars from "./section/bars";
 import ImageCarousel from "./section/wedo";
 import Footer from "footer/footer";
 import TestimonialSection from "./section/testimonial1";
+import EverythingInOnePlace from "./section/everything";
 
 const LandingPage = () => {
   return (
@@ -22,6 +23,7 @@ const LandingPage = () => {
       <Videos />
       {/* <Bars /> */}
       <System />
+      <EverythingInOnePlace />
       {/* <Mentors /> */}
       {/* <ImageCarousel /> */}
 

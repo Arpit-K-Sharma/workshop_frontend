@@ -117,12 +117,11 @@ function Navbar() {
                   {[
                     { name: "Home", route: "/" },
                     { name: "Dashboard", route: "/admin" },
-                    { name: "Courses", route: "/courses" },
-                    { name: "About Us", route: "/about" },
+                    { name: "Login", route: "/login" },
                   ].map((item, index) => (
                     <motion.a
                       key={item.name}
-                      className="text-xl font-sans font-light cursor-pointer"
+                      className="text-xl font-sans font-regular cursor-pointer"
                       onClick={() => {
                         navigate(item.route);
                         setIsOpen(false); // Close the mobile menu after navigation
@@ -156,18 +155,6 @@ function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:block text-black mr-6">
           <ul className="flex space-x-8 text-black text-sm">
-            <li
-              className="cursor-pointer font-sans text-lg"
-              onClick={coursesClick}
-            >
-              Courses
-            </li>
-            <li
-              className="cursor-pointer font-sans text-lg"
-              onClick={aboutUsClick}
-            >
-              About Us
-            </li>
             <li
               className="cursor-pointer font-sans text-lg"
               onClick={loginClick}

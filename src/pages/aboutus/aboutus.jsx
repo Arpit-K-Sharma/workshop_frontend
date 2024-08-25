@@ -6,6 +6,7 @@ import MakeADifference from "pages/section/makeadifference";
 import Footer from "footer/footer";
 import EducationPhoto from "../../gallery/Education.png";
 import Arpit from "../../gallery/members/Arpit.jpg";
+import Image from "../../gallery/Image.svg";
 
 function ChangeGameStory() {
   return (

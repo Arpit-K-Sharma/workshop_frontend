@@ -15,8 +15,8 @@ const PublicRoutes = [
     <Route key="landing" path="/" element={<LandingPage />} />,
     <Route key="auth" path="/login" element={<SignInPage />} />,
     <Route key="auth" path="/mlogin" element={<MentorLogin />} />,
-    <Route key="aboutus" path="/about" element={<AboutUs />} />,
-    <Route key="courses" path="/courses" element={<Courses />} />,
+    {/* <Route key="aboutus" path="/about" element={<AboutUs />} />, */}
+    {/* <Route key="courses" path="/courses" element={<Courses />} />, */}
     <Route key="student" path="/student" element={<StudentDashboard />} />
     <Route
       key="student"

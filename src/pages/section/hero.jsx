@@ -9,7 +9,7 @@ function Hero() {
       {/* Text Section */}
       <div className="w-full md:w-2/3 mb-8 md:mb-0 z-10 p-2 md:p-8 mt-4">
         <div className="flex flex-col space-y-4 lg:mb-16">
-          <h1 className="text-6xl sm:text-7xl md:text-6xl lg:text-[5rem] font-extrabold lg:mb-8 font-sans text-zinc-800 lg:leading-snug">
+          <h1 className="text-6xl max-sm:text-5xl md:text-6xl lg:text-[5rem] font-extrabold lg:mb-8 font-sans text-zinc-800 lg:leading-snug max-sm:mb-7">
             Where Young Minds Code Their Future
           </h1>
           <p className="text-xl mt-5 sm:text-base md:text-lg lg:text-3xl lg:mb-20 text-gray-700 font-sans max-w-2xl lg:leading-snug">
