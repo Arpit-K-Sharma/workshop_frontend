@@ -10,6 +10,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const SchoolDashboard = () => {
     const { schoolId } = useSchoolContext();
+    console.log(schoolId)
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
