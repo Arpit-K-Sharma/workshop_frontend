@@ -20,10 +20,10 @@ const LandingPage = () => {
       <Hero />
       {/* <Simple /> */}
       <Videos />
-      <Bars />
+      {/* <Bars /> */}
       <System />
       {/* <Mentors /> */}
-      <ImageCarousel />
+      {/* <ImageCarousel /> */}
 
       <MakeADifference />
 
