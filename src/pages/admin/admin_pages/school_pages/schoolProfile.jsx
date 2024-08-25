@@ -4,8 +4,8 @@ import { useSchoolContext } from 'context/SchoolContext';
 import apiClient from 'config/apiClient';
 import LoadingSpinner from 'userDefined_components/loading_spinner/loadingSpinner';
 import { useNavigate } from 'react-router-dom';
-// import school from '../../../../gallery/images/school.jpg';
-// import banner from '../../../../gallery/images/banner.jpg';
+import school from '../../../../gallery/images/school.jpg';
+import banner from '../../../../gallery/images/banner.jpg';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -120,9 +120,6 @@ const SchoolProfile = () => {
         </div>
     );
 
-    const bannerImageUrl = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=400&q=80";
-    const logoImageUrl = "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80";
-
     return (
         <div className="flex h-screen bg-gray-100">
             <SchoolSidebar />
@@ -136,7 +133,7 @@ const SchoolProfile = () => {
                             <>
                                 <div className="relative">
                                     <img
-                                        src={bannerImageUrl}
+                                        src={banner}
                                         alt="School Banner"
                                         className="w-full h-48 object-cover"
                                     />
@@ -147,7 +144,7 @@ const SchoolProfile = () => {
                                     >
                                         <div className="w-44 h-44 rounded-full border-4 border-white overflow-hidden shadow-lg" style={{ boxShadow: '0 0 0 2px black' }}>
                                             <img
-                                                src={logoImageUrl}
+                                                src={school}
                                                 alt="School Logo"
                                                 className="w-full h-full object-cover"
                                             />
