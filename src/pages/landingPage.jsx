@@ -18,7 +18,6 @@ const LandingPage = () => {
       {/* Header */}
       <Navbar />
       <Hero />
-      <TestimonialSection />
       {/* <Simple /> */}
       <Videos />
       <Bars />
@@ -26,7 +25,6 @@ const LandingPage = () => {
       {/* <Mentors /> */}
       <ImageCarousel />
 
-      <Testimonials />
       <MakeADifference />
 
       {/* Footer */}

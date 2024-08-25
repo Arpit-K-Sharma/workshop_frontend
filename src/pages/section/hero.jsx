@@ -2,13 +2,12 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Circle from "../../gallery/Circle.svg";
 
-
 function Hero() {
   return (
     <section className="flex flex-col md:flex-row min-h-screen justify-between items-center p-4 sm:p-6 md:p-12 relative  overflow-hidden">
       <div className="absolute inset-0 "></div>
       {/* Text Section */}
-      <div className="w-full md:w-2/3 mb-8 md:mb-0 z-10 p-2 md:p-8 mt-4 md:mt-[-10%]">
+      <div className="w-full md:w-2/3 mb-8 md:mb-0 z-10 p-2 md:p-8 mt-4">
         <div className="flex flex-col space-y-4 lg:mb-16">
           <h1 className="text-6xl sm:text-7xl md:text-6xl lg:text-[5rem] font-extrabold lg:mb-8 font-sans text-zinc-800 lg:leading-snug">
             Where Young Minds Code Their Future
