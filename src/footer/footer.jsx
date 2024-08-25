@@ -8,14 +8,21 @@ import {
 } from "react-icons/fa";
 import logo from "gallery/WhiteLogo.png";
 import Arrow from "gallery/Arrow.svg";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   // Function to scroll to top of the page
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+  };
+
+  const gotopage = () => {
+    navigate("/contact");
   };
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import MentorLogin from "pages/authentication/mentorlogin";
 import StudentProfile from "pages/student/studentProfile";
 import ClassesDashboard from "pages/student/studentClasses";
 import StudentDashboard from "pages/student/studentDashboard";
+import ContactUs from "pages/contactus/contactus";
 
 const PublicRoutes = [
   <Routes>
@@ -23,6 +24,7 @@ const PublicRoutes = [
       element={<ClassesDashboard />}
     />
     <Route key="student" path="/student/profile" element={<StudentProfile />} />
+    <Route key="contact" path="/contact" element={<ContactUs />} />
   </Routes>,
 ];
 
