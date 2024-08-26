@@ -7,12 +7,16 @@ import Blur from "../../gallery/images/blur.jpg";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/utils/axiosInstance"; // Make sure to import your axios instance
 import Cookies from "js-cookie";
+import { isAdmin } from "./util";
 
 function AdminLogin() {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  isAdmin();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,6 +37,7 @@ function AdminLogin() {
       ] = `${token_type} ${access_token}`;
 
       console.log("Successfully logged in");
+      navigate("/admin");
 
       // Handle successful login, e.g., redirect
       // history.push('/dashboard'); // Uncomment and import 'useHistory' from 'react-router-dom' if using React Router

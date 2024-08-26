@@ -4,12 +4,13 @@ import {
   Home,
   School,
   Users,
-  Book,
+  LogOut,
   Calendar,
   GraduationCap,
 } from "lucide-react";
 import logo from "gallery/images/logo.png";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ const AdminSidebar = () => {
   };
 
   const homeClick = () => {
+    navigate("/");
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("access_token");
     navigate("/");
   };
 
@@ -34,6 +40,7 @@ const AdminSidebar = () => {
   const events = () => {
     navigate("/admin/events");
   };
+
   return (
     <aside className="w-56 h-screen fixed bg-homeText text-white shadow-lg font-archivo">
       <div className="p-4 flex items-center justify-center flex-col mt-4">
@@ -50,7 +57,7 @@ const AdminSidebar = () => {
           <Button
             variant="ghost"
             className="w-full justify-start mb-2 text-sm hover:bg-homeText-hover hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => adminDashboard()}
+            onClick={adminDashboard}
           >
             <Home className="mr-2 h-5 w-5" />
             Dashboard
@@ -58,7 +65,7 @@ const AdminSidebar = () => {
           <Button
             variant="ghost"
             className="w-full justify-start mb-2 text-sm hover:bg-homeText-hover hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => schools()}
+            onClick={schools}
           >
             <School className="mr-2 h-5 w-5" />
             Schools
@@ -66,7 +73,7 @@ const AdminSidebar = () => {
           <Button
             variant="ghost"
             className="w-full justify-start mb-2 text-sm hover:bg-homeText-hover hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => mentors()}
+            onClick={mentors}
           >
             <Users className="mr-2 h-5 w-5" />
             Mentors
@@ -74,7 +81,7 @@ const AdminSidebar = () => {
           <Button
             variant="ghost"
             className="w-full justify-start mb-2 text-sm hover:bg-homeText-hover hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => courses()}
+            onClick={courses}
           >
             <GraduationCap className="mr-2 h-5 w-5" />
             Courses
@@ -82,10 +89,18 @@ const AdminSidebar = () => {
           <Button
             variant="ghost"
             className="w-full justify-start mb-2 text-sm hover:bg-homeText-hover hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => events()}
+            onClick={events}
           >
             <Calendar className="mr-2 h-5 w-5" />
             Events
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-full justify-start mb-2 text-sm hover:bg-homeText-hover hover:text-white transition-all duration-300 ease-in-out"
+            onClick={handleLogout}
+          >
+            <LogOut className="mr-2 h-5 w-5" />
+            Logout
           </Button>
         </nav>
       </div>

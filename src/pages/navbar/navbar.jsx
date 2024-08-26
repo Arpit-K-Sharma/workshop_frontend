@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "gallery/Logo.png";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { isAdmin } from "pages/authentication/util";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -104,11 +105,11 @@ function Navbar() {
               </motion.div>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-8" className="bg-white">
+          <SheetContent side="left" className="p-8 bg-white">
             <AnimatePresence>
               {isOpen && (
                 <motion.nav
-                  className="flex flex-col space-y-6 mt-24 p-4 "
+                  className="flex flex-col space-y-6 mt-24 p-4"
                   initial="closed"
                   animate="open"
                   exit="closed"
@@ -139,8 +140,6 @@ function Navbar() {
         </Sheet>
 
         {/* Logo */}
-        {/* Logo */}
-        {/* Logo */}
         <div className="flex-1 flex justify-center md:justify-start items-center">
           <img
             src={logo}
@@ -164,13 +163,22 @@ function Navbar() {
           </ul>
         </nav>
 
-        {/* Join Us Button */}
-        <Button
-          className="bg-[#004EFF] text-white hover:bg-blue-900 hover:text-white px-3 md:px-4 py-1 md:py-2 font-bold font-sans text-xs md:text-sm"
-          onClick={handleJoinUsClick}
-        >
-          Dashboard
-        </Button>
+        {/* Conditional Button */}
+        {isAdmin() ? (
+          <Button
+            className="bg-[#004EFF] text-white hover:bg-blue-900 hover:text-white px-3 md:px-4 py-1 md:py-2 font-bold font-sans text-xs md:text-sm"
+            onClick={handleJoinUsClick}
+          >
+            Dashboard
+          </Button>
+        ) : (
+          <Button
+            className="bg-[#004EFF] text-white hover:bg-blue-900 hover:text-white px-3 md:px-4 py-1 md:py-2 font-bold font-sans text-xs md:text-sm"
+            onClick={() => navigate("/help")}
+          >
+            Get Help
+          </Button>
+        )}
       </header>
     </div>
   );
