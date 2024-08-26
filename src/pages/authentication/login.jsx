@@ -13,6 +13,10 @@ function SignInPage() {
     navigate("/mlogin");
   };
 
+  const adminLogin = () => {
+    navigate("/admin/login");
+  };
+
   const studentLogin = () => {
     navigate("/student");
   };
@@ -28,24 +32,24 @@ function SignInPage() {
         <img
           src={Blur}
           alt="Placeholder"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover "
         />
       </div>
 
       {/* Right Half: Sign-In Form */}
-      <div className="flex w-full lg:w-1/2 justify-center items-center p-6 lg:p-12">
+      <div className="flex w-full lg:w-1/2 justify-center items-center p-6 lg:p-12 max-sm:p-11">
         <div className="w-full max-w-md">
           {/* Logo at the top */}
           <div className="flex justify-center mb-6">
             <img
               src={Logo}
               alt="Logo"
-              className="h-auto w-96"
+              className="h-auto w-96 "
               onClick={homeRedirect}
             />
           </div>
 
-          <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-gray-800 font-sans">
+          <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-sans">
             Sign In
           </h2>
 
@@ -54,7 +58,7 @@ function SignInPage() {
             <div>
               <Label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 font-sans"
+                className="block font-medium text-gray-700 font-sans text-lg"
               >
                 Email
               </Label>
@@ -70,7 +74,7 @@ function SignInPage() {
             <div>
               <Label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 font-sans"
+                className="block font-medium text-gray-700 font-sans text-lg"
               >
                 Password
               </Label>
@@ -95,17 +99,21 @@ function SignInPage() {
             <div className="flex justify-between items-center mt-4 font-sans">
               <a
                 href="#"
-                className="text-sm text-blue-600 hover:underline font-sans"
+                className="text-blue-600 hover:underline font-sans"
                 onClick={mentorLogin}
               >
                 Are you a mentor?
               </a>
               <a
                 href="#"
-                className="text-sm text-blue-600 hover:underline font-sans"
+                className="text-blue-600 hover:underline font-sans"
+                onClick={adminLogin}
               >
-                Help
+                I manage schools.
               </a>
+              {/* <a href="#" className="text-blue-600 hover:underline font-sans">
+                Help
+              </a> */}
             </div>
           </form>
         </div>

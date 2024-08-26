@@ -25,6 +25,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.29",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.429.0",
     "postcss-loader": "^8.1.1",
     "react": "^18.3.1",
