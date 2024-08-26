@@ -15,47 +15,56 @@ const AttendanceComponent = () => {
     const { classId } = useParams();
     const [attendanceData, setAttendanceData] = useState([]);
     const [className, setClassName] = useState('');
+    const [isExistingAttendance, setIsExistingAttendance] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const classResponse = await axios.get(`http://localhost:8000/class/${classId}`);
-                const classData = classResponse.data.data;
-                setClassName(classData.class_name);
-
-                const attendanceResponse = await axios.get(`http://localhost:8000/attendances/class/${classId}`);
-                const attendanceData = attendanceResponse.data.data || [];
-
                 const today = format(new Date(), 'yyyy-MM-dd');
-                const todayAttendance = attendanceData.find(item => item.date === today);
-
-                if (todayAttendance) {
-                    const mappedAttendance = todayAttendance.students.map(attendance => {
-                        const student = classData.students.find(s => s.id === attendance.student_id);
-                        return {
-                            id: attendance.student_id,
-                            name: student ? student.student_name : 'Unknown',
-                            status: attendance.status,
-                            reason: attendance.remarks
-                        };
-                    });
-                    console.log(mappedAttendance)
-                    setAttendanceData(mappedAttendance);
+                const attendanceResponse = await axios.get(`http://localhost:8000/attendances/class/${classId}/date/${today}`);
+                
+                if (attendanceResponse.data.status === "success" && attendanceResponse.data.message !== "No attendance found for the given date") {
+                    setIsExistingAttendance(true);
+                    const existingAttendance = attendanceResponse.data.data.students.map(student => ({
+                        id: student.student_id,
+                        name: student.student_name, 
+                        status: student.status,
+                        reason: student.remarks
+                    }));                    
+                    setAttendanceData(existingAttendance);
                 } else {
-                    const initialAttendance = classData.students.map(student => ({
-                        id: student.id,
-                        name: student.student_name,
-                        status: 'Present',
-                        reason: ''
-                    }));
-                    console.log(initialAttendance)
-                    setAttendanceData(initialAttendance);
+                    await fetchClassData();
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching attendance data:', error);
                 toast({
                     title: "Error",
                     description: "Failed to fetch attendance data",
+                    variant: "destructive",
+                });
+                await fetchClassData();
+            }
+        };
+        
+
+        const fetchClassData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/class/${classId}`);
+                const classData = response.data.data;
+                setClassName(classData.class_name);
+
+                const initialAttendance = classData.students.map(student => ({
+                    id: student.id,
+                    name: student.student_name,
+                    status: 'present',
+                    reason: ''
+                }));
+                setAttendanceData(initialAttendance);
+            } catch (error) {
+                console.error('Error fetching class data:', error);
+                toast({
+                    title: "Error",
+                    description: "Failed to fetch class data",
                     variant: "destructive",
                 });
             }
@@ -68,7 +77,7 @@ const AttendanceComponent = () => {
         setAttendanceData(prevData =>
             prevData.map(student =>
                 student.id === studentId
-                    ? { ...student, status, reason: status === "Present" ? "" : student.reason }
+                    ? { ...student, status, reason: status === "present" ? "" : student.reason }
                     : student
             )
         );
@@ -84,23 +93,25 @@ const AttendanceComponent = () => {
 
     const submitAttendance = async () => {
         try {
-            const today = format(new Date(), 'yyyy-MM-dd');
             const submitData = {
-                date: today,
+                class_id: classId,
+                date: format(new Date(), 'yyyy-MM-dd'),
                 students: attendanceData.map(student => ({
                     student_id: student.id,
+                    student_name: student.name, 
                     status: student.status,
                     remarks: student.reason
                 }))
             };
+            
 
-            await axios.post(`http://localhost:8000/attendances/class/${classId}`, submitData);
+            await axios.post(`http://localhost:8000/attendances/class`, submitData);
 
-            const presentCount = attendanceData.filter(student => student.status === "Present").length;
+            const presentCount = attendanceData.filter(student => student.status === "present").length;
             const absentCount = attendanceData.length - presentCount;
 
             toast({
-                title: "Attendance Submitted",
+                title: "Attendance Submitted Successfully",
                 description: `Present: ${presentCount}, Absent: ${absentCount}`,
             });
         } catch (error) {
@@ -155,17 +166,17 @@ const AttendanceComponent = () => {
                                                         <SelectValue placeholder="Select status" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="Present">Present</SelectItem>
-                                                        <SelectItem value="Absent (Informed)">Absent (Informed)</SelectItem>
-                                                        <SelectItem value="Absent (Uninformed)">Absent (Uninformed)</SelectItem>
+                                                        <SelectItem value="present">Present</SelectItem>
+                                                        <SelectItem value="absent">Absent</SelectItem>
+                                                        <SelectItem value="late">Late</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                             </td>
                                             <td className="p-2">
-                                                {student.status !== "Present" && (
+                                                {student.status !== "present" && (
                                                     <Input
                                                         type="text"
-                                                        placeholder="Reason for absence"
+                                                        placeholder="Reason for absence/late"
                                                         value={student.reason}
                                                         onChange={(e) => handleReasonChange(student.id, e.target.value)}
                                                         className="w-full"
@@ -181,7 +192,7 @@ const AttendanceComponent = () => {
                             className="w-full mt-6"
                             onClick={submitAttendance}
                         >
-                            Submit Attendance
+                            {isExistingAttendance ? "Update Attendance" : "Submit Attendance"}
                         </Button>
                     </CardContent>
                 </Card>

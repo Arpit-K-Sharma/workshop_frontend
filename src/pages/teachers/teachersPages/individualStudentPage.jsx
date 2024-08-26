@@ -6,21 +6,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { User, Phone, Mail, MapPin, BookOpen, Clock, FileText } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const StudentProfile = () => {
     const { studentId } = useParams();
     const [student, setStudent] = useState(null);
     const [attendance, setAttendance] = useState([]);
     const [course, setCourse] = useState(null);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const studentResponse = await axios.get(`http://127.0.0.1:8000/student/${studentId}`);
                 setStudent(studentResponse.data.data);
+                let classid = studentResponse.data.data.class_id;
 
-                const attendanceResponse = await axios.get(`http://127.0.0.1:8000/attendances/student/${studentId}`);
-                setAttendance(attendanceResponse.data.data);
+                if (classid && classid.length > 0) {
+                    const attendanceResponse = await axios.get(`http://127.0.0.1:8000/attendances/student/${studentId}/class/${classid}/month/${selectedYear}/${selectedMonth.toString().padStart(2, '0')}`);
+                    setAttendance(attendanceResponse.data.data.attendances);
+                }
 
                 if (studentResponse.data.data.course_id && studentResponse.data.data.course_id.length > 0) {
                     const courseResponse = await axios.get(`http://127.0.0.1:8000/course/${studentResponse.data.data.course_id[0]}`);
@@ -32,11 +38,38 @@ const StudentProfile = () => {
         };
 
         fetchData();
-    }, [studentId]);
+    }, [studentId, selectedMonth, selectedYear]);
 
     if (!student) {
         return <div className="flex items-center justify-center h-screen">Loading...</div>;
     }
+
+    const generateMonthDates = (year, month) => {
+        const daysInMonth = new Date(year, month, 0).getDate();
+        return Array.from({ length: daysInMonth }, (_, i) => {
+            const date = new Date(year, month - 1, i + 1);
+            return date.toISOString().split('T')[0];
+        });
+    };
+
+    const monthDates = generateMonthDates(selectedYear, selectedMonth);
+
+    const months = [
+        { value: 1, label: 'January' },
+        { value: 2, label: 'February' },
+        { value: 3, label: 'March' },
+        { value: 4, label: 'April' },
+        { value: 5, label: 'May' },
+        { value: 6, label: 'June' },
+        { value: 7, label: 'July' },
+        { value: 8, label: 'August' },
+        { value: 9, label: 'September' },
+        { value: 10, label: 'October' },
+        { value: 11, label: 'November' },
+        { value: 12, label: 'December' }
+    ];
+
+    const years = Array.from({ length: 10 }, (_, i) => selectedYear - 5 + i);
 
     return (
         <div className='flex'>
@@ -100,7 +133,7 @@ const StudentProfile = () => {
                                 </div>
                                 <div className="flex items-center space-x-3">
                                     <div>
-                                    <Clock size={20} className=" flex-shrink-0" />
+                                        <Clock size={20} className=" flex-shrink-0" />
                                     </div>
                                     <div className='flex gap-2'>
                                         <span className="font-semibold">Duration:</span>
@@ -123,32 +156,64 @@ const StudentProfile = () => {
                 <Card className="mt-8">
                     <CardHeader>
                         <CardTitle className="text-xl font-semibold">Attendance</CardTitle>
+                        <div className="flex space-x-4">
+                            <Select
+                                value={selectedMonth.toString()}
+                                onValueChange={(value) => setSelectedMonth(parseInt(value))}
+                            >
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {months.map((month) => (
+                                        <SelectItem key={month.value} value={month.value.toString()}>
+                                            {month.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Select
+                                value={selectedYear.toString()}
+                                onValueChange={(value) => setSelectedYear(parseInt(value))}
+                            >
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {years.map((year) => (
+                                        <SelectItem key={year} value={year.toString()}>
+                                            {year}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow className="bg-gray-50">
-                                    <TableHead>Date</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Remarks</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {attendance && attendance.length > 0 ? (
-                                    attendance.map((record, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{record.date}</TableCell>
-                                            <TableCell>{record.status}</TableCell>
-                                            <TableCell>{record.remarks}</TableCell>
-                                        </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={3} className="text-center">No attendance records found</TableCell>
+                        <div className="max-h-[38vh] overflow-y-auto">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow className="bg-gray-50">
+                                        <TableHead>Date</TableHead>
+                                        <TableHead>Status</TableHead>
+                                        <TableHead>Remarks</TableHead>
                                     </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                <TableBody>
+                                    {monthDates.map((date) => {
+                                        const attendanceRecord = attendance.find(record => record.date === date);
+                                        return (
+                                            <TableRow key={date}>
+                                                <TableCell>{date}</TableCell>
+                                                <TableCell>{attendanceRecord ? attendanceRecord.status : 'No class in this day / Attendance was not Captured'}</TableCell>
+                                                <TableCell>{attendanceRecord ? attendanceRecord.remarks : ''}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

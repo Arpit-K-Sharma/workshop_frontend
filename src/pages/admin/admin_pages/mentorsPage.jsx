@@ -50,9 +50,7 @@ const MentorsPage = () => {
     });
 
     try {
-      await axios.post('http://localhost:8000/teacher', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      await axios.post('http://localhost:8000/teacher', newMentor);
       fetchMentors();
       setNewMentor({ name: '', address: '', username: '', password: '', phone_num: '', profile_pic: null });
       setIsDialogOpen(false);
@@ -115,7 +113,7 @@ const MentorsPage = () => {
         </Dialog>
 
         <div className='pr-4 pl-4'>
-          {mentors.length > 0 ? (
+          {mentors && mentors.length > 0 ? (
             <Table className="min-w-full ">
               <TableHeader className='bg-gray-100'>
                 <TableRow>
