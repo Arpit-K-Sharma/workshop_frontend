@@ -141,7 +141,7 @@ const CoursesPage = () => {
                 Add Course
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="bg-white">
               <DialogHeader>
                 <DialogTitle>Add a New Course</DialogTitle>
                 <DialogDescription>
@@ -177,7 +177,7 @@ const CoursesPage = () => {
               <DialogFooter>
                 <Button
                   onClick={handleAddCourse}
-                  className="bg-homeText w-full hover:bg-[#434311]"
+                  className="bg-homeText w-full hover:bg-[#434311] text-white"
                 >
                   Submit
                 </Button>

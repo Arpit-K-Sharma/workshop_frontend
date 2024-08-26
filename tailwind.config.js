@@ -19,9 +19,6 @@ module.exports = {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ["Inter", "sans-serif"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -63,10 +60,6 @@ module.exports = {
         homeText: {
           DEFAULT: "#3E5148",
           hover: "#8F8F5E",
-        },
-        buttonColor: {
-          DEFAULT: "#004EFF",
-          hover: "#000000",
         },
         sectionBackground: {
           DEFAULT: "#EEEAE4",
