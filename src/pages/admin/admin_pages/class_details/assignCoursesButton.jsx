@@ -1,173 +1,180 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from "react";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogFooter,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Toaster } from "@/components/ui/toaster";
-import apiClient from 'config/apiClient';
+import apiClient from "config/apiClient";
 
 const CourseCard = ({ course, isAssigned, onToggle }) => {
-    return (
-        <div
-            className={`p-4 border rounded-lg mb-4 cursor-pointer ${isAssigned ? 'bg-blue-100' : ''}`}
-            onClick={() => onToggle(course.id)}
-        >
-            <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold">{course.course_name}</h3>
-                <Checkbox checked={isAssigned} onClick={(e) => e.stopPropagation()} />
-            </div>
-            <p className="text-sm text-gray-600">{course.description}</p>
-        </div>
-    );
+  return (
+    <div
+      className={`p-4 border rounded-lg mb-4 cursor-pointer ${
+        isAssigned ? "bg-blue-100" : ""
+      }`}
+      onClick={() => onToggle(course.id)}
+    >
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">{course.course_name}</h3>
+        <Checkbox checked={isAssigned} onClick={(e) => e.stopPropagation()} />
+      </div>
+      <p className="text-sm text-gray-600">{course.description}</p>
+    </div>
+  );
 };
 
 const AssignCoursesButton = ({ onAssignCourse, class_data }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [allCourses, setAllCourses] = useState([]);
-    const [schoolCourses, setSchoolCourses] = useState([]);
-    const [courseList, setCourseList] = useState([]);
-    const [selectedCourses, setSelectedCourses] = useState([]);
-    const [schoolCourseIds, setSchoolCourseIds] = useState([]);
-    const { toast } = useToast();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [allCourses, setAllCourses] = useState([]);
+  const [schoolCourses, setSchoolCourses] = useState([]);
+  const [courseList, setCourseList] = useState([]);
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [schoolCourseIds, setSchoolCourseIds] = useState([]);
+  const { toast } = useToast();
 
-    const fetchSchoolCourses = useCallback(async () => {
-        try {
-            const response = await apiClient.get(`/school/${class_data.school_id}`);
-            console.log("School courses:", response.data.data.course_id);
-            setSchoolCourseIds(response.data.data.course_id || []);
-        } catch (error) {
-            console.error('Error fetching school courses:', error);
-            toast({
-                title: "Error",
-                description: "Failed to fetch school courses. Please try again.",
-                variant: "destructive",
-            });
-        }
-    }, [class_data.school_id]);
+  const fetchSchoolCourses = useCallback(async () => {
+    try {
+      const response = await apiClient.get(`/school/${class_data.school_id}`);
+      console.log("School courses:", response.data.data.course_id);
+      setSchoolCourseIds(response.data.data.course_id || []);
+    } catch (error) {
+      console.error("Error fetching school courses:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch school courses. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [class_data.school_id]);
 
-    const fetchAllCourses = useCallback(async () => {
-        try {
-            if (schoolCourseIds.length === 0) return;
-            
-            const courseData = await apiClient.post('/course_list', schoolCourseIds );
-            console.log(courseData.data.data);
-            setAllCourses(courseData.data.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            toast({
-                title: "Error",
-                description: "Failed to fetch courses. Please try again.",
-                variant: "destructive",
-            });
-        }
-    }, [schoolCourseIds]);
+  const fetchAllCourses = useCallback(async () => {
+    try {
+      if (schoolCourseIds.length === 0) return;
 
-    // const fetchSchoolCourses = async () => {
-    //     try {
-    //         const response = await apiClient.get(`/school/${class_data.school_id}`);
-    //         console.log(response.data.data.course_id);
-    //         setSchoolCourses(response.data.data.course_id);
-    //     } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //         toast({
-    //             title: "Error",
-    //             description: "Failed to fetch courses. Please try again.",
-    //             variant: "destructive",
-    //         });
-    //     }
-    // };
+      const courseData = await apiClient.post("/course_list", schoolCourseIds);
+      console.log(courseData.data.data);
+      setAllCourses(courseData.data.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch courses. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [schoolCourseIds]);
 
-    const updateCourseLists = useCallback(() => {
-        const assignedCourses = class_data.courses.map((course) => course.id) || [];
-        setCourseList(assignedCourses);
-        setSelectedCourses(assignedCourses);
-    }, [class_data]);
+  // const fetchSchoolCourses = async () => {
+  //     try {
+  //         const response = await apiClient.get(`/school/${class_data.school_id}`);
+  //         console.log(response.data.data.course_id);
+  //         setSchoolCourses(response.data.data.course_id);
+  //     } catch (error) {
+  //         console.error('Error fetching data:', error);
+  //         toast({
+  //             title: "Error",
+  //             description: "Failed to fetch courses. Please try again.",
+  //             variant: "destructive",
+  //         });
+  //     }
+  // };
 
-    useEffect(() => {
-        fetchSchoolCourses();
-    }, [fetchSchoolCourses]);
+  const updateCourseLists = useCallback(() => {
+    const assignedCourses = class_data.courses.map((course) => course.id) || [];
+    setCourseList(assignedCourses);
+    setSelectedCourses(assignedCourses);
+  }, [class_data]);
 
-    useEffect(() => {
-        if (schoolCourseIds.length > 0) {
-            fetchAllCourses();
-        }
-    }, [schoolCourseIds, fetchAllCourses]);
-    
-    useEffect(() => {
-        updateCourseLists();
-    }, [updateCourseLists]);
+  useEffect(() => {
+    fetchSchoolCourses();
+  }, [fetchSchoolCourses]);
 
-    const fetchData = useCallback(() => {
-        try {
-            fetchSchoolCourses().then(
-                console.log(schoolCourses)
-            ).then(
-                fetchAllCourses(schoolCourses)
-            );
-            updateCourseLists();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            toast({
-                title: "Error",
-                description: "Failed to fetch courses. Please try again.",
-                variant: "destructive",
-            });
-        }
-    }, [class_data]);
+  useEffect(() => {
+    if (schoolCourseIds.length > 0) {
+      fetchAllCourses();
+    }
+  }, [schoolCourseIds, fetchAllCourses]);
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+  useEffect(() => {
+    updateCourseLists();
+  }, [updateCourseLists]);
 
-    const toggleCourse = (courseId) => {
-        setSelectedCourses(prev =>
-            prev.includes(courseId)
-                ? prev.filter(id => id !== courseId)
-                : [...prev, courseId]
-        );
-    };
+  const fetchData = useCallback(() => {
+    try {
+      fetchSchoolCourses()
+        .then(console.log(schoolCourses))
+        .then(fetchAllCourses(schoolCourses));
+      updateCourseLists();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch courses. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [class_data]);
 
-    const handleSave = () => {
-        onAssignCourse(selectedCourses);
-        setIsDialogOpen(false);
-    };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-    return (
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-                <Button className="bg-green-500 text-white font-bold px-4 py-2 rounded hover:bg-green-600 w-1/3">
-                    Assign Courses
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-purple-600">Assign New Courses</DialogTitle>
-                </DialogHeader>
-                <div className="mt-4 max-h-96 overflow-y-auto">
-                    {allCourses && allCourses.length > 0 && allCourses.map(course => (
-                        <CourseCard
-                            key={course.id}
-                            course={course}
-                            isAssigned={selectedCourses.includes(course.id)}
-                            onToggle={toggleCourse}
-                        />
-                    ))}
-                </div>
-                <DialogFooter className="mt-6">
-                    <Button onClick={handleSave} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                        Save
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    )
-}
+  const toggleCourse = (courseId) => {
+    setSelectedCourses((prev) =>
+      prev.includes(courseId)
+        ? prev.filter((id) => id !== courseId)
+        : [...prev, courseId]
+    );
+  };
+
+  const handleSave = () => {
+    onAssignCourse(selectedCourses);
+    setIsDialogOpen(false);
+  };
+
+  return (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-green-500 text-white font-bold px-4 py-2 rounded hover:bg-green-600 w-1/3">
+          Assign Courses
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px] bg-white">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-purple-600">
+            Assign New Courses
+          </DialogTitle>
+        </DialogHeader>
+        <div className="mt-4 max-h-96 overflow-y-auto">
+          {allCourses &&
+            allCourses.length > 0 &&
+            allCourses.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                isAssigned={selectedCourses.includes(course.id)}
+                onToggle={toggleCourse}
+              />
+            ))}
+        </div>
+        <DialogFooter className="mt-6">
+          <Button
+            onClick={handleSave}
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default AssignCoursesButton;

@@ -15,6 +15,6 @@ const TeacherRoutes = (
       <Route path="/teacher/students/:classId" element={<StudentsPage />} />
       <Route path="/teacher/attendance/:studentId" element={<StudentProfile />} />
     </Routes>
-);
+);    
 
 export default TeacherRoutes;

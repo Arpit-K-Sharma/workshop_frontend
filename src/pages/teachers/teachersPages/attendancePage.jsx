@@ -22,15 +22,15 @@ const AttendanceComponent = () => {
             try {
                 const today = format(new Date(), 'yyyy-MM-dd');
                 const attendanceResponse = await axios.get(`http://localhost:8000/attendances/class/${classId}/date/${today}`);
-                
+
                 if (attendanceResponse.data.status === "success" && attendanceResponse.data.message !== "No attendance found for the given date") {
                     setIsExistingAttendance(true);
                     const existingAttendance = attendanceResponse.data.data.students.map(student => ({
                         id: student.student_id,
-                        name: student.student_name, 
+                        name: student.student_name,
                         status: student.status,
                         reason: student.remarks
-                    }));                    
+                    }));
                     setAttendanceData(existingAttendance);
                 } else {
                     await fetchClassData();
@@ -45,7 +45,7 @@ const AttendanceComponent = () => {
                 await fetchClassData();
             }
         };
-        
+
 
         const fetchClassData = async () => {
             try {
@@ -98,12 +98,12 @@ const AttendanceComponent = () => {
                 date: format(new Date(), 'yyyy-MM-dd'),
                 students: attendanceData.map(student => ({
                     student_id: student.id,
-                    student_name: student.name, 
+                    student_name: student.name,
                     status: student.status,
                     remarks: student.reason
                 }))
             };
-            
+
 
             await axios.post(`http://localhost:8000/attendances/class`, submitData);
 
@@ -128,7 +128,7 @@ const AttendanceComponent = () => {
         <div className="flex h-screen bg-gray-100">
             <TeacherSidebar />
             <div className="p-6 bg-gray-100 w-full flex flex-col overflow-hidden">
-                <Card className="w-full max-w-4xl mx-auto flex flex-col" style={{ height: '95vh' }}>
+                <Card className="w-full max-w-4xl mx-auto flex flex-col bg-white" style={{ height: '95vh' }}>
                     <CardHeader>
                         <div className="flex justify-between items-center">
                             <div>
@@ -179,7 +179,8 @@ const AttendanceComponent = () => {
                                                         placeholder="Reason for absence/late"
                                                         value={student.reason}
                                                         onChange={(e) => handleReasonChange(student.id, e.target.value)}
-                                                        className="w-full"
+                                                        className="w-full placeholder-gray-200"
+                                                        placeholderColor="text-gray-200"
                                                     />
                                                 )}
                                             </td>

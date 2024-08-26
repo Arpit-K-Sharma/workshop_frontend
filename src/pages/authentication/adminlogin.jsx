@@ -78,7 +78,7 @@ function AdminLogin() {
             />
           </div>
 
-          <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-gray-800 font-sans">
+          <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-sans">
             Sign in{" "}
             <span className="text-regular lg:text-regular font-light mb-6 text-gray-800 font-sans">
               as an administrator.
