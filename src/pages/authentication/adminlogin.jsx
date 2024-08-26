@@ -6,6 +6,7 @@ import Logo from "../../gallery/Logo.png";
 import Blur from "../../gallery/images/blur.jpg";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/utils/axiosInstance"; // Make sure to import your axios instance
+import Cookies from "js-cookie";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -20,9 +21,21 @@ function AdminLogin() {
         username,
         password,
       });
-      // Handle successful login, e.g., save token, redirect, etc.
-      console.log(response.data);
-      console.log("Successfully logged in ");
+
+      const { access_token, token_type } = response.data;
+
+      // Save access token in cookies
+      Cookies.set("access_token", access_token, { expires: 7 }); // Expires in 7 days, adjust as needed
+
+      // Set the default Authorization header for future requests
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `${token_type} ${access_token}`;
+
+      console.log("Successfully logged in");
+
+      // Handle successful login, e.g., redirect
+      // history.push('/dashboard'); // Uncomment and import 'useHistory' from 'react-router-dom' if using React Router
     } catch (err) {
       setError("Invalid credentials. Please try again.");
     }
