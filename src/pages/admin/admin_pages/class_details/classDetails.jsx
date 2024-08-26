@@ -8,8 +8,8 @@ import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinne
 import StudentList from "./displayStudent";
 import AddStudentButton from "./addStudentButton";
 import AssignCoursesButton from "./assignCoursesButton";
-import { Users, GraduationCap, BookOpen } from "lucide-react";
 import AssignTeacherButton from "./assignTeacherButton";
+import { Users, GraduationCap, BookOpen } from "lucide-react";
 
 const ClassDetails = () => {
   const { classId } = useParams();
@@ -24,7 +24,7 @@ const ClassDetails = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get(`/class/${classId}`);
-      console.log(response);
+      // console.log(response);
       // if (!response.ok) throw new Error('Failed to fetch class data');
       setClassData(response.data.data);
       setTotalStudent(response.data.data.students?.length || 0);
@@ -48,8 +48,13 @@ const ClassDetails = () => {
         ...newStudent,
         school_id: classData.school_id,
         class_id: classId,
-        course_id: classData.course_id || [],
+        course_id:
+          classData.courses &&
+          classData.courses.length > 0 &&
+          classData.courses.map((course) => course.id),
       };
+      console.log(classData.courses);
+      console.log(addStudent);
       const response = await apiClient.post("/student", addStudent);
       if (response.data.status === "success") {
         toast({
@@ -60,11 +65,24 @@ const ClassDetails = () => {
         // Update the class data after adding the student
         const updatedClassData = {
           ...classData,
+          courses: [
+            ...(classData.courses && classData.courses.length > 0
+              ? classData.courses.map((course) => course.id)
+              : ""),
+          ],
+          teachers: [
+            ...(classData.teachers && classData.teachers.length > 0
+              ? classData.teachers.map((teacher) => teacher.id)
+              : ""),
+          ],
           students: [
-            ...classData.students.map((student) => student.id),
+            ...(classData.students && classData.students.length > 0
+              ? classData.students.map((student) => student.id)
+              : ""),
             response.data.message,
           ],
         };
+        console.log(updatedClassData);
 
         setClassData(updatedClassData);
         setTotalStudent(updatedClassData.students.length);
@@ -129,13 +147,127 @@ const ClassDetails = () => {
     fetchClassData();
   };
 
+  function assignSchoolInfo(schoolId, classIds, courseIds) {
+    return {
+      school_id: schoolId,
+      classes: classIds,
+      courses: courseIds,
+    };
+  }
+
+  const handleAssignTeacher = async (selectedTeachers) => {
+    try {
+      if (classData.id) {
+        const updatedClassData = {
+          ...classData,
+          courses: [
+            ...(classData.courses && classData.courses.length > 0
+              ? classData.courses.map((course) => course.id)
+              : ""),
+          ],
+          teachers: (selectedTeachers.length > 0 && selectedTeachers) || [],
+          students: [
+            ...(classData.students && classData.students.length > 0
+              ? classData.students.map((student) => student.id)
+              : ""),
+          ],
+        };
+
+        const classUpdateResponse = await apiClient.put(
+          `/class/${classData.id}`,
+          updatedClassData
+        );
+
+        if (classUpdateResponse.data.status !== "success") {
+          throw new Error("Failed to update class data");
+        }
+
+        await fetchClassData();
+
+        const updateTeacherPromises = selectedTeachers.map(
+          async (teacherId) => {
+            const teacherResponse = await apiClient.get(
+              `/teacher/${teacherId}`
+            );
+            const teacher = teacherResponse.data.data;
+
+            const existingCourseIds =
+              teacher.courses && teacher.courses.length > 0
+                ? teacher.courses.map((course) => course.id)
+                : [];
+
+            console.log(existingCourseIds);
+
+            const newCourseIds =
+              classData.courses && classData.courses.length > 0
+                ? classData.courses.map((course) => course.id)
+                : [];
+
+            console.log(newCourseIds);
+
+            const updatedCourseIds = [
+              ...new Set([...existingCourseIds, ...newCourseIds]),
+            ];
+
+            console.log(updatedCourseIds);
+
+            const school_Info = [
+              assignSchoolInfo(
+                classData.school_id,
+                [
+                  ...(teacher.classes && teacher.classes.length > 0
+                    ? teacher.classes
+                    : []),
+                  classData.id,
+                ],
+                updatedCourseIds
+              ),
+            ];
+            console.log(school_Info);
+
+            await apiClient.put(`/teacher/${teacher.id}`, {
+              ...teacher,
+              schools: school_Info,
+            });
+          }
+        );
+
+        await Promise.all(updateTeacherPromises);
+
+        await fetchClassData();
+
+        toast({
+          title: "Success",
+          description: "Teachers assigned successfully",
+        });
+      }
+    } catch (error) {
+      console.error("Error Assigning Teacher:", error);
+      toast({
+        title: "Error",
+        description:
+          "An error occurred while assigning the teacher. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleAssignCourse = async (selectedCourses) => {
     try {
       if (classData.id) {
         const updatedClassData = {
           ...classData,
           courses: selectedCourses,
-          students: classData.students.map((student) => student.id),
+          teachers: [
+            ...(classData.teachers && classData.teachers.length > 0
+              ? classData.teachers.map((teacher) => teacher.id)
+              : ""),
+          ],
+          students: [
+            ...(classData.students && classData.students.length > 0
+              ? classData.students.map((student) => student.id)
+              : ""),
+          ],
         };
         const classUpdateResponse = await apiClient.put(
           `/class/${classData.id}`,
@@ -153,9 +285,16 @@ const ClassDetails = () => {
           })
         );
 
-        // setClassData(classUpdateResponse.data.data)
+        // const updateTeacherPromises = classData.teachers.map(teacher =>
+        //     apiClient.put(`/teacher/${teacher.id}`, {
+        //         ...teacher,
+        //         course_id: [...selectedCourses]
+        //     })
+        // )
+
         fetchClassData();
         await Promise.all(updateStudentPromises);
+        // await Promise.all(updateTeacherPromises);
 
         await fetchClassData();
 
@@ -234,9 +373,10 @@ const ClassDetails = () => {
               </div>
 
               <div className="flex space-x-4 mb-8">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-1/3">
-                  Assign Teacher
-                </button>
+                <AssignTeacherButton
+                  onAssignTeacher={handleAssignTeacher}
+                  class_data={classData}
+                />
                 <AssignCoursesButton
                   onAssignCourse={handleAssignCourse}
                   class_data={classData}
