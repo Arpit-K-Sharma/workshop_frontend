@@ -12,89 +12,24 @@ import {
 import Logo from "../../gallery/Logo.png";
 import Blur from "../../gallery/images/blur.jpg";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "@/utils/axiosInstance";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import CryptoJS from "crypto-js";
+import FirstTimeLoginDialog from "./FirstTimeLoginDialog";
 
-function SignInPage() {
+function TestLogin() {
   const navigate = useNavigate();
-  const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [userType, setUserType] = useState("student");
+  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(false);
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      let endpoint;
-      switch (userType) {
-        case "student":
-          endpoint = "/student/login";
-          break;
-        case "admin":
-          endpoint = "/admin/login";
-          break;
-        case "teacher":
-          endpoint = "/mentor/login";
-          break;
-        case "school":
-          endpoint = "/school/login";
-          break;
-        default:
-          throw new Error("Invalid user type");
-      }
+    setIsFirstTimeLogin(true);
+  };
 
-      const response = await axiosInstance.post(endpoint, {
-        email,
-        password,
-      });
-
-      const { access_token, token_type } = response.data;
-      const encryptedToken = CryptoJS.AES.encrypt(
-        access_token,
-        SECRET_KEY
-      ).toString();
-      Cookies.set("access_token", encryptedToken, { expires: 7 });
-
-      axiosInstance.defaults.headers.common[
-        "Authorization"
-      ] = `${token_type} ${access_token}`;
-
-      if (["student", "teacher", "school"].includes(userType)) {
-        const decodedToken = jwtDecode(access_token);
-        const id = decodedToken.id || decodedToken.sub;
-        localStorage.setItem(`${userType}_id`, id);
-        if (userType === "student") {
-          const is_password_changed = decodedToken.is_password_changed;
-          console.log(is_password_changed);
-          localStorage.setItem(`is_password_changed`, is_password_changed);
-        }
-        console.log(
-          `${userType.charAt(0).toUpperCase() + userType.slice(1)} ID:`,
-          id
-        );
-      }
-
-      // Redirect based on user type
-      switch (userType) {
-        case "student":
-          navigate("/student");
-          break;
-        case "admin":
-          navigate("/admin");
-          break;
-        case "teacher":
-          navigate("/mentor/dashboard");
-          break;
-        case "school":
-          navigate("/school/dashboard");
-          break;
-      }
-    } catch (err) {
-      setError("Invalid credentials. Please try again.");
-    }
+  const handleFirstTimeLoginClose = () => {
+    setIsFirstTimeLogin(false);
+    console.log("Password changed and logged in successfully");
   };
 
   const homeRedirect = () => {
@@ -108,20 +43,6 @@ function SignInPage() {
     setError("");
   };
 
-  const getUserTypeDisplayName = (type) => {
-    switch (type) {
-      case "student":
-        return "as a student";
-      case "teacher":
-        return "as a mentor";
-      case "school":
-        return "as a school manager";
-      case "admin":
-        return "as an admin";
-      default:
-        return type.charAt(0) + type.slice(1);
-    }
-  };
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
@@ -146,10 +67,10 @@ function SignInPage() {
             />
           </div>
 
-          <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-san mb-1">
+          <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-sans">
             Sign in{" "}
             <span className="text-regular lg:text-regular font-light mb-6 text-gray-800 font-sans">
-              {getUserTypeDisplayName(userType)}
+              as a {userType}
             </span>
           </h2>
 
@@ -238,8 +159,10 @@ function SignInPage() {
           </form>
         </div>
       </div>
+
+
     </div>
   );
 }
 
-export default SignInPage;
+export default TestLogin;

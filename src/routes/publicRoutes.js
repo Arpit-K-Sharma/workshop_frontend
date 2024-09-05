@@ -6,6 +6,7 @@ import ContactUs from "pages/contactus/contactus";
 import AdminLogin from "pages/authentication/adminlogin";
 import MentorLogin from "pages/authentication/mentorlogin";
 import StudentDashboard from "pages/student/studentDashboard";
+import TestLogin from "pages/authentication/onetimelogin";
 
 const PublicRoutes = [
   <Routes>
@@ -16,6 +17,7 @@ const PublicRoutes = [
     {/* <Route key="aboutus" path="/about" element={<AboutUs />} />, */}
     {/* <Route key="courses" path="/courses" element={<Courses />} />, */}
     <Route key="contact" path="/contact" element={<ContactUs />} />
+    <Route key="test" path="/test" element={<TestLogin />} />
   </Routes>,
 ];
 

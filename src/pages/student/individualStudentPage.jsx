@@ -181,9 +181,7 @@ const StudentAttendance = () => {
                             {date}
                           </TableCell>
                           <TableCell className="text-center w-1/4">
-                            {attendanceRecord
-                              ? attendanceRecord.status
-                              : "No Attendance was not Captured"}
+                            {attendanceRecord ? attendanceRecord.status : "N/A"}
                           </TableCell>
                           <TableCell className="text-center w-1/4">
                             <div className="w-[300px] mx-auto truncate">

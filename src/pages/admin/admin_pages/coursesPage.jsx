@@ -10,32 +10,66 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
-import { Code, Book, Clock, Info, Plus } from "lucide-react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Code, Book, Clock, Info, Plus, Edit, Trash2 } from "lucide-react";
 import apiClient from "config/apiClient";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, onEdit, onDelete }) => {
+  if (!course) return null;
+
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl min-w-[300px] h-[250px] border border-gray-200">
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+    <Card className="overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-2xl font-bold text-gray-800 flex items-center">
             <Code className="mr-2" size={24} color="#2c5282" />
             {course.course_name}
-          </h2>
+          </CardTitle>
+          <div className="flex space-x-2">
+            <Button
+              onClick={() => onEdit(course)}
+              variant="outline"
+              size="icon"
+              className="rounded-full"
+            >
+              <Edit className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={() => onDelete(course)}
+              variant="outline"
+              size="icon"
+              className="rounded-full text-red-500 hover:text-red-700"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
-        <h3
-          style={{ letterSpacing: "1px" }}
-          className="text-lg font-semibold mb-3 text-gray-600 flex items-center"
-        >
+        <CardDescription className="text-lg font-semibold text-gray-600 flex items-center">
           <Book className="mr-2" size={20} color="#4299e1" />
           {course.course_content}
-        </h3>
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <div className="flex justify-start items-center mt-4">
-          <span
-            className="text-sm font-medium text-gray-800 flex items-center"
-            style={{ letterSpacing: "1px" }}
-          >
+          <span className="text-sm font-medium text-gray-800 flex items-center">
             <Clock className="mr-2" color="#2c5282" size={20} />
             Duration:{" "}
             <span className="text-blue-600 ml-1 font-bold">
@@ -43,33 +77,34 @@ const CourseCard = ({ course }) => {
             </span>
           </span>
         </div>
+      </CardContent>
+      <CardFooter>
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="text-white bg-blue-900 hover:bg-blue-800 px-3 py-1 rounded-full transition duration-300 text-sm font-medium flex items-center w-full justify-center mt-7">
-              <Info className="w-4 h-4 mr-1" />
-              <span>View Details</span>
+            <Button className="w-full" variant="secondary">
+              <Info className="w-4 h-4 mr-2" />
+              View Details
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-white rounded-lg p-6">
+          <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-gray-800 mb-2">
-                {course.course_name}
-              </DialogTitle>
-              <DialogDescription className="text-gray-600 text-lg">
-                {course.description}
-              </DialogDescription>
+              <DialogTitle>{course.course_name}</DialogTitle>
+              <DialogDescription>{course.description}</DialogDescription>
             </DialogHeader>
           </DialogContent>
         </Dialog>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [newCourse, setNewCourse] = useState({
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [currentCourse, setCurrentCourse] = useState({
+    id: "",
     course_name: "",
     course_content: "",
     course_duration: "",
@@ -78,21 +113,21 @@ const CoursesPage = () => {
   });
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await apiClient.get("/course");
-        setCourses(response.data.data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-
     fetchCourses();
   }, []);
 
+  const fetchCourses = async () => {
+    try {
+      const response = await apiClient.get("/course");
+      setCourses(response.data.data);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewCourse((prevState) => ({
+    setCurrentCourse((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -100,10 +135,9 @@ const CoursesPage = () => {
 
   const handleAddCourse = async () => {
     try {
-      const response = await apiClient.post("/course", newCourse);
-      console.log(response);
-      setCourses([...courses, newCourse]);
-      setNewCourse({
+      await apiClient.post("/course", currentCourse);
+      setCurrentCourse({
+        id: "",
         course_name: "",
         course_content: "",
         course_duration: "",
@@ -111,9 +145,40 @@ const CoursesPage = () => {
         logo: "",
       });
       setIsAddDialogOpen(false);
+      fetchCourses();
     } catch (error) {
       console.error("Error adding course:", error);
     }
+  };
+
+  const handleEditCourse = async () => {
+    try {
+      await apiClient.put(`/course/${currentCourse.id}`, currentCourse);
+      setIsEditDialogOpen(false);
+      fetchCourses();
+    } catch (error) {
+      console.error("Error updating course:", error);
+    }
+  };
+
+  const handleDeleteCourse = async () => {
+    try {
+      await apiClient.delete(`/course/${currentCourse.id}`);
+      setIsDeleteDialogOpen(false);
+      fetchCourses();
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  };
+
+  const openEditDialog = (course) => {
+    setCurrentCourse(course);
+    setIsEditDialogOpen(true);
+  };
+
+  const openDeleteDialog = (course) => {
+    setCurrentCourse(course);
+    setIsDeleteDialogOpen(true);
   };
 
   return (
@@ -126,17 +191,15 @@ const CoursesPage = () => {
         <div className="mb-8 flex justify-end">
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="text-white bg-blue-900 hover:bg-blue-800 px-4 py-2 rounded-lg transition duration-300 flex items-center">
+              <Button>
                 <Plus className="w-5 h-5 mr-2" />
                 Add Course
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white rounded-lg p-6">
+            <DialogContent>
               <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-gray-800 mb-4">
-                  Add a New Course
-                </DialogTitle>
-                <DialogDescription className="text-gray-600 mb-4">
+                <DialogTitle>Add a New Course</DialogTitle>
+                <DialogDescription>
                   Fill out the details of the new course below.
                 </DialogDescription>
               </DialogHeader>
@@ -144,39 +207,30 @@ const CoursesPage = () => {
                 <Input
                   placeholder="Course Name"
                   name="course_name"
-                  value={newCourse.course_name}
+                  value={currentCourse.course_name}
                   onChange={handleInputChange}
-                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
                 <Input
                   placeholder="Course Content"
                   name="course_content"
-                  value={newCourse.course_content}
+                  value={currentCourse.course_content}
                   onChange={handleInputChange}
-                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
                 <Input
                   placeholder="Course Duration"
                   name="course_duration"
-                  value={newCourse.course_duration}
+                  value={currentCourse.course_duration}
                   onChange={handleInputChange}
-                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
                 <Input
                   placeholder="Description"
                   name="description"
-                  value={newCourse.description}
+                  value={currentCourse.description}
                   onChange={handleInputChange}
-                  className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
-              <DialogFooter className="mt-6">
-                <Button
-                  onClick={handleAddCourse}
-                  className="bg-blue-900 hover:bg-blue-800 w-full text-white py-2 rounded-lg transition duration-300"
-                >
-                  Submit
-                </Button>
+              <DialogFooter>
+                <Button onClick={handleAddCourse}>Submit</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -184,11 +238,76 @@ const CoursesPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 xl:gap-20">
           {courses &&
             courses.length > 0 &&
-            courses.map((course, index) => (
-              <CourseCard key={index} course={course} />
+            courses.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                onEdit={openEditDialog}
+                onDelete={openDeleteDialog}
+              />
             ))}
         </div>
       </div>
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Course</DialogTitle>
+            <DialogDescription>
+              Update the details of the course below.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Input
+              placeholder="Course Name"
+              name="course_name"
+              value={currentCourse.course_name}
+              onChange={handleInputChange}
+            />
+            <Input
+              placeholder="Course Content"
+              name="course_content"
+              value={currentCourse.course_content}
+              onChange={handleInputChange}
+            />
+            <Input
+              placeholder="Course Duration"
+              name="course_duration"
+              value={currentCourse.course_duration}
+              onChange={handleInputChange}
+            />
+            <Input
+              placeholder="Description"
+              name="description"
+              value={currentCourse.description}
+              onChange={handleInputChange}
+            />
+          </div>
+          <DialogFooter>
+            <Button onClick={handleEditCourse}>Update Course</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              course "{currentCourse.course_name}" and remove it from our
+              servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteCourse}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

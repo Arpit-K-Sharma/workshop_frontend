@@ -17,6 +17,7 @@ import Assignments from "assets/Assignments.svg";
 import Attendance from "assets/Attendance.svg";
 import Students from "assets/Students.svg";
 import Courses from "assets/Courses.svg";
+import FirstTimeLoginDialog from "pages/authentication/FirstTimeLoginDialog";
 
 const StudentDashboard = () => {
   const [classData, setClassData] = useState(null);
@@ -32,6 +33,19 @@ const StudentDashboard = () => {
     student_email: "",
     address: "",
   });
+  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(false);
+
+  useEffect(() => {
+    const is_password_changed = localStorage.getItem("is_password_changed");
+    if (is_password_changed) {
+      setIsFirstTimeLogin(true);
+    }
+  }, []);
+
+  const handleFirstTimeLoginClose = () => {
+    setIsFirstTimeLogin(false);
+    console.log("Password changed and logged in successfully");
+  };
 
   // function convertToNepaliDate(date) {
   //   const nepaliMonths = [
@@ -66,42 +80,49 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       const studentId = localStorage.getItem("student_id");
+      if (!studentId) {
+        console.error("Student ID not found in localStorage");
+        return;
+      }
+
       try {
         const studentResponse = await axios.get(
           `${baseURL}/student/${studentId}`
         );
-        setStudentData(studentResponse.data.data);
-        if (studentResponse.data.data.class_id) {
+        const studentData = studentResponse.data.data;
+        setStudentData(studentData);
+
+        if (studentData?.class_id) {
           const classResponse = await axios.get(
-            `${baseURL}/class/${studentResponse.data.data.class_id}`
+            `${baseURL}/class/${studentData.class_id}`
           );
           setClassData(classResponse.data.data);
-        }
 
-        if (studentResponse.data.data) {
-          const assignementsResponse = await axios.get(
-            `${baseURL}/assignments/class/${studentResponse.data.data.class_id}`
+          const assignmentsResponse = await axios.get(
+            `${baseURL}/assignments/class/${studentData.class_id}`
           );
-          setAssignments(assignementsResponse.data);
+          setAssignments(assignmentsResponse.data);
         }
         const coursePromises = studentResponse.data.data.course_id.map(
           (courseId) => axios.get(`${baseURL}/course/${courseId}`)
         );
         const courseResponses = await Promise.all(coursePromises);
-        setCoursesData(courseResponses.map((response) => response.data.data));
+        setCoursesData(courseResponses && courseResponses.length > 0 && courseResponses.map((response) => response.data.data));
         const feedbackResponse = await axios.get(
           `${baseURL}/feedback/for/${studentId}`
         );
         const feedbacksWithTeachers = await Promise.all(
-          feedbackResponse.data.data.map(async (feedback) => {
-            const teacherResponse = await axios.get(
-              `${baseURL}/teacher/${feedback.feedback_by}`
-            );
-            return {
-              ...feedback,
-              teacherName: teacherResponse.data.data.name,
-            };
-          })
+          feedbackResponse.data.data?.length > 0
+            ? feedbackResponse.data.data.map(async (feedback) => {
+                const teacherResponse = await axios.get(
+                  `${baseURL}/teacher/${feedback.feedback_by}`
+                );
+                return {
+                  ...feedback,
+                  teacherName: teacherResponse.data.data.name,
+                };
+              })
+            : []
         );
         setFeedbacks(feedbacksWithTeachers);
       } catch (error) {
@@ -239,22 +260,24 @@ const StudentDashboard = () => {
               </CardHeader>
               <CardContent className="h-[200px] overflow-y-auto">
                 <div className="space-y-4">
-                  {coursesData.map((course, index) => (
-                    <div
-                      key={course.id}
-                      className="border-b border-gray-200 pb-2 mb-2 last:border-b-0"
-                    >
-                      <div className="text-lg font-bold">
-                        {course.course_name}
+                  {coursesData &&
+                    coursesData.length > 0 &&
+                    coursesData.map((course, index) => (
+                      <div
+                        key={course.id}
+                        className="border-b border-gray-200 pb-2 mb-2 last:border-b-0"
+                      >
+                        <div className="text-lg font-bold">
+                          {course.course_name}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Duration: {course.course_duration}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Content: {course.course_content}
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-600">
-                        Duration: {course.course_duration}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        Content: {course.course_content}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </CardContent>
             </Card>
@@ -361,6 +384,12 @@ const StudentDashboard = () => {
           </div>
         </main>
       </div>
+      {/* First Time Login Dialog */}
+      if()
+      <FirstTimeLoginDialog
+        isOpen={isFirstTimeLogin}
+        onClose={handleFirstTimeLoginClose}
+      />
     </div>
   );
 };

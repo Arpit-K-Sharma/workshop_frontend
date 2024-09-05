@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import apiClient from "config/apiClient";
 import { Calendar } from "lucide-react";
+import { isAdmin } from "pages/authentication/util";
 
 const TodayEvent = ({ date, school_id }) => {
   const selectedYear = date.getFullYear();
@@ -28,6 +29,8 @@ const TodayEvent = ({ date, school_id }) => {
   const isFutureDate = date > currentDate;
 
   const onUpdate = async (data) => {
+    if (!isAdmin()) return;
+
     const updateData = {
       event_name: data.event_name,
       event_description: data.event_description,
@@ -38,7 +41,6 @@ const TodayEvent = ({ date, school_id }) => {
         `/calendar/${data.year}/${data.school_id}/${data.month}/${data.day}/${data.event_id}`,
         updateData
       );
-      // console.log(res);
       setData((prevData) => {
         const updatedData = { ...prevData };
         const dayData = updatedData?.schools?.[0]?.events
@@ -62,10 +64,12 @@ const TodayEvent = ({ date, school_id }) => {
       console.log(error);
     }
     reset();
-    setIsOpen(false); // Close dialog
+    setIsOpen(false);
   };
 
   const onSubmit = async (formData) => {
+    if (!isAdmin()) return;
+
     const newEvent = {
       id: "event_id",
       event_name: formData.event_name,
@@ -177,8 +181,10 @@ const TodayEvent = ({ date, school_id }) => {
       ?.days?.find((eventDay) => eventDay.day === selectedDay)?.events || [];
 
   const handleEventClick = (event) => {
-    setSelectedEvent(event);
-    setIsOpen(true);
+    if (isAdmin()) {
+      setSelectedEvent(event);
+      setIsOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -201,7 +207,7 @@ const TodayEvent = ({ date, school_id }) => {
             month: "short",
           })}`}
         </section>
-        {isFutureDate && (
+        {isFutureDate && isAdmin() && (
           <Button className="ml-auto" onClick={() => setIsOpen(true)}>
             Add Event
           </Button>
@@ -213,7 +219,9 @@ const TodayEvent = ({ date, school_id }) => {
             events.map((event) => (
               <div
                 key={event.id}
-                className="p-2 px-4 rounded-lg hover:bg-gray-50 cursor-pointer transition border border-gray-300"
+                className={`p-2 px-4 rounded-lg ${
+                  isAdmin() ? "hover:bg-gray-50 cursor-pointer" : ""
+                } transition border border-gray-300`}
                 onClick={() => handleEventClick(event)}
               >
                 <div className="flex items-center mb-2">
@@ -236,47 +244,49 @@ const TodayEvent = ({ date, school_id }) => {
         </section>
       </div>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>
-              {selectedEvent ? "Update Event" : "Add Event"}
-            </DialogTitle>
-            <DialogDescription>
-              {selectedEvent
-                ? "Make changes to the event. Click save when you're done."
-                : "Fill out the event details. Click save when you're done."}
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit(selectedEvent ? onUpdate : onSubmit)}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="event_name" className="text-right">
-                  Event Name
-                </Label>
-                <Input
-                  id="event_name"
-                  {...register("event_name")}
-                  className="col-span-3"
-                />
+      {isAdmin() && (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                {selectedEvent ? "Update Event" : "Add Event"}
+              </DialogTitle>
+              <DialogDescription>
+                {selectedEvent
+                  ? "Make changes to the event. Click save when you're done."
+                  : "Fill out the event details. Click save when you're done."}
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit(selectedEvent ? onUpdate : onSubmit)}>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="event_name" className="text-right">
+                    Event Name
+                  </Label>
+                  <Input
+                    id="event_name"
+                    {...register("event_name")}
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="event_description" className="text-right">
+                    Description
+                  </Label>
+                  <Input
+                    id="event_description"
+                    {...register("event_description")}
+                    className="col-span-3"
+                  />
+                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="event_description" className="text-right">
-                  Description
-                </Label>
-                <Input
-                  id="event_description"
-                  {...register("event_description")}
-                  className="col-span-3"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
