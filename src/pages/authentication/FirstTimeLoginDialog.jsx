@@ -16,10 +16,10 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     console.log(studentId);
-  },[])
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,25 +35,31 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
 
     try {
       // Call the API to change the password
-      const response = await apiClient.put(`/student/changePassword/${studentId}?new_password=${newPassword}`);
-  
+      const response = await apiClient.put(
+        `/student/changePassword/${studentId}?new_password=${newPassword}`
+      );
+
       // Handle success
       if (response.data && response.data.message) {
         // Store the response message in localStorage
-        localStorage.setItem('is_password_changed', response.data.message);
-  
+        localStorage.setItem("is_password_changed", response.data.message);
+
         // Close the dialog
         onClose(false);
       } else {
-        setError("An error occurred while changing the password. Please try again.");
+        setError(
+          "An error occurred while changing the password. Please try again."
+        );
       }
     } catch (error) {
-      setError("An error occurred while changing the password. Please try again.");
+      setError(
+        "An error occurred while changing the password. Please try again."
+      );
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-zinc-600">
