@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,20 +10,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Lock, Shield } from "lucide-react";
+import apiClient from "config/apiClient";
 
-function FirstTimeLoginDialog({ onClose }) {
+function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  
+  useEffect(()=>{
+    console.log(studentId);
+  },[])
 
-  useEffect(() => {
-    const isPasswordChanged = localStorage.getItem("is_password_changed");
-    setIsOpen(isPasswordChanged === "false");
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(newPassword);
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match. Please try again.");
       return;
@@ -32,14 +32,24 @@ function FirstTimeLoginDialog({ onClose }) {
       setError("Password must be at least 8 characters long.");
       return;
     }
-    localStorage.setItem("is_password_changed", "true");
-    setIsOpen(false);
-    onClose();
-  };
 
-  const handleClose = () => {
-    setIsOpen(false);
-    onClose();
+    try {
+      // Call the API to change the password
+      const response = await apiClient.put(`/student/changePassword/${studentId}?new_password=${newPassword}`);
+  
+      // Handle success
+      if (response.data && response.data.message) {
+        // Store the response message in localStorage
+        localStorage.setItem('is_password_changed', response.data.message);
+  
+        // Close the dialog
+        onClose(false);
+      } else {
+        setError("An error occurred while changing the password. Please try again.");
+      }
+    } catch (error) {
+      setError("An error occurred while changing the password. Please try again.");
+    }
   };
 
   return (
