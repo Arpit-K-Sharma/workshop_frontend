@@ -53,7 +53,7 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-zinc-600">
