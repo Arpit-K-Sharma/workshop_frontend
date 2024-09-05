@@ -109,6 +109,20 @@ function SignInPage() {
     setError("");
   };
 
+  const getUserTypeDisplayName = (type) => {
+    switch (type) {
+      case "student":
+        return "as a student";
+      case "teacher":
+        return "as a mentor";
+      case "school":
+        return "as a school manager";
+      case "admin":
+        return "as an admin";
+      default:
+        return type.charAt(0) + type.slice(1);
+    }
+  };
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
@@ -136,7 +150,7 @@ function SignInPage() {
           <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-san mb-1">
             Sign in{" "}
             <span className="text-regular lg:text-regular font-light mb-6 text-gray-800 font-sans">
-              as a {userType}
+              {getUserTypeDisplayName(userType)}
             </span>
           </h2>
 

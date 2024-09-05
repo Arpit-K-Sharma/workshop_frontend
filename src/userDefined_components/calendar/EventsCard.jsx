@@ -13,6 +13,7 @@ import apiClient from "config/apiClient";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar, Clock, Edit3 } from "lucide-react";
+import { isAdmin } from "pages/authentication/util";
 
 const EventsCard = ({
   month,
@@ -28,6 +29,8 @@ const EventsCard = ({
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
+    if (!isAdmin()) return;
+
     const id = eventsData.id;
 
     try {
@@ -47,7 +50,9 @@ const EventsCard = ({
   };
 
   const onClick = () => {
-    setIsOpen(true);
+    if (isAdmin()) {
+      setIsOpen(true);
+    }
   };
 
   const formatDate = (year, month, day) => {
@@ -60,10 +65,16 @@ const EventsCard = ({
 
   return (
     <div
-      className="flex mb-2 gap-4 items-center rounded-lg cursor-pointer bg-white"
-      onClick={() => onClick()}
+      className={`flex mb-2 gap-4 items-center rounded-lg ${
+        isAdmin() ? "cursor-pointer" : ""
+      } bg-white`}
+      onClick={onClick}
     >
-      <div className="flex-1 rounded-lg p-2 px-4 hover:bg-gray-50 border border-gray-300 transition-all duration-300">
+      <div
+        className={`flex-1 rounded-lg p-2 px-4 ${
+          isAdmin() ? "hover:bg-gray-50" : ""
+        } border border-gray-300 transition-all duration-300`}
+      >
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Calendar className="h-5 w-5 text-blue-500 mr-2" />
@@ -84,73 +95,78 @@ const EventsCard = ({
           </section>
         </div>
       </div>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[425px] bg-white rounded-lg shadow-lg">
-          <DialogHeader>
-            <DialogTitle className="flex items-center">
-              <Edit3 className="h-5 w-5 text-gray-500 mr-2" /> {/* Edit icon */}
-              Update Event
-            </DialogTitle>
-            <DialogDescription className="text-gray-500">
-              Make changes to Event. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label
-                  htmlFor="event_name"
-                  className="text-right text-gray-600"
-                >
-                  Event Name
-                </Label>
-                <Input
-                  id="event_name"
-                  defaultValue={eventsData.event_name}
-                  {...register("event_name")}
-                  className="col-span-3 border border-gray-300 rounded-md"
-                />
+      {isAdmin() && (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogContent className="sm:max-w-[425px] bg-white rounded-lg shadow-lg">
+            <DialogHeader>
+              <DialogTitle className="flex items-center">
+                <Edit3 className="h-5 w-5 text-gray-500 mr-2" />
+                Update Event
+              </DialogTitle>
+              <DialogDescription className="text-gray-500">
+                Make changes to Event. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label
+                    htmlFor="event_name"
+                    className="text-right text-gray-600"
+                  >
+                    Event Name
+                  </Label>
+                  <Input
+                    id="event_name"
+                    defaultValue={eventsData.event_name}
+                    {...register("event_name")}
+                    className="col-span-3 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label
+                    htmlFor="event_description"
+                    className="text-right text-gray-600"
+                  >
+                    Description
+                  </Label>
+                  <Input
+                    id="event_description"
+                    defaultValue={eventsData.event_description}
+                    {...register("event_description")}
+                    className="col-span-3 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label
+                    htmlFor="event_date"
+                    className="text-right text-gray-600"
+                  >
+                    Date
+                  </Label>
+                  <Input
+                    id="event_date"
+                    type="date"
+                    defaultValue={`${year}-${monthInt
+                      .toString()
+                      .padStart(2, "0")}-${day.toString().padStart(2, "0")}`}
+                    {...register("event_date")}
+                    className="col-span-3 border border-gray-300 rounded-md"
+                  />
+                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label
-                  htmlFor="event_description"
-                  className="text-right text-gray-600"
-                >
-                  Description
-                </Label>
-                <Input
-                  id="event_description"
-                  defaultValue={eventsData.event_description}
-                  {...register("event_description")}
-                  className="col-span-3 border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label
-                  htmlFor="event_date"
-                  className="text-right text-gray-600"
-                >
-                  Date
-                </Label>
-                <Input
-                  id="event_date"
-                  type="date"
-                  defaultValue={`${year}-${monthInt
-                    .toString()
-                    .padStart(2, "0")}-${day.toString().padStart(2, "0")}`}
-                  {...register("event_date")}
-                  className="col-span-3 border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="submit" className="text-white">
-                Save changes
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+              <DialogFooter>
+                <Button type="submit" className="text-white bg-red-800">
+                  Close
+                </Button>
+                <Button type="submit" className="text-white">
+                  Save changes
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
