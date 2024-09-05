@@ -17,6 +17,7 @@ import Assignments from "assets/Assignments.svg";
 import Attendance from "assets/Attendance.svg";
 import Students from "assets/Students.svg";
 import Courses from "assets/Courses.svg";
+import FirstTimeLoginDialog from "pages/authentication/FirstTimeLoginDialog";
 
 const StudentDashboard = () => {
   const [classData, setClassData] = useState(null);
@@ -32,6 +33,15 @@ const StudentDashboard = () => {
     student_email: "",
     address: "",
   });
+  const is_password_changed  = localStorage.getItem("is_password_changed");
+  console.log(is_password_changed);
+  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(is_password_changed);
+
+  const handleFirstTimeLoginClose = () => {
+    setIsFirstTimeLogin(false);
+    console.log("Password changed and logged in successfully");
+  };
+
 
   // function convertToNepaliDate(date) {
   //   const nepaliMonths = [
@@ -361,6 +371,11 @@ const StudentDashboard = () => {
           </div>
         </main>
       </div>
+      {/* First Time Login Dialog */}
+      <FirstTimeLoginDialog
+        isOpen={isFirstTimeLogin}
+        onClose={handleFirstTimeLoginClose}
+      />
     </div>
   );
 };

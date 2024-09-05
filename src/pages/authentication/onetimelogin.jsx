@@ -160,11 +160,7 @@ function TestLogin() {
         </div>
       </div>
 
-      {/* First Time Login Dialog */}
-      <FirstTimeLoginDialog
-        isOpen={isFirstTimeLogin}
-        onClose={handleFirstTimeLoginClose}
-      />
+
     </div>
   );
 }
