@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminSidebar from "../adminSidebar";
 import apiClient from "config/apiClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 import {
   User,
@@ -13,10 +13,15 @@ import {
   Mail,
   MapPin,
   AlertCircle,
+  Edit,
 } from "lucide-react";
+import DisplayProfile from "userDefined_components/profileimage/ProfileImage";
+import ProfilePictureAvatar from "pages/mentors/mentorPages/profilePictureAvator";
+import { Button } from "@/components/ui/button";
 
 const MentorProfile = () => {
   const { mentorId } = useParams();
+  const navigate = useNavigate();
   const [teacher, setTeacher] = useState(null);
   const [schoolsData, setSchoolsData] = useState({});
   const [classesData, setClassesData] = useState({});
@@ -70,6 +75,11 @@ const MentorProfile = () => {
     return response.data.data;
   };
 
+  const handleEdit = () => {
+    // Navigate to the edit page
+    navigate(`/admin/edit-mentor/${mentorId}`);
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -87,17 +97,22 @@ const MentorProfile = () => {
       <AdminSidebar />
       <div className="flex-1 overflow-auto">
         <main className="p-6 ml-56">
-          <h1 className="text-4xl font-bold mb-8 text-gray-800">
-            Mentor Profile
-          </h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-800">Mentor Profile</h1>
+            <Button
+              onClick={handleEdit}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Edit className="mr-2 h-4 w-4" /> Edit Profile
+            </Button>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <Card className="shadow-lg">
               <CardContent className="flex flex-col items-center">
-                <img
-                  src={teacher.profile_pic || "/default-avatar.png"}
-                  alt={teacher.name}
-                  className="w-40 h-40 rounded-full mb-4 shadow-md"
+                <ProfilePictureAvatar
+                  profilePicture={teacher?.profile_picture}
+                  studentName={teacher?.username}
                 />
                 <h2 className="text-2xl font-semibold mb-4">{teacher.name}</h2>
                 <ul className="w-full">
