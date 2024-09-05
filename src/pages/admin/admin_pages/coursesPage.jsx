@@ -10,6 +10,16 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import {
   Card,
@@ -19,11 +29,11 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { Code, Book, Clock, Info, Plus, Edit } from "lucide-react";
+import { Code, Book, Clock, Info, Plus, Edit, Trash2 } from "lucide-react";
 import apiClient from "config/apiClient";
 
-const CourseCard = ({ course, onEdit }) => {
-  if (!course) return null; // Add this check to prevent rendering if course is undefined
+const CourseCard = ({ course, onEdit, onDelete }) => {
+  if (!course) return null;
 
   return (
     <Card className="overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
@@ -33,14 +43,24 @@ const CourseCard = ({ course, onEdit }) => {
             <Code className="mr-2" size={24} color="#2c5282" />
             {course.course_name}
           </CardTitle>
-          <Button
-            onClick={() => onEdit(course)}
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-          >
-            <Edit className="w-4 h-4" />
-          </Button>
+          <div className="flex space-x-2">
+            <Button
+              onClick={() => onEdit(course)}
+              variant="outline"
+              size="icon"
+              className="rounded-full"
+            >
+              <Edit className="w-4 h-4" />
+            </Button>
+            <Button
+              onClick={() => onDelete(course)}
+              variant="outline"
+              size="icon"
+              className="rounded-full text-red-500 hover:text-red-700"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
         <CardDescription className="text-lg font-semibold text-gray-600 flex items-center">
           <Book className="mr-2" size={20} color="#4299e1" />
@@ -82,6 +102,7 @@ const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentCourse, setCurrentCourse] = useState({
     id: "",
     course_name: "",
@@ -92,17 +113,17 @@ const CoursesPage = () => {
   });
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await apiClient.get("/course");
-        setCourses(response.data.data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-
     fetchCourses();
   }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const response = await apiClient.get("/course");
+      setCourses(response.data.data);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -114,8 +135,7 @@ const CoursesPage = () => {
 
   const handleAddCourse = async () => {
     try {
-      const response = await apiClient.post("/course", currentCourse);
-      setCourses([...courses, response.data.data]);
+      await apiClient.post("/course", currentCourse);
       setCurrentCourse({
         id: "",
         course_name: "",
@@ -125,15 +145,6 @@ const CoursesPage = () => {
         logo: "",
       });
       setIsAddDialogOpen(false);
-      const fetchCourses = async () => {
-        try {
-          const response = await apiClient.get("/course");
-          setCourses(response.data.data);
-        } catch (error) {
-          console.error("Error fetching courses:", error);
-        }
-      };
-
       fetchCourses();
     } catch (error) {
       console.error("Error adding course:", error);
@@ -142,33 +153,32 @@ const CoursesPage = () => {
 
   const handleEditCourse = async () => {
     try {
-      const response = await apiClient.put(
-        `/course/${currentCourse.id}`,
-        currentCourse
-      );
-      const updatedCourses = courses.map((course) =>
-        course.id === currentCourse.id ? response.data.data : course
-      );
-      setCourses(updatedCourses);
+      await apiClient.put(`/course/${currentCourse.id}`, currentCourse);
       setIsEditDialogOpen(false);
-      const fetchCourses = async () => {
-        try {
-          const response = await apiClient.get("/course");
-          setCourses(response.data.data);
-        } catch (error) {
-          console.error("Error fetching courses:", error);
-        }
-      };
-
       fetchCourses();
     } catch (error) {
       console.error("Error updating course:", error);
     }
   };
 
+  const handleDeleteCourse = async () => {
+    try {
+      await apiClient.delete(`/course/${currentCourse.id}`);
+      setIsDeleteDialogOpen(false);
+      fetchCourses();
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  };
+
   const openEditDialog = (course) => {
     setCurrentCourse(course);
     setIsEditDialogOpen(true);
+  };
+
+  const openDeleteDialog = (course) => {
+    setCurrentCourse(course);
+    setIsDeleteDialogOpen(true);
   };
 
   return (
@@ -228,8 +238,13 @@ const CoursesPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 xl:gap-20">
           {courses &&
             courses.length > 0 &&
-            courses.map((course, index) => (
-              <CourseCard key={index} course={course} onEdit={openEditDialog} />
+            courses.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                onEdit={openEditDialog}
+                onDelete={openDeleteDialog}
+              />
             ))}
         </div>
       </div>
@@ -272,6 +287,27 @@ const CoursesPage = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              course "{currentCourse.course_name}" and remove it from our
+              servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteCourse}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
