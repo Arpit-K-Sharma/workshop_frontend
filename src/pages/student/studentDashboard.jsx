@@ -34,10 +34,11 @@ const StudentDashboard = () => {
     address: "",
   });
   const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(false);
+  const [student_id, setStudent_id] = useState("");
 
   useEffect(() => {
     const is_password_changed = localStorage.getItem("is_password_changed");
-    if (is_password_changed) {
+    if (!is_password_changed || is_password_changed === "false") {
       setIsFirstTimeLogin(true);
     }
   }, []);
@@ -84,6 +85,7 @@ const StudentDashboard = () => {
         console.error("Student ID not found in localStorage");
         return;
       }
+      setStudent_id(studentId);
 
       try {
         const studentResponse = await axios.get(
@@ -114,14 +116,14 @@ const StudentDashboard = () => {
         const feedbacksWithTeachers = await Promise.all(
           feedbackResponse.data.data?.length > 0
             ? feedbackResponse.data.data.map(async (feedback) => {
-                const teacherResponse = await axios.get(
-                  `${baseURL}/teacher/${feedback.feedback_by}`
-                );
-                return {
-                  ...feedback,
-                  teacherName: teacherResponse.data.data.name,
-                };
-              })
+              const teacherResponse = await axios.get(
+                `${baseURL}/teacher/${feedback.feedback_by}`
+              );
+              return {
+                ...feedback,
+                teacherName: teacherResponse.data.data.name,
+              };
+            })
             : []
         );
         setFeedbacks(feedbacksWithTeachers);
@@ -385,11 +387,13 @@ const StudentDashboard = () => {
         </main>
       </div>
       {/* First Time Login Dialog */}
-      if()
-      <FirstTimeLoginDialog
-        isOpen={isFirstTimeLogin}
-        onClose={handleFirstTimeLoginClose}
-      />
+      {isFirstTimeLogin && (
+        <FirstTimeLoginDialog
+          isOpen={isFirstTimeLogin}
+          onClose={handleFirstTimeLoginClose}
+          studentId={student_id}
+        />
+      )}
     </div>
   );
 };
