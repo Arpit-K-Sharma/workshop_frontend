@@ -22,6 +22,10 @@ export const isAdmin = () => {
   return getRoleFromToken() === "ADMIN";
 };
 
+export const isSchool = () => {
+  return getRoleFromToken() === "SCHOOL";
+};
+
 // Function to check if the user is a mentor
 export const isMentor = () => {
   return getRoleFromToken() === "MENTOR";
