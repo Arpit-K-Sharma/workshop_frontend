@@ -66,9 +66,9 @@ function SignInPage() {
         const decodedToken = jwtDecode(access_token);
         const id = decodedToken.id || decodedToken.sub;
         localStorage.setItem(`${userType}_id`, id);
-        if(userType === "student"){
+        if (userType === "student") {
           const is_password_changed = decodedToken.is_password_changed;
-          console.log(is_password_changed)
+          console.log(is_password_changed);
           localStorage.setItem(`is_password_changed`, is_password_changed);
         }
         console.log(
