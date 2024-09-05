@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Logo from "../../gallery/Logo.png";
 import Blur from "../../gallery/images/blur.jpg";
 import { useNavigate } from "react-router-dom";
@@ -29,8 +36,8 @@ function TestLogin() {
     navigate("/");
   };
 
-  const handleUserTypeChange = (type) => {
-    setUserType(type);
+  const handleUserTypeChange = (value) => {
+    setUserType(value);
     setEmail("");
     setPassword("");
     setError("");
@@ -68,6 +75,27 @@ function TestLogin() {
           </h2>
 
           <form className="space-y-4" onSubmit={handleLogin}>
+            {/* User Type Dropdown */}
+            <div>
+              <Label
+                htmlFor="userType"
+                className="block font-medium text-gray-700 font-sans text-lg mb-1"
+              >
+                User Type
+              </Label>
+              <Select onValueChange={handleUserTypeChange} value={userType}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select user type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="student">Student</SelectItem>
+                  <SelectItem value="teacher">Mentor</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="school">School Administrator</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             {/* Email/Username Field */}
             <div>
               <Label
@@ -104,43 +132,6 @@ function TestLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full font-sans border border-gray-200 rounded-md"
               />
-            </div>
-
-            {/* User Type Toggle */}
-            <div className="flex justify-center space-x-4 mb-6">
-              <Button
-                type="button"
-                onClick={() => handleUserTypeChange("student")}
-                className={`${
-                  userType === "student"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                } px-4 py-2 rounded`}
-              >
-                Student
-              </Button>
-              <Button
-                type="button"
-                onClick={() => handleUserTypeChange("teacher")}
-                className={`${
-                  userType === "teacher"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                } px-4 py-2 rounded`}
-              >
-                Mentor
-              </Button>
-              <Button
-                type="button"
-                onClick={() => handleUserTypeChange("admin")}
-                className={`${
-                  userType === "admin"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                } px-4 py-2 rounded`}
-              >
-                Admin
-              </Button>
             </div>
 
             {/* Error Message */}
