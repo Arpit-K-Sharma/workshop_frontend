@@ -108,7 +108,7 @@ function SignInPage() {
       case "teacher":
         return "mentor";
       case "school":
-        return "school administrator";
+        return "school manager";
       default:
         return type.charAt(0) + type.slice(1);
     }
