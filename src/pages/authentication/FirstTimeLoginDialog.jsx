@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,10 +11,16 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Lock, Shield } from "lucide-react";
 
-function FirstTimeLoginDialog({ isOpen, onClose }) {
+function FirstTimeLoginDialog({ onClose }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const isPasswordChanged = localStorage.getItem("is_password_changed");
+    setIsOpen(isPasswordChanged === "false");
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,11 +32,18 @@ function FirstTimeLoginDialog({ isOpen, onClose }) {
       setError("Password must be at least 8 characters long.");
       return;
     }
+    localStorage.setItem("is_password_changed", "true");
+    setIsOpen(false);
+    onClose();
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
     onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-zinc-600">
