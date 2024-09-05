@@ -103,6 +103,13 @@ function SignInPage() {
     setError("");
   };
 
+  // Function to get display name for user type
+  const getUserTypeDisplayName = (type) => {
+    return type === "teacher"
+      ? "Mentor"
+      : type.charAt(0).toUpperCase() + type.slice(1);
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
@@ -130,7 +137,7 @@ function SignInPage() {
           <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-san mb-1">
             Sign in{" "}
             <span className="text-regular lg:text-regular font-light mb-6 text-gray-800 font-sans">
-              as a {userType}
+              as a {getUserTypeDisplayName(userType)}
             </span>
           </h2>
 
