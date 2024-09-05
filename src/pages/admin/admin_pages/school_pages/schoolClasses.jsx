@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Table,
@@ -24,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { motion } from "framer-motion";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 
@@ -38,12 +39,16 @@ const SchoolClasses = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [classResponse, setClassResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [newClass, setNewClass] = useState({
     ...initialClassState,
     school_id: schoolId,
   });
+  const [updatingClass, setUpdatingClass] = useState(null);
+  const [deletingClass, setDeletingClass] = useState(null);
 
   const fetchClasses = async () => {
     setIsLoading(true);
@@ -75,6 +80,11 @@ const SchoolClasses = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewClass((prev) => ({ ...prev, [name]: value, school_id: schoolId }));
+  };
+
+  const handleUpdateInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatingClass((prev) => ({ ...prev, [name]: value }));
   };
 
   const sortedClasses = useMemo(() => {
@@ -112,12 +122,81 @@ const SchoolClasses = () => {
     }
   };
 
+  const updateClass = async () => {
+    try {
+      const response = await apiClient.put(`/class/${updatingClass.id}`, {
+        class_name: updatingClass.class_name,
+        school_id: schoolId,
+      });
+      if (response.data.status === "success") {
+        fetchClasses();
+        toast({
+          title: "Success",
+          description: "Class Updated Successfully",
+        });
+        setIsUpdateDialogOpen(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to update class. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error updating class:", error);
+      toast({
+        title: "Error",
+        description:
+          "An error occurred while updating the class. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const deleteClass = async () => {
+    try {
+      const response = await apiClient.delete(`/class/${deletingClass.id}`);
+      if (response.data.status === "success") {
+        fetchClasses();
+        toast({
+          title: "Success",
+          description: "Class Deleted Successfully",
+        });
+        setIsDeleteDialogOpen(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to delete class. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting class:", error);
+      toast({
+        title: "Error",
+        description:
+          "An error occurred while deleting the class. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleViewDetails = (classId) => {
     navigate(`/admin/schools/classes/${classId}`);
   };
 
   const handleViewAttendance = (classId) => {
     navigate(`/admin/class/attendance/${classId}`);
+  };
+
+  const handleUpdateClick = (classItem) => {
+    setUpdatingClass(classItem);
+    setIsUpdateDialogOpen(true);
+  };
+
+  const handleDeleteClick = (classItem) => {
+    setDeletingClass(classItem);
+    setIsDeleteDialogOpen(true);
   };
 
   return (
@@ -161,78 +240,143 @@ const SchoolClasses = () => {
             </Dialog>
           </div>
 
-          {isLoading ?
-            (
-              <LoadingSpinner />
-            ) : sortedClasses && sortedClasses.length > 0 ? (
-              <Table className="bg-white">
-                <TableHeader className="  text-white hover:text-white">
-                  <TableRow className="bg-[#0a0a28] hover:bg-[#0a0a28]">
-                    <TableHead className="text-white text-center ">
-                      Class Name
-                    </TableHead>
-                    <TableHead className="text-white text-center">
-                      Students
-                    </TableHead>
-                    <TableHead className="text-white text-center">
-                      Courses
-                    </TableHead>
-                    <TableHead className="text-white text-center">
-                      Mentors
-                    </TableHead>
-                    <TableHead className="text-white text-center">
-                      Action
-                    </TableHead>
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : sortedClasses && sortedClasses.length > 0 ? (
+            <Table className="bg-white">
+              <TableHeader className="text-white hover:text-white">
+                <TableRow className="bg-[#0a0a28] hover:bg-[#0a0a28]">
+                  <TableHead className="text-white text-center">
+                    Class Name
+                  </TableHead>
+                  <TableHead className="text-white text-center">
+                    Students
+                  </TableHead>
+                  <TableHead className="text-white text-center">
+                    Courses
+                  </TableHead>
+                  <TableHead className="text-white text-center">
+                    Mentors
+                  </TableHead>
+                  <TableHead className="text-white text-center">
+                    Action
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedClasses.map((classItem) => (
+                  <TableRow key={classItem.id}>
+                    <TableCell className="text-center">
+                      {classItem.class_name}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {classItem.students?.length || 0}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {classItem.courses?.length || 0}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {classItem.teachers?.length || 0}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Button
+                        onClick={() => handleViewDetails(classItem.id)}
+                        size="sm"
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        onClick={() => handleViewAttendance(classItem.id)}
+                        variant="outline"
+                        size="sm"
+                        className="ml-2"
+                      >
+                        View Attendance
+                      </Button>
+                      <Button
+                        onClick={() => handleUpdateClick(classItem)}
+                        variant="secondary"
+                        size="sm"
+                        className="ml-2"
+                      >
+                        <FaEdit className="mr-2" /> Update
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteClick(classItem)}
+                        variant="destructive"
+                        size="sm"
+                        className="ml-2"
+                      >
+                        <FaTrash className="mr-2" /> Delete
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sortedClasses.map((classItem) => (
-                    <TableRow key={classItem.id}>
-                      <TableCell className="text-center">
-                        {classItem.class_name}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {classItem.students?.length || 0}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {classItem.courses?.length || 0}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {classItem.teachers?.length || 0}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Button
-                          onClick={() => handleViewDetails(classItem.id)}
-                          size="sm"
-                        >
-                          View Details
-                        </Button>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <p>
+                No Classes Found. Start by adding a new class using the 'Add
+                Class' button above.
+              </p>
+            </motion.div>
+          )}
 
-                        <Button
-                          onClick={() => handleViewAttendance(classItem.id)}
-                          variant="outline"
-                          size="sm"
-                          className="ml-2"
-                        >
-                          View Attendance
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <p>
-                  No Classes Found. Start by adding a new class using the 'Add
-                  Class' button above.
-                </p>
-              </motion.div>
-            )}
+          {/* Update Class Dialog */}
+          <Dialog
+            open={isUpdateDialogOpen}
+            onOpenChange={setIsUpdateDialogOpen}
+          >
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Update Class</DialogTitle>
+              </DialogHeader>
+              <div className="mt-4">
+                <Label htmlFor="update_class_name">Class Name</Label>
+                <Input
+                  id="update_class_name"
+                  name="class_name"
+                  value={updatingClass?.class_name || ""}
+                  onChange={handleUpdateInputChange}
+                />
+              </div>
+              <DialogFooter className="mt-6">
+                <Button onClick={updateClass}>Update Class</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Delete Class Confirmation Dialog */}
+          <Dialog
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+          >
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to delete the class "
+                  {deletingClass?.class_name}"? This action cannot be undone.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="mt-6">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsDeleteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button variant="destructive" onClick={deleteClass}>
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
       <Toaster />

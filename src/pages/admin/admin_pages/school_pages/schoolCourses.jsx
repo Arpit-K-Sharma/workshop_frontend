@@ -124,7 +124,12 @@ const SchoolCourses = () => {
               <h1 className="text-2xl font-bold">Course Management</h1>
             </div>
             <div>
-              <Button onClick={() => setIsDialogOpen(true)} disabled={isLoading}>Manage Courses</Button>
+              <Button
+                onClick={() => setIsDialogOpen(true)}
+                disabled={isLoading}
+              >
+                Manage Courses
+              </Button>
             </div>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -133,14 +138,16 @@ const SchoolCourses = () => {
                 <DialogTitle>Assign Courses</DialogTitle>
               </DialogHeader>
               <div className="mt-4 max-h-96 overflow-y-auto">
-                {allCourses && allCourses.length && allCourses.map((course) => (
-                  <CourseCard
-                    key={course.id}
-                    course={course}
-                    isAssigned={selectedCourses.includes(course.id)}
-                    onToggle={toggleCourse}
-                  />
-                ))}
+                {allCourses &&
+                  allCourses.length &&
+                  allCourses.map((course) => (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      isAssigned={selectedCourses.includes(course.id)}
+                      onToggle={toggleCourse}
+                    />
+                  ))}
               </div>
               <DialogFooter>
                 <Button onClick={assignCourses} disabled={isAssigning}>
