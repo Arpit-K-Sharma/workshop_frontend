@@ -2,6 +2,20 @@ import React, { useState, useEffect } from "react";
 import AdminSidebar from "../adminSidebar";
 import apiClient from "config/apiClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 import {
@@ -15,13 +29,9 @@ import {
   AlertCircle,
   Edit,
 } from "lucide-react";
-import DisplayProfile from "userDefined_components/profileimage/ProfileImage";
-import ProfilePictureAvatar from "pages/mentors/mentorPages/profilePictureAvator";
-import { Button } from "@/components/ui/button";
 
 const MentorProfile = () => {
   const { mentorId } = useParams();
-  const navigate = useNavigate();
   const [teacher, setTeacher] = useState(null);
   const [schoolsData, setSchoolsData] = useState({});
   const [classesData, setClassesData] = useState({});
@@ -120,10 +130,6 @@ const MentorProfile = () => {
     return response.data.data;
   };
 
-  const handleEdit = () => {
-    navigate(`/admin/edit-mentor/${mentorId}`);
-  };
-
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -148,19 +154,24 @@ const MentorProfile = () => {
     <div className="flex h-screen bg-gray-50">
       <AdminSidebar />
       <div className="flex-1 overflow-auto">
-        <main className="p-6 ml-56">
-          <h1 className="text-4xl font-bold mb-8 text-gray-800">
-            Mentor Profile
-          </h1>
+        <main className="p-8 ml-64">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900">Mentor Profile</h1>
+            <Button
+              onClick={handleEdit}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <Edit className="mr-2 h-4 w-4" /> Edit Profile
+            </Button>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <Card className="shadow-lg">
-              <CardContent className="flex flex-col items-center">
-                <img
-                  src={teacher.profile_pic || "/default-avatar.png"}
-                  alt={teacher.name}
-                  className="w-40 h-40 rounded-full mb-4 shadow-md"
-                />
+              <CardContent className="flex flex-col items-center pt-6">
+                <Avatar className="w-32 h-32 mb-4">
+                  <AvatarImage src={teacher.profile_pic} alt={teacher.name} />
+                  <AvatarFallback>{teacher.name?.charAt(0)}</AvatarFallback>
+                </Avatar>
                 <h2 className="text-2xl font-semibold mb-4">{teacher.name}</h2>
                 <Separator className="mb-4" />
                 <ul className="w-full space-y-3">
