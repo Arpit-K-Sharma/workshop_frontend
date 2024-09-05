@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Logo from "../../gallery/Logo.png";
 import Blur from "../../gallery/images/blur.jpg";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +39,9 @@ function SignInPage() {
         case "teacher":
           endpoint = "/mentor/login";
           break;
+        case "school":
+          endpoint = "/school/login";
+          break;
         default:
           throw new Error("Invalid user type");
       }
@@ -52,7 +62,7 @@ function SignInPage() {
         "Authorization"
       ] = `${token_type} ${access_token}`;
 
-      if (userType === "student" || userType === "teacher") {
+      if (["student", "teacher", "school"].includes(userType)) {
         const decodedToken = jwtDecode(access_token);
         const id = decodedToken.id || decodedToken.sub;
         localStorage.setItem(`${userType}_id`, id);
@@ -73,6 +83,9 @@ function SignInPage() {
         case "teacher":
           navigate("/mentor/dashboard");
           break;
+        case "school":
+          navigate("/school/dashboard");
+          break;
       }
     } catch (err) {
       setError("Invalid credentials. Please try again.");
@@ -83,9 +96,8 @@ function SignInPage() {
     navigate("/");
   };
 
-  const handleUserTypeChange = (type) => {
-    setUserType(type);
-    // Clear the form fields when changing user type
+  const handleUserTypeChange = (value) => {
+    setUserType(value);
     setEmail("");
     setPassword("");
     setError("");
@@ -115,7 +127,7 @@ function SignInPage() {
             />
           </div>
 
-          <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-sans">
+          <h2 className="text-4xl lg:text-4xl font-bold mb-6 text-gray-800 font-san mb-1">
             Sign in{" "}
             <span className="text-regular lg:text-regular font-light mb-6 text-gray-800 font-sans">
               as a {userType}
@@ -123,6 +135,27 @@ function SignInPage() {
           </h2>
 
           <form className="space-y-4" onSubmit={handleLogin}>
+            {/* User Type Dropdown */}
+            <div>
+              <Label
+                htmlFor="userType"
+                className="block font-medium text-gray-700 font-sans text-lg mb-1"
+              >
+                User Type
+              </Label>
+              <Select onValueChange={handleUserTypeChange} value={userType}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select user type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="student">Student</SelectItem>
+                  <SelectItem value="teacher">Mentor</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="school">School Administrator</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             {/* Email/Username Field */}
             <div>
               <Label
@@ -159,43 +192,6 @@ function SignInPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full font-sans border border-gray-200 rounded-md"
               />
-            </div>
-
-            {/* User Type Toggle */}
-            <div className="flex justify-center space-x-4 mb-6">
-              <Button
-                type="button"
-                onClick={() => handleUserTypeChange("student")}
-                className={`${
-                  userType === "student"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                } px-4 py-2 rounded`}
-              >
-                Student
-              </Button>
-              <Button
-                type="button"
-                onClick={() => handleUserTypeChange("teacher")}
-                className={`${
-                  userType === "teacher"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                } px-4 py-2 rounded`}
-              >
-                Mentor
-              </Button>
-              <Button
-                type="button"
-                onClick={() => handleUserTypeChange("admin")}
-                className={`${
-                  userType === "admin"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                } px-4 py-2 rounded`}
-              >
-                Admin
-              </Button>
             </div>
 
             {/* Error Message */}

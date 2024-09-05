@@ -76,7 +76,6 @@ const MentorProfile = () => {
   };
 
   const handleEdit = () => {
-    // Navigate to the edit page
     navigate(`/admin/edit-mentor/${mentorId}`);
   };
 
