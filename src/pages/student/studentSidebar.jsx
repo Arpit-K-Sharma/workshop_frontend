@@ -19,6 +19,7 @@ const StudentSidebar = () => {
 
   const handleLogout = () => {
     Cookies.remove("access_token");
+    localStorage.removeItem("is_password_changed");
     navigate("/");
   };
 

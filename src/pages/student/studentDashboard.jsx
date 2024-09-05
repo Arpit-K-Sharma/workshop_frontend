@@ -33,7 +33,7 @@ const StudentDashboard = () => {
     student_email: "",
     address: "",
   });
-  const is_password_changed  = localStorage.getItem("is_password_changed");
+  const is_password_changed = localStorage.getItem("is_password_changed");
   console.log(is_password_changed);
   const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(is_password_changed);
 
@@ -41,7 +41,6 @@ const StudentDashboard = () => {
     setIsFirstTimeLogin(false);
     console.log("Password changed and logged in successfully");
   };
-
 
   // function convertToNepaliDate(date) {
   //   const nepaliMonths = [
@@ -76,43 +75,75 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       const studentId = localStorage.getItem("student_id");
+      if (!studentId) {
+        console.error("Student ID not found in localStorage");
+        return;
+      }
+
       try {
         const studentResponse = await axios.get(
           `${baseURL}/student/${studentId}`
         );
-        setStudentData(studentResponse.data.data);
-        if (studentResponse.data.data.class_id) {
+        const studentData = studentResponse.data.data;
+        setStudentData(studentData);
+
+        if (studentData?.class_id) {
           const classResponse = await axios.get(
-            `${baseURL}/class/${studentResponse.data.data.class_id}`
+            `${baseURL}/class/${studentData.class_id}`
           );
           setClassData(classResponse.data.data);
+
+          const assignmentsResponse = await axios.get(
+            `${baseURL}/assignments/class/${studentData.class_id}`
+          );
+          setAssignments(assignmentsResponse.data);
         }
 
-        if (studentResponse.data.data) {
-          const assignementsResponse = await axios.get(
-            `${baseURL}/assignments/class/${studentResponse.data.data.class_id}`
+        if (studentData?.course_id && Array.isArray(studentData.course_id)) {
+          const coursePromises = studentData.course_id.map((courseId) =>
+            axios.get(`${baseURL}/course/${courseId}`)
           );
-          setAssignments(assignementsResponse.data);
+          const courseResponses = await Promise.all(coursePromises);
+          setCoursesData(courseResponses.map((response) => response.data.data));
         }
-        const coursePromises = studentResponse.data.data.course_id.map(
-          (courseId) => axios.get(`${baseURL}/course/${courseId}`)
-        );
-        const courseResponses = await Promise.all(coursePromises);
-        setCoursesData(courseResponses.map((response) => response.data.data));
+
         const feedbackResponse = await axios.get(
           `${baseURL}/feedback/for/${studentId}`
         );
-        const feedbacksWithTeachers = await Promise.all(
-          feedbackResponse.data.data.map(async (feedback) => {
-            const teacherResponse = await axios.get(
-              `${baseURL}/teacher/${feedback.feedback_by}`
-            );
-            return {
-              ...feedback,
-              teacherName: teacherResponse.data.data.name,
-            };
-          })
-        );
+
+        let feedbacksWithTeachers = [];
+
+        if (
+          feedbackResponse.data &&
+          feedbackResponse.data.data &&
+          feedbackResponse.data.data.length > 0
+        ) {
+          feedbacksWithTeachers = await Promise.all(
+            feedbackResponse.data.data.map(async (feedback) => {
+              try {
+                const teacherResponse = await axios.get(
+                  `${baseURL}/teacher/${feedback.feedback_by}`
+                );
+                return {
+                  ...feedback,
+                  teacherName: teacherResponse.data.data.name,
+                };
+              } catch (error) {
+                console.error(
+                  `Error fetching teacher data for feedback ${feedback.id}:`,
+                  error
+                );
+                return {
+                  ...feedback,
+                  teacherName: "Unknown Teacher",
+                };
+              }
+            })
+          );
+        } else {
+          console.log("No feedback data available");
+        }
+
         setFeedbacks(feedbacksWithTeachers);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -249,22 +280,24 @@ const StudentDashboard = () => {
               </CardHeader>
               <CardContent className="h-[200px] overflow-y-auto">
                 <div className="space-y-4">
-                  {coursesData.map((course, index) => (
-                    <div
-                      key={course.id}
-                      className="border-b border-gray-200 pb-2 mb-2 last:border-b-0"
-                    >
-                      <div className="text-lg font-bold">
-                        {course.course_name}
+                  {coursesData &&
+                    coursesData.length > 0 &&
+                    coursesData.map((course, index) => (
+                      <div
+                        key={course.id}
+                        className="border-b border-gray-200 pb-2 mb-2 last:border-b-0"
+                      >
+                        <div className="text-lg font-bold">
+                          {course.course_name}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Duration: {course.course_duration}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Content: {course.course_content}
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-600">
-                        Duration: {course.course_duration}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        Content: {course.course_content}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </CardContent>
             </Card>
