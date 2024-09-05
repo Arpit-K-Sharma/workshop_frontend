@@ -4,7 +4,7 @@ import CryptoJS from "crypto-js";
 
 // Function to get the role from the token
 export const getRoleFromToken = () => {
-  const SECRET_KEY = "MRgnS4LVB8SvJWu1JexdRGlCOCrKfBQ9";
+  const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
   const encryptedtoken = Cookies.get("access_token");
   if (encryptedtoken) {
     const bytes = CryptoJS.AES.decrypt(encryptedtoken, SECRET_KEY);
