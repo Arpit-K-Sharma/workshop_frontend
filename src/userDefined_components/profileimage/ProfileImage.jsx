@@ -36,7 +36,7 @@ const DisplayProfile = ({ profilePicture, studentName }) => {
     : "";
 
   return (
-    <div className="w-96 h-96 relative overflow-hidden bg-gray-800">
+    <div className="h-[20rem] w-[20rem] relative overflow-hidden bg-gray-800">
       {profilePictureUrl ? (
         <img
           src={profilePictureUrl}
