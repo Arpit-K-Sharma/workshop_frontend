@@ -103,13 +103,16 @@ function SignInPage() {
     setError("");
   };
 
-  // Function to get display name for user type
   const getUserTypeDisplayName = (type) => {
-    return type === "teacher"
-      ? "Mentor"
-      : type.charAt(0).toUpperCase() + type.slice(1);
+    switch (type) {
+      case "teacher":
+        return "mentor";
+      case "school":
+        return "school administrator";
+      default:
+        return type.charAt(0) + type.slice(1);
+    }
   };
-
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
