@@ -64,7 +64,6 @@ function SignInPage() {
 
       if (["student", "teacher", "school"].includes(userType)) {
         const decodedToken = jwtDecode(access_token);
-        localStorage.setItem("access_token", decodedToken);
         const id = decodedToken.id || decodedToken.sub;
         localStorage.setItem(`${userType}_id`, id);
         if(userType === "student"){

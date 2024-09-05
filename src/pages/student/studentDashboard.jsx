@@ -33,9 +33,14 @@ const StudentDashboard = () => {
     student_email: "",
     address: "",
   });
-  const is_password_changed  = localStorage.getItem("is_password_changed");
-  console.log(is_password_changed);
-  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(is_password_changed);
+  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(false);
+
+  useEffect(() => {
+    const is_password_changed = localStorage.getItem("is_password_changed");
+    if (is_password_changed) {
+      setIsFirstTimeLogin(true);
+    }
+  }, []);
 
   const handleFirstTimeLoginClose = () => {
     setIsFirstTimeLogin(false);
@@ -98,20 +103,22 @@ const StudentDashboard = () => {
           (courseId) => axios.get(`${baseURL}/course/${courseId}`)
         );
         const courseResponses = await Promise.all(coursePromises);
-        setCoursesData(courseResponses.map((response) => response.data.data));
+        setCoursesData(courseResponses && courseResponses.length > 0 && courseResponses.map((response) => response.data.data));
         const feedbackResponse = await axios.get(
           `${baseURL}/feedback/for/${studentId}`
         );
         const feedbacksWithTeachers = await Promise.all(
-          feedbackResponse.data.data.map(async (feedback) => {
-            const teacherResponse = await axios.get(
-              `${baseURL}/teacher/${feedback.feedback_by}`
-            );
-            return {
-              ...feedback,
-              teacherName: teacherResponse.data.data.name,
-            };
-          })
+          feedbackResponse.data.data?.length > 0
+            ? feedbackResponse.data.data.map(async (feedback) => {
+                const teacherResponse = await axios.get(
+                  `${baseURL}/teacher/${feedback.feedback_by}`
+                );
+                return {
+                  ...feedback,
+                  teacherName: teacherResponse.data.data.name,
+                };
+              })
+            : []
         );
         setFeedbacks(feedbacksWithTeachers);
       } catch (error) {
@@ -372,6 +379,7 @@ const StudentDashboard = () => {
         </main>
       </div>
       {/* First Time Login Dialog */}
+      if()
       <FirstTimeLoginDialog
         isOpen={isFirstTimeLogin}
         onClose={handleFirstTimeLoginClose}
