@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import apiClient from "config/apiClient";
 import { Calendar } from "lucide-react";
+import { isAdmin } from "pages/authentication/util";
 
 const TodayEvent = ({ date, school_id }) => {
   const selectedYear = date.getFullYear();
@@ -201,7 +202,7 @@ const TodayEvent = ({ date, school_id }) => {
             month: "short",
           })}`}
         </section>
-        {isFutureDate && (
+        {isFutureDate && isAdmin() && (
           <Button className="ml-auto" onClick={() => setIsOpen(true)}>
             Add Event
           </Button>

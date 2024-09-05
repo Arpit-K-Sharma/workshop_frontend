@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import apiClient from "config/apiClient";
+import { Label } from "@/components/ui/label"; // Make sure to import Label
 
 const MentorsPage = () => {
   const navigate = useNavigate();
@@ -64,7 +65,13 @@ const MentorsPage = () => {
     let formIsValid = true;
     let errors = {};
 
-    const requiredFields = ["name", "username", "password", "phone_num", "address"];
+    const requiredFields = [
+      "name",
+      "username",
+      "password",
+      "phone_num",
+      "address",
+    ];
     for (const field of requiredFields) {
       if (!newMentor[field].trim()) {
         formIsValid = false;
@@ -88,8 +95,8 @@ const MentorsPage = () => {
     if (validateForm()) {
       try {
         const formData = new FormData();
-        Object.keys(newMentor).forEach(key => {
-          if (key === 'profile_picture') {
+        Object.keys(newMentor).forEach((key) => {
+          if (key === "profile_picture") {
             if (newMentor[key]) {
               formData.append(key, newMentor[key]);
             }
@@ -151,42 +158,66 @@ const MentorsPage = () => {
               <DialogTitle>Add New Mentor</DialogTitle>
             </DialogHeader>
             <div className="p-4 space-y-4">
-              <Input
-                name="name"
-                placeholder="Name"
-                value={newMentor.name}
-                onChange={handleInputChange}
-              />
-              <Input
-                name="address"
-                placeholder="Address"
-                value={newMentor.address}
-                onChange={handleInputChange}
-              />
-              <Input
-                name="username"
-                placeholder="Email"
-                value={newMentor.username}
-                onChange={handleInputChange}
-              />
-              <Input
-                name="password"
-                placeholder="Password"
-                type="password"
-                value={newMentor.password}
-                onChange={handleInputChange}
-              />
-              <Input
-                name="phone_num"
-                placeholder="Phone Number"
-                value={newMentor.phone_num}
-                onChange={handleInputChange}
-              />
-              <Input
-                name="profile_picture"
-                type="file"
-                onChange={handleInputChange}
-              />
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  value={newMentor.name}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="address">Address</Label>
+                <Input
+                  id="address"
+                  name="address"
+                  placeholder="Address"
+                  value={newMentor.address}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="username">Email</Label>
+                <Input
+                  id="username"
+                  name="username"
+                  placeholder="Email"
+                  value={newMentor.username}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  value={newMentor.password}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone_num">Phone Number</Label>
+                <Input
+                  id="phone_num"
+                  name="phone_num"
+                  placeholder="Phone Number"
+                  value={newMentor.phone_num}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="profile_picture">Profile Picture</Label>
+                <Input
+                  id="profile_picture"
+                  name="profile_picture"
+                  type="file"
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
             <DialogFooter>
               <Button
@@ -239,9 +270,7 @@ const MentorsPage = () => {
                   <TableHead className="text-center font-bold">
                     Address
                   </TableHead>
-                  <TableHead className="text-center font-bold">
-                    Email
-                  </TableHead>
+                  <TableHead className="text-center font-bold">Email</TableHead>
                   <TableHead className="text-center font-bold">
                     Phone Number
                   </TableHead>
@@ -268,8 +297,9 @@ const MentorsPage = () => {
                     <TableCell className="text-center font-semibold space-x-2">
                       <Button
                         variant="outline"
-                        onClick={() => 
-                          navigate("/admin/mentor_profile/" + mentor.id)}
+                        onClick={() =>
+                          navigate("/admin/mentor_profile/" + mentor.id)
+                        }
                       >
                         View Details
                       </Button>
@@ -286,15 +316,15 @@ const MentorsPage = () => {
             </Table>
           ) : (
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <p>
-                  No Mentors Found. Start by adding a new mentor using the 'Add
-                  Mentor' button above.
-                </p>
-              </motion.div>
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <p>
+                No Start by adding a new mentor using the 'Add Mentor' button
+                above.
+              </p>
+            </motion.div>
           )}
         </div>
       </div>
