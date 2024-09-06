@@ -31,7 +31,7 @@ const EnrolledCoursesModal = ({ coursesData }) => {
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="why">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="why">Introduction</TabsTrigger>
             <TabsTrigger value="vision">Our Vision</TabsTrigger>
             <TabsTrigger value="approach">Our Approach</TabsTrigger>
