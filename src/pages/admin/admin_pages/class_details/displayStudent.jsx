@@ -169,7 +169,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-indigo-600">
+            <DialogTitle className="text-2xl font-bold text-zinc-900 text-center">
               Edit Student
             </DialogTitle>
           </DialogHeader>
@@ -185,7 +185,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="student_name"
               value={editingStudent?.student_name || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <Label htmlFor="text" className="text-sm font-medium text-gray-700">
@@ -196,7 +196,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="age"
               value={editingStudent?.age || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <Label
@@ -210,7 +210,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="phone_num"
               value={editingStudent?.phone_num || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <Label
@@ -224,14 +224,14 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="address"
               value={editingStudent?.address || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-0 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
           </div>
-          <DialogFooter className="mt-6">
+          <DialogFooter className="mt-1">
             <Button
               onClick={handleUpdateStudent}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-zinc-600 hover:bg-zinc-900 text-white font-bold py-2 px-4 rounded-full mx-auto"
             >
               Save Changes
             </Button>
