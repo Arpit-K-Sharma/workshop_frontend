@@ -23,6 +23,7 @@ module.exports = {
         sans: ["Inter", "sans-serif"],
         patrick: ["Patrick Hand", "cursive"],
       },
+
       fontSize: {
         heading: "70px",
         subheading: "32px",

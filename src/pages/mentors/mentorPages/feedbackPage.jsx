@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import StarRating from "./starRating";
@@ -22,6 +23,7 @@ function Feedback() {
   const [newFeedback, setNewFeedback] = useState({
     rating: 0,
     feedback_description: "",
+    feedback_title: "",
     feedback_date: new Date().toISOString().split("T")[0],
     feedback_by: teacherId,
     feedback_for: studentId,
@@ -55,6 +57,7 @@ function Feedback() {
       setNewFeedback({
         rating: 0,
         feedback_description: "",
+        feedback_title: "",
         feedback_date: new Date().toISOString().split("T")[0],
         feedback_by: teacherId,
         feedback_for: studentId,
@@ -118,6 +121,22 @@ function Feedback() {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
+                <Label
+                  htmlFor="feedback_title"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Feedback Title
+                </Label>
+                <Input
+                  id="feedback_title"
+                  value={newFeedback.feedback_title}
+                  onChange={(e) =>
+                    handleInputChange("feedback_title", e.target.value)
+                  }
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
                 <Label className="block text-sm font-medium mb-2">Rating</Label>
                 <StarRating
                   rating={newFeedback.rating}
@@ -173,6 +192,7 @@ function Feedback() {
                           <h3 className="text-lg font-semibold text-gray-800">
                             {teacher?.name}
                           </h3>
+
                           <p className="text-sm text-gray-500">
                             {feedback.feedback_date ||
                               new Date().toISOString().split("T")[0]}
@@ -185,6 +205,9 @@ function Feedback() {
                         className="text-yellow-400"
                       />
                     </div>
+                    <p className="text-xl font-bpld">
+                      {feedback.feedback_title}
+                    </p>
                     <p className="text-gray-700 mt-2 italic">
                       &ldquo;{feedback.feedback_description}&rdquo;
                     </p>

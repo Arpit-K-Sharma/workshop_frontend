@@ -45,7 +45,7 @@ const StudentSidebar = () => {
   };
 
   return (
-    <aside className="w-56 bg-[#34496C] text-white shadow-lg font-archivo h-screen">
+    <aside className="w-56 bg-[#34496C] text-white font-archivo h-screen">
       <div className="p-4 flex items-center justify-center flex-col mt-10">
         <div className="mb-6">
           <img
@@ -57,12 +57,11 @@ const StudentSidebar = () => {
             }}
           />
         </div>
-        <nav className="flex-grow overflow-y-auto w-full">
+        <nav className="flex-grow w-[full]">
           <Button
-            variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-56 justify-start mb-2 text-sm  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/student"
-                ? "bg-white text-black w-full"
+                ? "bg-[#EAEFFB] text-black"
                 : ""
             }`}
             onClick={(e) => studentDashboard()}
