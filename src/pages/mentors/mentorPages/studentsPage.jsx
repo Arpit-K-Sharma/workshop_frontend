@@ -14,6 +14,7 @@ import { Eye, MessageSquareShare } from "lucide-react";
 import TeacherSidebar from "../mentorSidebar";
 import { Input } from "@/components/ui/input"; // Add this import
 import apiClient from "config/apiClient";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const StudentsPage = () => {
   const [classData, setClassData] = useState(null);
@@ -65,6 +66,7 @@ const StudentsPage = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
+                  <TableHead className="text-center"> Profile</TableHead>
                   <TableHead className="text-center">Name</TableHead>
                   <TableHead className="text-center">Age</TableHead>
                   <TableHead className="text-center">Phone</TableHead>
@@ -78,6 +80,20 @@ const StudentsPage = () => {
                   filteredStudents.length > 0 &&
                   filteredStudents.map((student) => (
                     <TableRow key={student.id}>
+                      <TableCell>
+                      <Avatar className="h-14 w-16">
+                    {student.profile_picture_content ? (
+                      <AvatarImage
+                        src={`data:image/png;base64,${student.profile_picture_content}`}
+                        alt={student.student_name}
+                      />
+                    ) : (
+                      <AvatarFallback>
+                        {student.student_name.charAt(0)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                      </TableCell>
                       <TableCell className="text-center">
                         {student.student_name}
                       </TableCell>
