@@ -120,7 +120,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
                       />
                     ) : (
                       <AvatarFallback>
-                        {student.student_name.charAt(0)}
+                        {student?.student_name.charAt(0)}
                       </AvatarFallback>
                     )}
                   </Avatar>
