@@ -23,6 +23,11 @@ module.exports = {
         sans: ["Inter", "sans-serif"],
         patrick: ["Patrick Hand", "cursive"],
       },
+      fontSize: {
+        heading: "70px",
+        subheading: "32px",
+        subtitle: "20px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

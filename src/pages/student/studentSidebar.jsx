@@ -62,7 +62,7 @@ const StudentSidebar = () => {
             variant="ghost"
             className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/student"
-                ? "bg-white text-black"
+                ? "bg-white text-black w-full"
                 : ""
             }`}
             onClick={(e) => studentDashboard()}
