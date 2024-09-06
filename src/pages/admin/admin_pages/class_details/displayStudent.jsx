@@ -112,7 +112,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
             {students.map((student) => (
               <tr key={student.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Avatar className="h-14 w-16">
+                  <Avatar className="h-16 w-16">
                     {student.profile_picture_content ? (
                       <AvatarImage
                         src={`data:image/png;base64,${student.profile_picture_content}`}
@@ -208,7 +208,8 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
             <Input
               id="phone_num"
               name="phone_num"
-              value={editingStudent?.phone_num || ""} onChange={handleInputChange}
+              value={editingStudent?.phone_num || ""}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
@@ -240,6 +241,6 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
       <Toaster duration="1000" />
     </div>
   );
-}
+};
 
 export default StudentList;
