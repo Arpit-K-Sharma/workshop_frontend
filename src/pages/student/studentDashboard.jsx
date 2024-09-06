@@ -10,6 +10,7 @@ import Courses from "assets/Courses.svg";
 import FirstTimeLoginDialog from "pages/authentication/FirstTimeLoginDialog";
 import { Star } from "lucide-react";
 import RoundedProfilePicture from "userDefined_components/profileimage/RoundedProfileImage";
+import EnrolledCoursesModal from "./enrolledCoursesModal";
 
 const StudentDashboard = () => {
   const [classData, setClassData] = useState(null);
@@ -186,8 +187,9 @@ const StudentDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="col-span-1 md:col-span-2">
             <h2 className=" text-subheading font-semibold mb-4 text-gray-900 flex flex-row items-center">
-              Enrolled Courses
-              <ArrowUpRight className="ml-2 h-8 w-8" />
+              {/* Enrolled Courses */}
+              <EnrolledCoursesModal coursesData={coursesData} />
+              {/* <ArrowUpRight className="ml-2 h-8 w-8" /> */}
             </h2>
           </div>
           <div className="col-span-1 md:col-span-2">
@@ -199,10 +201,10 @@ const StudentDashboard = () => {
                     className="border-r border-gray-200 pr-4 last:border-0 w-[300px] shrink-0"
                   >
                     <h3 className="text-lg font-bold">{course.course_name}</h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 mt-3 mb-3">
                       Duration: {course.course_duration}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 mt-3 mb-3">
                       Content: {course.course_content}
                     </p>
                   </div>
@@ -213,47 +215,57 @@ const StudentDashboard = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="w-2/3">
           <h2 className="text-subheading font-semibold mb-4 text-gray-900 mt-16">
             Feedbacks from mentors
           </h2>
-          <div className="space-y-4 max-h-[300px] overflow-y-auto">
-            {feedbacks.length > 0 ? (
-              feedbacks.map((feedback) => (
-                <div
-                  key={feedback.id}
-                  className="border-b border-gray-200 pb-4"
-                >
-                  <p className="text-xl font-semibold mb-1">
-                    {feedback.teacherName}
-                  </p>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {feedback.feedback_description}
-                  </p>
-                  <div className="flex items-center mb-2">
-                    {[...Array(5)].map((_, index) => (
-                      <Star
-                        key={index}
-                        className={`h-5 w-5 ${
-                          index < feedback.rating
-                            ? "text-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                        fill="currentColor"
-                      />
-                    ))}
+          <div className="overflow-x-auto">
+            <div className="flex space-x-4 pb-4">
+              {feedbacks.length > 0 ? (
+                feedbacks.map((feedback) => (
+                  <div
+                    key={feedback.id}
+                    className="border border-gray-200 rounded-lg p-4 w-[440px] flex-shrink-0"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-lg font-semibold mt-4 mb-4">
+                        {feedback.feedback_title}
+                      </p>
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, index) => (
+                          <Star
+                            key={index}
+                            className={`h-5 w-5 ${
+                              index < feedback.rating
+                                ? "text-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                            fill="currentColor"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-8">
+                      {feedback.feedback_description}
+                    </p>
+                    <div className="flex justify-between items-center mt-2 mb-1">
+                      <p className="text-sm text-gray-600">
+                        {new Date(feedback.feedback_date).toLocaleDateString()}
+                      </p>
+                      <p className="text-sm font-semibold">
+                        {feedback.teacherName}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {new Date(feedback.feedback_date).toLocaleDateString()}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-600">There are no feedbacks</p>
-            )}
+                ))
+              ) : (
+                <p className="text-gray-600">There are no feedbacks</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
       {isFirstTimeLogin && (
         <FirstTimeLoginDialog
           isOpen={isFirstTimeLogin}
