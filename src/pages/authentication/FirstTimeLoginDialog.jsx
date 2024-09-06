@@ -59,8 +59,15 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {}}
+      onEscapeKeyDown={(e) => e.preventDefault()}
+    >
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-zinc-600">
             Welcome to Digital Horizon
