@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import StarRating from "./starRating";
 import MentorSidebar from "../mentorSidebar";
@@ -21,6 +22,7 @@ function Feedback() {
   const { studentId } = useParams();
   const [newFeedback, setNewFeedback] = useState({
     rating: 0,
+    feedback_title: "",
     feedback_description: "",
     feedback_date: new Date().toISOString().split("T")[0],
     feedback_by: teacherId,
@@ -54,6 +56,7 @@ function Feedback() {
       });
       setNewFeedback({
         rating: 0,
+        feedback_title: "",
         feedback_description: "",
         feedback_date: new Date().toISOString().split("T")[0],
         feedback_by: teacherId,
@@ -126,6 +129,22 @@ function Feedback() {
               </div>
               <div>
                 <Label
+                  htmlFor="feedback_title"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Title
+                </Label>
+                <Input
+                  id="feedback_title"
+                  value={newFeedback.feedback_title}
+                  onChange={(e) =>
+                    handleInputChange("feedback_title", e.target.value)
+                  }
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <Label
                   htmlFor="feedback_description"
                   className="block text-sm font-medium mb-2"
                 >
@@ -185,6 +204,9 @@ function Feedback() {
                         className="text-yellow-400"
                       />
                     </div>
+                    <h4 className="text-xl font-semibold text-gray-800 mt-4 mb-2">
+                      {feedback.feedback_title}
+                    </h4>
                     <p className="text-gray-700 mt-2 italic">
                       &ldquo;{feedback.feedback_description}&rdquo;
                     </p>
