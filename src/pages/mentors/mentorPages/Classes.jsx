@@ -2,73 +2,49 @@ import apiClient from "config/apiClient";
 import React, { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import TeacherSidebar from "../mentorSidebar";
+import MentorSidebar from "../mentorSidebar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import {
-  FaUserGraduate,
-  FaBook,
-  FaChalkboardTeacher,
-  FaEye,
-  FaClipboardCheck,
-  FaPen,
-} from "react-icons/fa"; // Importing additional icons
 import { motion } from "framer-motion";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card"; // Importing Shadcn Card components
+import { ArrowUpRight, UserCheck, PenSquare } from "lucide-react";
 
 const ClassItem = ({ classData }) => {
   const navigate = useNavigate();
 
   return (
-    <Card className="shadow-md border border-gray-200 mb-4 p-6">
-      <CardHeader>
-        <CardTitle className="text-3xl font-semibold text-gray-800 text-center">
-          {classData.class_name}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-3 text-lg text-gray-600 mb-4 justify-center mt-5">
-          <div className="flex items-center justify-center">
-            <FaUserGraduate className="mr-2 w-6 h-6 text-gray-700" />
-            <span>{classData.students?.length || 0} Students</span>
-          </div>
-          <div className="flex items-center justify-center">
-            <FaBook className="mr-2 w-6 h-6 text-gray-700" />
-            <span>{classData.courses?.length || 0} Courses</span>
-          </div>
-          <div className="flex items-center justify-center">
-            <FaChalkboardTeacher className="mr-2 w-6 h-6 text-gray-700" />
-            <span>{classData.teachers?.length || 0} Mentors</span>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="flex justify-center gap-2">
+    <div className="mb-4 rounded-lg overflow-hidden">
+      <div className="flex h-full">
         <Button
-          className="bg-zinc-800 text-white hover:bg-zinc-900 transition duration-300 flex items-center"
+          variant="ghost"
+          className="p-2 hover:bg-gray-100 transition-colors duration-200 h-full flex items-center"
           onClick={() => navigate("/mentor/students/" + classData.id)}
         >
-          <FaEye className="mr-2" /> View Students
+          <ArrowUpRight className="h-28 w-28" />
         </Button>
-        <Button
-          className="bg-zinc-800 text-white hover:bg-zinc-900 transition duration-300 ml-2 flex items-center"
-          onClick={() => navigate("/mentor/attendances/" + classData.id)}
-        >
-          <FaClipboardCheck className="mr-2" /> Take Attendance
-        </Button>
-        <Button
-          className="bg-zinc-800 text-white hover:bg-zinc-900 transition duration-300 ml-2 flex items-center"
-          onClick={() => navigate("/mentor/assignment/" + classData.id)}
-        >
-          <FaPen className="mr-2" /> Give Assignment
-        </Button>
-      </CardFooter>
-    </Card>
+        <div className="flex-1 p-4 flex flex-col">
+          <h3 className="text-3xl font-bold mb-2 text-[#34486B]">
+            {classData.class_name}
+          </h3>
+          <div className="flex flex-row space-x-6 mt-4">
+            <Button
+              variant="link"
+              className="p-0 h-auto text-[#3E70C2] hover:no-underline flex items-center text-lg underline"
+              onClick={() => navigate("/mentor/attendances/" + classData.id)}
+            >
+              Attendance
+            </Button>
+            <Button
+              variant="link"
+              className="p-0 h-auto text-[#3E70C2] hover:no-underline flex items-center text-lg underline"
+              onClick={() => navigate("/mentor/assignment/" + classData.id)}
+            >
+              Assignment
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -78,6 +54,7 @@ const SchoolClasses = () => {
   const { toast } = useToast();
   const [classesData, setClassesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchClassesData = async () => {
@@ -111,33 +88,43 @@ const SchoolClasses = () => {
     fetchClassesData();
   }, [schoolId, location.search, toast]);
 
+  const filteredClasses = classesData.filter((classData) =>
+    classData.class_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="flex h-screen bg-gray-100">
-      <TeacherSidebar />
+    <div className="flex h-screen bg-[#EAEFFB]">
+      <MentorSidebar />
       <div className="flex-1 overflow-auto ml-56">
-        <main className="p-8">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">
-              Class Management
-            </h1>
-          </div>
+        <main className="p-8 w-full mx-auto">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">
+            Class selection
+          </h1>
+          {/* <div className="mb-6">
+            <Input
+              type="text"
+              placeholder="Search"
+              className="w-full bg-none"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div> */}
 
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                className="h-12 w-12 border-t-2 border-b-2 rounded-full"
+                className="h-12 w-12   rounded-full"
               />
             </div>
-          ) : classesData.length > 0 ? (
+          ) : filteredClasses.length > 0 ? (
             <motion.div
-              className="grid grid-cols-2 gap-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              {classesData.map((classData, index) => (
+              {filteredClasses.map((classData, index) => (
                 <ClassItem key={index} classData={classData} />
               ))}
             </motion.div>
@@ -149,7 +136,7 @@ const SchoolClasses = () => {
               className="bg-white border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md"
             >
               <p className="font-bold">No Classes Found</p>
-              <p>There are no classes associated with this school.</p>
+              <p>There are no classes matching your search.</p>
             </motion.div>
           )}
         </main>

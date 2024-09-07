@@ -70,8 +70,8 @@ const StudentsPage = () => {
                   <TableHead className="text-center">Name</TableHead>
                   <TableHead className="text-center">Age</TableHead>
                   <TableHead className="text-center">Phone</TableHead>
-                  <TableHead className="text-center">Email</TableHead>
-                  <TableHead className="text-center">Address</TableHead>
+                  {/* <TableHead className="text-center">Email</TableHead> */}
+                  {/* <TableHead className="text-center">Address</TableHead> */}
                   <TableHead className="text-center">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -80,19 +80,21 @@ const StudentsPage = () => {
                   filteredStudents.length > 0 &&
                   filteredStudents.map((student) => (
                     <TableRow key={student.id}>
-                      <TableCell>
-                      <Avatar className="h-14 w-16">
-                    {student.profile_picture_content ? (
-                      <AvatarImage
-                        src={`data:image/png;base64,${student.profile_picture_content}`}
-                        alt={student.student_name}
-                      />
-                    ) : (
-                      <AvatarFallback>
-                        {student.student_name.charAt(0)}
-                      </AvatarFallback>
-                    )}
-                  </Avatar>
+                      <TableCell className="text-center">
+                        <div className="flex justify-center">
+                          <Avatar className="h-20 w-20">
+                            {student.profile_picture_content ? (
+                              <AvatarImage
+                                src={`data:image/png;base64,${student.profile_picture_content}`}
+                                alt={student.student_name}
+                              />
+                            ) : (
+                              <AvatarFallback>
+                                {student.student_name.charAt(0)}
+                              </AvatarFallback>
+                            )}
+                          </Avatar>
+                        </div>
                       </TableCell>
                       <TableCell className="text-center">
                         {student.student_name}
@@ -103,12 +105,12 @@ const StudentsPage = () => {
                       <TableCell className="text-center">
                         {student.phone_num}
                       </TableCell>
-                      <TableCell className="text-center">
+                      {/* <TableCell className="text-center">
                         {student.student_email}
-                      </TableCell>
-                      <TableCell className="text-center">
+                      </TableCell> */}
+                      {/* <TableCell className="text-center">
                         {student.address}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="text-center">
                         <Button
                           variant="outline"
