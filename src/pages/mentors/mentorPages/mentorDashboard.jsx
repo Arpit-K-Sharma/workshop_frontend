@@ -109,11 +109,11 @@ const MentorDashboard = () => {
         </div>
 
         <div className="w-1/3 pl-6 border-l border-gray-300">
-          <Card className="border border-gray-200 py-4">
+          <Card className="  py-4">
             <CardHeader>
               <CardTitle className="flex items-center text-2xl">
                 <Calendar className="mr-2 h-6 w-6" />
-                Upcoming Events
+                Events for Month
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -121,7 +121,7 @@ const MentorDashboard = () => {
                 {events.map((event, index) => (
                   <li key={index} className="flex items-start">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-blue-500 flex items-center justify-center text-white font-semibold text-xl rounded-lg">
+                      <div className="w-16 h-16 bg-transparent flex items-center justify-center text-zinc-900 font-semibold text-xl rounded-lg">
                         {new Date(event.date).getDate()}
                       </div>
                     </div>
