@@ -309,7 +309,7 @@ const SchoolsPage = () => {
         <main className="p-6 ml-56">
           <div className="flex justify-between">
             <div className="flex ">
-              <h1 className="text-2xl font-bold mb-6">School Management</h1>
+              <h1 className="text-4xl font-bold mb-6">School Management</h1>
               <div className="pt-1.5 ml-4">
                 <InfoIcon text="Click on the icon to go to the dashboard." />
               </div>

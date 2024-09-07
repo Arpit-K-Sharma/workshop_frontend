@@ -197,8 +197,8 @@ const CoursesPage = () => {
   return (
     <div className="flex bg-gray-100 min-h-screen">
       <AdminSidebar />
-      <div className="flex-1 p-10 ml-[220px] xl:ml-[270px]">
-        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+      <div className="ml-56 p-6 flex-1">
+        <h1 className="text-4xl font-bold mb-6 text-gray-800">
           Courses
         </h1>
 
