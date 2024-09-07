@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/card";
 import { Code, Book, Clock, Info, Plus, Edit, Trash2 } from "lucide-react";
 import apiClient from "config/apiClient";
-
+import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 const CourseCard = ({ course, onEdit, onDelete }) => {
   if (!course) return null;
 
@@ -103,6 +103,7 @@ const CoursesPage = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading spinner
   const [currentCourse, setCurrentCourse] = useState({
     id: "",
     course_name: "",
@@ -117,11 +118,14 @@ const CoursesPage = () => {
   }, []);
 
   const fetchCourses = async () => {
+    setLoading(true); // Start loading
     try {
       const response = await apiClient.get("/course");
       setCourses(response.data.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -134,6 +138,7 @@ const CoursesPage = () => {
   };
 
   const handleAddCourse = async () => {
+    setLoading(true); // Start loading
     try {
       await apiClient.post("/course", currentCourse);
       setCurrentCourse({
@@ -148,26 +153,34 @@ const CoursesPage = () => {
       fetchCourses();
     } catch (error) {
       console.error("Error adding course:", error);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   const handleEditCourse = async () => {
+    setLoading(true); // Start loading
     try {
       await apiClient.put(`/course/${currentCourse.id}`, currentCourse);
       setIsEditDialogOpen(false);
       fetchCourses();
     } catch (error) {
       console.error("Error updating course:", error);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   const handleDeleteCourse = async () => {
+    setLoading(true); // Start loading
     try {
       await apiClient.delete(`/course/${currentCourse.id}`);
       setIsDeleteDialogOpen(false);
       fetchCourses();
     } catch (error) {
       console.error("Error deleting course:", error);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -188,65 +201,77 @@ const CoursesPage = () => {
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
           Courses
         </h1>
-        <div className="mb-8 flex justify-end">
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="w-5 h-5 mr-2" />
-                Add Course
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add a New Course</DialogTitle>
-                <DialogDescription>
-                  Fill out the details of the new course below.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <Input
-                  placeholder="Course Name"
-                  name="course_name"
-                  value={currentCourse.course_name}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  placeholder="Course Content"
-                  name="course_content"
-                  value={currentCourse.course_content}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  placeholder="Course Duration"
-                  name="course_duration"
-                  value={currentCourse.course_duration}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  placeholder="Description"
-                  name="description"
-                  value={currentCourse.description}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <DialogFooter>
-                <Button onClick={handleAddCourse}>Submit</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 xl:gap-20">
-          {courses &&
-            courses.length > 0 &&
-            courses.map((course) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                onEdit={openEditDialog}
-                onDelete={openDeleteDialog}
-              />
-            ))}
-        </div>
+
+        {/* Show spinner while loading */}
+        {loading ? (
+          <div className="flex justify-center items-center h-96">
+            <LoadingSpinner /> {/* Centered loading spinner */}
+          </div>
+        ) : (
+          <>
+            <div className="mb-8 flex justify-end">
+              <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="w-5 h-5 mr-2" />
+                    Add Course
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add a New Course</DialogTitle>
+                    <DialogDescription>
+                      Fill out the details of the new course below.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <Input
+                      placeholder="Course Name"
+                      name="course_name"
+                      value={currentCourse.course_name}
+                      onChange={handleInputChange}
+                    />
+                    <Input
+                      placeholder="Course Content"
+                      name="course_content"
+                      value={currentCourse.course_content}
+                      onChange={handleInputChange}
+                    />
+                    <Input
+                      placeholder="Course Duration"
+                      name="course_duration"
+                      value={currentCourse.course_duration}
+                      onChange={handleInputChange}
+                    />
+                    <Input
+                      placeholder="Description"
+                      name="description"
+                      value={currentCourse.description}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <DialogFooter>
+                    <Button onClick={handleAddCourse} disabled={loading}>
+                      {loading ? <LoadingSpinner size="small" /> : "Submit"}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 xl:gap-20">
+              {courses &&
+                courses.length > 0 &&
+                courses.map((course) => (
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    onEdit={openEditDialog}
+                    onDelete={openDeleteDialog}
+                  />
+                ))}
+            </div>
+          </>
+        )}
       </div>
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent>
@@ -283,7 +308,9 @@ const CoursesPage = () => {
             />
           </div>
           <DialogFooter>
-            <Button onClick={handleEditCourse}>Update Course</Button>
+            <Button onClick={handleEditCourse} disabled={loading}>
+              {loading ? <LoadingSpinner size="small" /> : "Update Course"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -302,8 +329,8 @@ const CoursesPage = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteCourse}>
-              Delete
+            <AlertDialogAction onClick={handleDeleteCourse} disabled={loading}>
+              {loading ? <LoadingSpinner size="small" /> : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

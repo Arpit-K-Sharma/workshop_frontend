@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useSchoolContext } from "context/SchoolContext";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 
 const initialSchoolState = {
   school_name: "",
@@ -211,6 +212,7 @@ const SchoolsPage = () => {
   const [schoolData, setSchoolData] = useState([]);
   const [newSchool, setNewSchool] = useState(initialSchoolState);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const[loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchSchools();
@@ -218,8 +220,10 @@ const SchoolsPage = () => {
 
   const fetchSchools = async () => {
     try {
+      setLoading(true);
       const response = await apiClient.get("/school");
       setSchoolData(response.data.data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching schools:", error);
     }
@@ -385,12 +389,23 @@ const SchoolsPage = () => {
           </div>
 
           {/* Display schools */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {schoolData &&
-              schoolData.map((school) => (
-                <SchoolCard key={school.id} school={school} />
-              ))}
-          </div>
+    
+          {loading ? ( // Show spinner while fetching data
+            <div className="flex justify-center items-center h-96">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {schoolData.length > 0 ? (
+                schoolData.map((school) => (
+                  <SchoolCard key={school.id} school={school} />
+                ))
+              ) : (
+                <p className="text-center text-gray-500">No schools available</p>
+              )}
+            </div>
+          )}
+
         </main>
       </div>
       <Toaster duration={1000} />

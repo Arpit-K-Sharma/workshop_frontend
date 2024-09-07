@@ -29,6 +29,7 @@ import {
   AlertCircle,
   Edit,
 } from "lucide-react";
+import DisplayProfile from "userDefined_components/profileimage/ProfileImage";
 
 const MentorProfile = () => {
   const { mentorId } = useParams();
@@ -168,10 +169,9 @@ const MentorProfile = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <Card className="shadow-lg">
               <CardContent className="flex flex-col items-center pt-6">
-                <Avatar className="w-32 h-32 mb-4">
-                  <AvatarImage src={teacher.profile_pic} alt={teacher.name} />
-                  <AvatarFallback>{teacher.name?.charAt(0)}</AvatarFallback>
-                </Avatar>
+
+                <DisplayProfile profilePicture={teacher.profile_picture} studentName={teacher.name} />
+
                 <h2 className="text-2xl font-semibold mb-4">{teacher.name}</h2>
                 <Separator className="mb-4" />
                 <ul className="w-full space-y-3">

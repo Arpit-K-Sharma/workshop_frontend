@@ -8,7 +8,7 @@ import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinne
 import StudentList from "./displayStudent";
 import AddStudentButton from "./addStudentButton";
 import AssignCoursesButton from "./assignCoursesButton";
-import AssignTeacherButton from "./assignTeacherButton";
+import AssignTeacherButton from "../school_pages/assignTeacherButton";
 import { Users, GraduationCap, BookOpen } from "lucide-react";
 
 const ClassDetails = () => {

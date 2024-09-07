@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminSidebar from "../adminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -46,7 +47,7 @@ const MentorsPage = () => {
   const fetchMentors = async () => {
     try {
       const response = await apiClient.get("/teacher");
-      setMentors(response.data.data);
+      setMentors(response.data);
     } catch (error) {
       console.error("Error fetching mentors:", error);
     }
@@ -266,6 +267,7 @@ const MentorsPage = () => {
             <Table className="min-w-full ">
               <TableHeader className="bg-gray-100">
                 <TableRow>
+                  <TableHead className="text-center font-bold ">Profile</TableHead>
                   <TableHead className="text-center font-bold ">Name</TableHead>
                   <TableHead className="text-center font-bold">
                     Address
@@ -282,6 +284,20 @@ const MentorsPage = () => {
               <TableBody>
                 {mentors.map((mentor) => (
                   <TableRow key={mentor.id} className="text-[#2d2c2c]">
+                    <TableCell className="text-center font-semibold ">
+                    <Avatar className="h-16 w-16">
+                    {mentor.profile_picture_content ? (
+                      <AvatarImage
+                        src={`data:image/png;base64,${mentor.profile_picture_content}`}
+                        alt={mentor.student_name}
+                      />
+                    ) : (
+                      <AvatarFallback>
+                        {mentor?.name.charAt(0)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                    </TableCell>
                     <TableCell className="text-center font-semibold ">
                       {mentor.name}
                     </TableCell>

@@ -16,7 +16,7 @@ const FileDisplay = ({ fileId, altText }) => {
             setError(null);
 
             try {
-                const response = await apiClient.get(`/download/${fileId}`);
+                const response = await apiClient.get(`/files/download/${fileId}`);
                 if (isMounted) {
                     setFileData(response.data);
                 }

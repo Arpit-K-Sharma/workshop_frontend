@@ -7,6 +7,7 @@ const DisplayProfile = ({ profilePicture, studentName }) => {
   useEffect(() => {
     const fetchProfilePicture = async () => {
       if (profilePicture) {
+        console.log(profilePicture);
         try {
           const response = await apiClient.get(
             `/files/download/${profilePicture}`,
@@ -14,6 +15,7 @@ const DisplayProfile = ({ profilePicture, studentName }) => {
               responseType: "blob",
             }
           );
+          
           const imageUrl = URL.createObjectURL(response.data);
           setProfilePictureUrl(imageUrl);
         } catch (error) {
