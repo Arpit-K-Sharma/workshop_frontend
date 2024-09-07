@@ -30,7 +30,7 @@ const DailyReflection = () => {
     <div className="h-full bg-transparent border border-gray-300 dark:border-gray-700 rounded-lg">
       <div className="bg-none mt-5 relative p-6">
         <textarea
-          className="w-full bg-transparent h-80 p-2 rounded-md resize-none placeholder:text-3xl placeholder:text-black placeholder:font-patrick text-3xl text-white font-patrick focus:outline-none"
+          className="w-full bg-transparent h-80 p-2 rounded-md resize-none placeholder:text-3xl placeholder:text-black placeholder:font-patrick text-3xl text-black font-patrick focus:outline-none"
           placeholder="Use me to reflect everyday"
           value={reflection.body}
           onChange={handleReflectionChange}

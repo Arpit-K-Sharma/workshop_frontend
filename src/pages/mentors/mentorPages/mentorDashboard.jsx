@@ -4,9 +4,7 @@ import { School, BookOpen, Users, Calendar, Divide } from "lucide-react";
 import TeacherSidebar from "../mentorSidebar";
 import DailyReflection from "./dailyReflection";
 import apiClient from "config/apiClient";
-import Classes from "assets/Classes.svg";
-import Schools from "assets/School.svg";
-import Students from "assets/Students.svg";
+import QuoteComponent from "./quoteComponent";
 
 const MentorDashboard = () => {
   const [teacher, setTeacher] = useState(null);
@@ -106,6 +104,7 @@ const MentorDashboard = () => {
           <div className="mt-8">
             <DailyReflection />
           </div>
+          <QuoteComponent />
         </div>
 
         <div className="w-1/3 pl-6 border-l border-gray-300">
