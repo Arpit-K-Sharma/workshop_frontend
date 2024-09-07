@@ -1,4 +1,3 @@
-// displayStudent.js
 import React, { useState } from "react";
 import {
   Dialog,
@@ -7,13 +6,14 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from "@/components/ui/dialog"; // Assuming you're using a UI library for the dialog
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import apiClient from "config/apiClient";
 import { Toaster } from "@/components/ui/toaster";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -35,7 +35,6 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
 
   const handleUpdateStudent = async () => {
     try {
-      // Send PUT request to your API endpoint with updated data
       const updatedStudent = { ...editingStudent };
       const updateStudent = {
         student_name: editingStudent.student_name,
@@ -60,7 +59,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
           title: "Success",
           description: "Student updated successfully",
         });
-        onEditStudent(); // Update parent component with new data
+        onEditStudent();
         setIsDialogOpen(false);
       } else {
         toast({
@@ -78,6 +77,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
       });
     }
   };
+
   return (
     <div className="bg-white rounded shadow">
       <h2 className="text-2xl font-bold p-4 border-b">Students</h2>
@@ -85,6 +85,9 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Profile
+              </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Name
               </th>
@@ -108,6 +111,20 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {students.map((student) => (
               <tr key={student.id}>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <Avatar className="h-16 w-16">
+                    {student.profile_picture_content ? (
+                      <AvatarImage
+                        src={`data:image/png;base64,${student.profile_picture_content}`}
+                        alt={student.student_name}
+                      />
+                    ) : (
+                      <AvatarFallback>
+                        {student?.student_name.charAt(0)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {student.student_name}
                 </td>
@@ -149,16 +166,14 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
         </div>
       )}
 
-      {/* Dialog for editing a student */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-indigo-600">
+            <DialogTitle className="text-2xl font-bold text-zinc-900 text-center">
               Edit Student
             </DialogTitle>
           </DialogHeader>
           <div className="mt-4">
-            {/* Input fields for student data */}
             <Label
               htmlFor="student_name"
               className="text-sm font-medium text-gray-700"
@@ -170,7 +185,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="student_name"
               value={editingStudent?.student_name || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <Label htmlFor="text" className="text-sm font-medium text-gray-700">
@@ -181,7 +196,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="age"
               value={editingStudent?.age || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <Label
@@ -195,7 +210,7 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="phone_num"
               value={editingStudent?.phone_num || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
             <Label
@@ -209,14 +224,14 @@ const StudentList = ({ students, onEditStudent, onDeleteStudent }) => {
               name="address"
               value={editingStudent?.address || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 mb-0 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               required
             />
           </div>
-          <DialogFooter className="mt-6">
+          <DialogFooter className="mt-1">
             <Button
               onClick={handleUpdateStudent}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-zinc-600 hover:bg-zinc-900 text-white font-bold py-2 px-4 rounded-full mx-auto"
             >
               Save Changes
             </Button>

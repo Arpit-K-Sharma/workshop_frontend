@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, Send } from "lucide-react";
 import SubmitButton from "../../../assets/Submit.svg";
 import apiClient from "config/apiClient";
@@ -13,14 +12,13 @@ const DailyReflection = () => {
 
   const handleReflectionChange = (e) => {
     setReflection({
-      ...reflection, // Spread existing state
-      body: e.target.value, // Update only the 'body' property
+      ...reflection,
+      body: e.target.value,
     });
   };
 
   const handleSubmit = async () => {
-    // Add your submit logic here
-    const response = await apiClient.post("/journals", reflection); // Replace with your actual API endpoint
+    const response = await apiClient.post("/journals", reflection);
     setReflection({
       body: "",
       mentor_id: teacherId,
@@ -29,10 +27,10 @@ const DailyReflection = () => {
   };
 
   return (
-    <Card className="bg-[#70CFCD] h-full">
-      <CardContent className="bg-[#70CFCD] mt-5 relative">
+    <div className="h-full bg-transparent border border-gray-300 dark:border-gray-700 rounded-lg">
+      <div className="bg-none mt-5 relative p-6">
         <textarea
-          className="w-full bg-[#70CFCD] h-96 p-2 rounded-md resize-none placeholder:text-3xl placeholder:text-white placeholder:font-patrick text-3xl text-white font-patrick"
+          className="w-full bg-transparent h-80 p-2 rounded-md resize-none placeholder:text-3xl placeholder:text-black placeholder:font-patrick text-3xl text-black font-patrick focus:outline-none"
           placeholder="Use me to reflect everyday"
           value={reflection.body}
           onChange={handleReflectionChange}
@@ -41,13 +39,13 @@ const DailyReflection = () => {
           <p className="text-[#6C6C6C]">Complete by 8 PM Daily</p>
           <button
             onClick={handleSubmit}
-            className="p-2 rounded-full hover:bg-[#5DBFBD] transition-colors duration-200"
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
           >
             <img src={SubmitButton} className="h-14 w-14" alt="Submit Button" />
           </button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

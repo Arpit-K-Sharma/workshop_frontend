@@ -9,13 +9,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Lock, Shield } from "lucide-react";
+import { Lock, Shield, ArrowLeft, Check } from "lucide-react";
 import apiClient from "config/apiClient";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(studentId);
@@ -58,9 +61,26 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
     }
   };
 
+  const handleReturnHome = () => {
+    // Remove the access_token from cookies
+    Cookies.remove("access_token");
+    localStorage.removeItem("student_id");
+    localStorage.removeItem("teacher_id");
+    localStorage.removeItem("school_id");
+    // Redirect to home page (you may need to adjust this depending on your routing setup)
+    navigate("/");
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {}}
+      onEscapeKeyDown={(e) => e.preventDefault()}
+    >
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-zinc-600">
             Welcome to Digital Horizon
@@ -122,12 +142,20 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
               {error}
             </div>
           )}
-          <DialogFooter>
+          <DialogFooter className="flex flex-col ">
+            <Button
+              type="button"
+              onClick={handleReturnHome}
+              className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" /> Go back
+            </Button>
+
             <Button
               type="submit"
               className="w-full bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Set New Password
+              <Check className="mr-2 h-4 w-4" /> Save Password
             </Button>
           </DialogFooter>
         </form>

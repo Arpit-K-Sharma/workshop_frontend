@@ -186,7 +186,7 @@ const SchoolCalendar = () => {
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-5 gap-8">
                         <div className="col-span-2 space-y-8">
-                            <Card className="border-none shadow-lg">
+                            <Card className=" border-none shadow-lg">
                                 <CardContent className="p-6">
                                     <div className="flex justify-between items-center mb-4">
                                         <Button variant="outline" onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1, 1))}>

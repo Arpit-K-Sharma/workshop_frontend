@@ -45,7 +45,7 @@ const StudentSidebar = () => {
   };
 
   return (
-    <aside className="w-56 bg-[#34496C] text-white shadow-lg font-archivo h-screen">
+    <aside className="w-56 bg-[#34496C] text-white font-archivo h-screen">
       <div className="p-4 flex items-center justify-center flex-col mt-10">
         <div className="mb-6">
           <img
@@ -57,13 +57,12 @@ const StudentSidebar = () => {
             }}
           />
         </div>
-        <nav className="flex-grow overflow-y-auto w-full">
+        <nav className="flex-grow w-[full]">
           <Button
-            variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-56 justify-start mb-2 rounded-none text-sm  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/student"
-                ? "bg-white text-black"
-                : ""
+                ? "bg-[#EAEFFB] text-black"
+                : "bg-[#34496C]"
             }`}
             onClick={(e) => studentDashboard()}
           >
@@ -72,7 +71,7 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start rounded-none mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/classes")
                 ? "bg-white text-black"
                 : ""
@@ -84,7 +83,7 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start mb-2 rounded-none  text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/calendar")
                 ? "bg-white text-black"
                 : ""
@@ -96,7 +95,7 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start mb-2 rounded-none  text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/attendances")
                 ? "bg-white text-black"
                 : ""
@@ -108,7 +107,7 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start mb-2 text-sm rounded-none  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/assignment")
                 ? "bg-white text-black"
                 : ""
@@ -120,7 +119,7 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start mb-2 text-sm rounded-none  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/profile")
                 ? "bg-white text-black"
                 : ""
@@ -132,7 +131,7 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start text-sm rounded-none  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/student/logout"
                 ? "bg-white text-black"
                 : ""

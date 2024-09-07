@@ -81,11 +81,11 @@ const JournalPage = () => {
             journals.map((journal, index) => (
               <div
                 key={index}
-                className="relative bg-teal-500 text-white p-6 rounded-lg shadow-lg font-patrick text-3xl h-64 overflow-hidden cursor-pointer"
+                className="relative border border-zinc-600  bg-transparent text-zinc-800 p-6 rounded-lg font-patrick text-3xl h-64 overflow-hidden cursor-pointer"
                 onClick={() => handleJournalClick(journal)}
               >
                 {/* Displaying the date at the top */}
-                <p className="text-xl font-bold text-teal-200 font-patrick mb-4">
+                <p className="text-xl font-bold text-zinc-800 font-patrick mb-4">
                   {journal.day_of_week}, {journal.month} {journal.day},{" "}
                   {journal.year}
                 </p>
@@ -97,7 +97,7 @@ const JournalPage = () => {
                 </p>
 
                 {/* Decorative element */}
-                <div className="absolute bottom-0 right-0 w-8 h-8 bg-teal-600 rounded-br-lg clip-corner"></div>
+                <div className="absolute bottom-0 right-0 w-8 h-8 bg-transparent rounded-br-lg clip-corner"></div>
               </div>
             ))}
         </div>
@@ -105,7 +105,7 @@ const JournalPage = () => {
         {/* View Journal Modal */}
         {selectedJournal && (
           <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+            <div className="bg-white p-8 rounded-lg  w-full max-w-2xl">
               <h2 className="text-3xl font-bold mb-4 font-patrick mt-6">
                 {selectedJournal.day_of_week}, {selectedJournal.month}{" "}
                 {selectedJournal.day}, {selectedJournal.year}
@@ -114,7 +114,7 @@ const JournalPage = () => {
                 {selectedJournal.body}
               </p>
               <button
-                className="bg-teal-500 text-white px-4 py-2 rounded-md mt-8 mx-auto items-center flex"
+                className="bg-zinc-900 text-white px-4 py-2 rounded-md mt-8 mx-auto items-center flex font-patrick"
                 onClick={() => setSelectedJournal(null)}
               >
                 Close

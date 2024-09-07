@@ -160,7 +160,7 @@ const AttendanceComponent = () => {
       <TeacherSidebar />
       <div className="p-6 bg-gray-100 w-full flex flex-col overflow-hidden ml-56">
         <Card
-          className="w-full max-w-4xl mx-auto flex flex-col bg-white"
+          className="w-full mx-auto flex flex-col bg-white"
           style={{ height: "95vh" }}
         >
           <CardHeader>
@@ -189,48 +189,50 @@ const AttendanceComponent = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {attendanceData && attendanceData.length && attendanceData.map((student) => (
-                    <tr key={student.id} className="border-t">
-                      <td className="p-2">{student.name}</td>
-                      <td className="p-2 flex justify-center items-center">
-                        <Select
-                          value={student.status}
-                          onValueChange={(value) =>
-                            handleStatusChange(student.id, value)
-                          }
-                        >
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select status" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="present">Present</SelectItem>
-                            <SelectItem value="absent">Absent</SelectItem>
-                            <SelectItem value="late">Late</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </td>
-                      <td className="p-2">
-                        {student.status !== "present" && (
-                          <Input
-                            type="text"
-                            placeholder="Reason for absence/late"
-                            value={student.reason}
-                            onChange={(e) =>
-                              handleReasonChange(student.id, e.target.value)
+                  {attendanceData &&
+                    attendanceData.length &&
+                    attendanceData.map((student) => (
+                      <tr key={student.id} className="border-t">
+                        <td className="p-2">{student.name}</td>
+                        <td className="p-2 flex justify-center items-center">
+                          <Select
+                            value={student.status}
+                            onValueChange={(value) =>
+                              handleStatusChange(student.id, value)
                             }
-                            className="w-full placeholder-gray-200"
-                            placeholderColor="text-gray-200"
+                          >
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="present">Present</SelectItem>
+                              <SelectItem value="absent">Absent</SelectItem>
+                              <SelectItem value="late">Late</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </td>
+                        <td className="p-2">
+                          {student.status !== "present" && (
+                            <Input
+                              type="text"
+                              placeholder="Reason for absence/late"
+                              value={student.reason}
+                              onChange={(e) =>
+                                handleReasonChange(student.id, e.target.value)
+                              }
+                              className="w-full placeholder-gray-200"
+                              placeholderColor="text-gray-200"
+                            />
+                          )}
+                        </td>
+                        <td className="text-center">
+                          <Checkbox
+                            onClick={(e) => handleCheckbox(student.id)}
+                            checked={student.laptop}
                           />
-                        )}
-                      </td>
-                      <td className="text-center">
-                        <Checkbox
-                          onClick={(e) => handleCheckbox(student.id)}
-                          checked={student.laptop}
-                        />
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
