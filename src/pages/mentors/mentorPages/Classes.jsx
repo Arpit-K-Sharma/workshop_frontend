@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight, UserCheck, PenSquare } from "lucide-react";
+import { ArrowUpRight, UserCheck, PenSquare, Loader2 } from "lucide-react";
 
 const ClassItem = ({ classData }) => {
   const navigate = useNavigate();
@@ -112,11 +112,7 @@ const SchoolClasses = () => {
 
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                className="h-12 w-12   rounded-full"
-              />
+              <Loader2 className="h-12 w-12 animate-spin text-[#000000]" />
             </div>
           ) : filteredClasses.length > 0 ? (
             <motion.div
