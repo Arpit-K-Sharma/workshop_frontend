@@ -106,7 +106,7 @@ const StudentAttendance = () => {
   return (
     <div className="flex h-screen">
       <StudentSidebar />
-      <div className="flex-1 p-8 bg-gray-100 flex flex-col">
+      <div className="flex-1 p-8 bg-[#EAEFFB] flex flex-col">
         <Card className="flex-1 flex flex-col overflow-hidden">
           <CardHeader className="flex-shrink-0">
             <CardTitle className="text-xl font-semibold">

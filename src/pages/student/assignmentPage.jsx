@@ -61,9 +61,9 @@ const AssignmentPage = () => {
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 bg-[#EAEFFB]">
         <Card className="h-[300px]">
           <CardHeader>
             <CardTitle className="flex items-center">Assignments</CardTitle>

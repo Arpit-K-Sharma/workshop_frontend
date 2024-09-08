@@ -23,7 +23,9 @@ module.exports = {
         sans: ["Inter", "sans-serif"],
         patrick: ["Patrick Hand", "cursive"],
       },
-
+      backgroundColor: {
+        lg: "#EAEFFB",
+      },
       fontSize: {
         heading: "70px",
         headingtwo: "60px",

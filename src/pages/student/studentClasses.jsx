@@ -63,9 +63,9 @@ const ClassesDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-8 overflow-y-auto bg-[#EAEFFB]">
         <h1 className="text-3xl font-bold mb-6 text-gray-900">Classes</h1>
         <div className="mb-6 flex">
           <Input

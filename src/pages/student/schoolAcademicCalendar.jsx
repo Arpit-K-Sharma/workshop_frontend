@@ -221,9 +221,9 @@ const SchoolCalendar = () => {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
-      <div className="min-h-screen p-8 w-full bg-white">
+      <div className="min-h-screen p-8 w-full bg-[#EAEFFB]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-5 gap-8">
             <div className="col-span-2 space-y-8">

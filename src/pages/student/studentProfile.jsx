@@ -23,6 +23,7 @@ const StudentsProfile = () => {
     student_email: "",
     address: "",
     studentId: "",
+    profile_picture: "",
   });
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const StudentsProfile = () => {
         course_id: data.course_id,
         class_id: data.class_id,
         studentId: data.studentId,
+        profile_picture: data.profile_picture,
       });
     } catch (error) {
       console.error("Error fetching student data:", error);
@@ -53,22 +55,59 @@ const StudentsProfile = () => {
   return (
     <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
-      <div className="flex-1 flex flex-col items-center p-8">
-        <h1 className="text-7xl font-semibold mt-4">
-          {studentData.student_name}
+      <div className="flex-1 flex flex-col p-8 md:p-16 lg:p-28 overflow-y-scroll">
+        <h1 className="text-2xl font-semibold mb-4 text-[#34486B]">
+          Students Profile
         </h1>
-        <h2 className="text-lg mt-5 text-[#607496]">{studentData.studentId}</h2>
-        <h2 className="text-lg mt-2 text-[#607496]">{studentData.address}</h2>
-        <h2 className="text-lg mt-2 text-[#607496]">{studentData.phone_num}</h2>
-        <div className="mt-9">
-          <DisplayProfile
-            profilePicture={studentData?.profile_picture}
-            studentName={studentData?.student_name}
-          />
+        <hr className="w-full border border-gray-600" />
+
+        <div className="flex flex-col md:flex-row w-full h-full">
+          <div className="w-full md:w-3/5 lg:w-2/3  mb-8 md:mb-0 grid items-end ">
+            <h1 className="text-4xl mt-8 md:text-5xl lg:text-7xl font-semibold mb-8 md:mb-0 text-[#01183FF2]">
+              {studentData.student_name}
+            </h1>
+            <div className="mt-4 md:mt-8">
+              <InfoItem label={studentData.studentId} id={"id"} />
+              <InfoItem label={studentData.phone_num} id={"num"} />
+              <InfoItem label={studentData.address} id={"add"} />
+            </div>
+          </div>
+          <div className="hidden md:block w-[1.5px] h-full bg-gray-600 self-stretch" />
+          <div className="w-full md:w-2/5 lg:w-2/5 flex flex-col  justify-end">
+            <div className="p-9">
+              <div className="rounded-lg overflow-hidden">
+                <DisplayProfile
+                  profilePicture={studentData?.profile_picture}
+                  studentName={studentData?.student_name}
+                  className="w-44 h-44 mb-8 "
+                />
+              </div>
+              <h1 className="mt-8 text-3xl md:text-4xl font-bold text-[#01183FF2]">
+                Coding 10A
+              </h1>
+              <h1 className="mt-4 text-xl md:text-xl font-semibold text-[#01183FF2]">
+                SVI123
+              </h1>
+            </div>
+            <hr className="w-full border border-gray-600" />
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+const InfoItem = ({ label, id }) => (
+  <>
+    <h2
+      className={`text-lg py-4 ${
+        id === "id" ? "text-[#607496]" : "text-[#8B8C8E]"
+      }`}
+    >
+      {label}
+    </h2>
+    <hr className="w-full border border-gray-600" />
+  </>
+);
 
 export default StudentsProfile;
