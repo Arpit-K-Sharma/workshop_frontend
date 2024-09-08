@@ -204,7 +204,7 @@ const SchoolCalendar = () => {
   return (
     <div className="flex h-screen bg-white">
       <SchoolSidebar />
-      <div className="min-h-screen p-8 w-full bg-white">
+      <div className="min-h-screen p-8 w-full bg-white ml-64">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-5 gap-8">
             <div className="col-span-2 space-y-8">

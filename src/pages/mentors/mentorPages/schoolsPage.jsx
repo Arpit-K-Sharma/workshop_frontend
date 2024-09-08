@@ -84,9 +84,9 @@ const SchoolsPage = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {filteredSchools.map((school) => (
-            <div className="border border-gray-300 border-spacing-1">
+            <div className="border border-gray-300 border-spacing-1 bg-white">
               <Card key={school.id} className="overflow-hidden  duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
@@ -96,7 +96,7 @@ const SchoolsPage = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 ">
                       {/* <Mail className="h-4 w-4 text-gray-400" /> */}
                       <span className="text-sm text-gray-600 mt-4 mb-2">
                         {school.email}
@@ -114,7 +114,6 @@ const SchoolsPage = () => {
                         className="w-full flex items-center justify-center bg-zinc-800 hover:bg-zinc-900 hover:text-white"
                         onClick={() => handleViewClasses(school)}
                       >
-                        <Eye className="mr-2 h-4 w-4 text-white" />
                         <span className="text-white">View Classes</span>
                       </Button>
                     </div>

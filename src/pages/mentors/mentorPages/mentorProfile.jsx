@@ -140,7 +140,6 @@ const IndividualMentor = () => {
                         key={school.school_id}
                         className="flex items-center text-[#6C6C6C]"
                       >
-                        <School className="mr-2 h-5 w-5" />
                         {schoolsData[school.school_id]?.school_name ||
                           `School ${school.school_id}`}
                       </li>
@@ -167,7 +166,6 @@ const IndividualMentor = () => {
                           key={classId}
                           className="flex items-center text-[#6C6C6C]"
                         >
-                          <BookOpen className="mr-2 h-5 w-5" />
                           {classesData[classId]?.class_name ||
                             `Class ${classId}`}
                         </li>

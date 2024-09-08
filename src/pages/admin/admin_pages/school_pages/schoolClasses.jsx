@@ -1,13 +1,13 @@
+import React, { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import apiClient from "config/apiClient";
 import { useSchoolContext } from "context/SchoolContext";
-import React, { useEffect, useState, useMemo } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import SchoolSidebar from "./schoolSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -194,7 +194,7 @@ const SchoolClasses = () => {
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
       <div className="flex-1 overflow-auto">
-        <main className="p-8">
+        <main className="p-6 ml-64">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">
               Class Management
@@ -236,7 +236,7 @@ const SchoolClasses = () => {
           ) : sortedClasses && sortedClasses.length > 0 ? (
             <Table className="bg-white">
               <TableHeader className="text-white hover:text-white">
-                <TableRow className="bg-[#0a0a28] hover:bg-[#0a0a28]">
+                <TableRow className="bg-[#34486B] hover:bg-[#34486B]">
                   <TableHead className="text-white text-center">
                     Class Name
                   </TableHead>
@@ -273,6 +273,7 @@ const SchoolClasses = () => {
                       <Button
                         onClick={() => handleViewDetails(classItem.id)}
                         size="sm"
+                        className="bg-[#34486B] hover:bg-[#203457] text-white"
                       >
                         View Details
                       </Button>
@@ -280,7 +281,7 @@ const SchoolClasses = () => {
                         onClick={() => handleViewAttendance(classItem.id)}
                         variant="outline"
                         size="sm"
-                        className="ml-2"
+                        className="ml-2 border-[#34486B] text-[#34486B] hover:bg-[#34486B] hover:text-white"
                       >
                         View Attendance
                       </Button>
@@ -288,7 +289,7 @@ const SchoolClasses = () => {
                         onClick={() => handleUpdateClick(classItem)}
                         variant="secondary"
                         size="sm"
-                        className="ml-2"
+                        className="ml-2 bg-[#EAEFFB] text-[#34486B] hover:bg-[#34486B] hover:text-white"
                       >
                         <FaEdit className="mr-2" /> Update
                       </Button>
@@ -318,14 +319,13 @@ const SchoolClasses = () => {
             </motion.div>
           )}
 
-          {/* Update Class Dialog */}
           <Dialog
             open={isUpdateDialogOpen}
             onOpenChange={setIsUpdateDialogOpen}
           >
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Update Class</DialogTitle>
+                <DialogTitle>Update</DialogTitle>
               </DialogHeader>
               <div className="mt-4">
                 <Label htmlFor="update_class_name">Class Name</Label>
@@ -337,12 +337,16 @@ const SchoolClasses = () => {
                 />
               </div>
               <DialogFooter className="mt-6">
-                <Button onClick={updateClass}>Update Class</Button>
+                <Button
+                  onClick={updateClass}
+                  className="bg-[#34486B] hover:bg-[#203457]"
+                >
+                  Update Class
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
 
-          {/* Delete Class Confirmation Dialog */}
           <Dialog
             open={isDeleteDialogOpen}
             onOpenChange={setIsDeleteDialogOpen}
@@ -359,6 +363,7 @@ const SchoolClasses = () => {
                 <Button
                   variant="outline"
                   onClick={() => setIsDeleteDialogOpen(false)}
+                  className="border-[#34486B] text-[#34486B] hover:bg-[#34486B] hover:text-white"
                 >
                   Cancel
                 </Button>

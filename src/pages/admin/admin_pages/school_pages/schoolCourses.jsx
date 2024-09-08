@@ -118,7 +118,7 @@ const SchoolCourses = () => {
     <div className="flex h-screen">
       <SchoolSidebar />
       <div className="flex-1 overflow-auto">
-        <main className="p-6">
+        <main className="p-6 ml-64 ">
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-2xl font-bold">Course Management</h1>

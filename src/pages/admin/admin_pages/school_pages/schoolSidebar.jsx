@@ -40,70 +40,127 @@ const SchoolSidebar = () => {
   const profile = () => {
     navigate("/admin/schools/profile");
   };
+
   return (
-    <aside className="w-56 h-screen bg-[#34496C] text-white shadow-lg font-archivo">
-      <div className="p-4 flex items-center justify-center flex-col">
-        <div className="mb-6">
+    <aside className="w-56 bg-[#34486B] text-white font-archivo h-screen fixed">
+      <div className="flex bg-[#EAEFFB] items-center justify-center flex-col mt-10">
+        <div
+          className={`bg-[#34486B] p-4 ${
+            window.location.pathname === "/admin/schools/overview"
+              ? "rounded-br-lg"
+              : ""
+          }`}
+        >
           <img
             src={logo}
             alt="Digital Horizon"
-            className="h-full w-full rounded-lg cursor-pointer"
+            className="h-full w-full cursor-pointer mb-6"
+            onClick={() => navigate("/")}
           />
         </div>
-
-        <nav className="flex-grow overflow-y-auto w-full">
-          {/* <Button
-            variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => schools()}
-          >
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Return to Dashboard
-          </Button> */}
+        <nav className="flex-grow w-full">
           <Button
-            variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => schoolOverview()}
+            className={`w-56 justify-start p-6 rounded-none text-sm bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/schools/overview"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/classes"
+                ? "rounded-br-lg"
+                : ""
+            }`}
+            onClick={schoolOverview}
           >
             <Home className="mr-2 h-5 w-5" />
             Overview
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => classes()}
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/schools/classes"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/overview"
+                ? "rounded-tr-lg"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/courses"
+                ? "rounded-br-lg"
+                : ""
+            }`}
+            onClick={classes}
           >
             <BookOpen className="mr-2 h-5 w-5" />
             Classes
           </Button>
-
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => courses()}
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/schools/courses"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/classes"
+                ? "rounded-tr-lg"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/calendar"
+                ? "rounded-br-lg"
+                : ""
+            }`}
+            onClick={courses}
           >
             <GraduationCap className="mr-2 h-5 w-5" />
             Programs
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => academicCalendar()}
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/schools/calendar"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/courses"
+                ? "rounded-tr-lg"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/profile"
+                ? "rounded-br-lg"
+                : ""
+            }`}
+            onClick={academicCalendar}
           >
             <Calendar className="mr-2 h-5 w-5" />
             Academic Calendar
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={(e) => profile()}
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/schools/profile"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/calendar"
+                ? "rounded-tr-lg"
+                : ""
+            }`}
+            onClick={profile}
           >
             <User className="mr-2 h-5 w-5" />
             Profile
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-full justify-start p-6 text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/schools/logout"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools/profile"
+                ? "rounded-tr-lg"
+                : ""
+            }`}
             onClick={handleLogout}
           >
             <LogOut className="mr-2 h-5 w-5" />

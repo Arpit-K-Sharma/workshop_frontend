@@ -38,9 +38,11 @@ const CourseDetailsDialog = ({ course, isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="p-10">
         <DialogHeader>
-          <DialogTitle>{course.course_name}</DialogTitle>
+          <DialogTitle className="text-subheading2 font-bold">
+            {course.course_name}
+          </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <p>

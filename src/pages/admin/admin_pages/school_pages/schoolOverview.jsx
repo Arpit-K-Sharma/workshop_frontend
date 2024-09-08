@@ -125,10 +125,10 @@ const SchoolDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 ">
+    <div className="flex h-screen bg-gray-50">
       <SchoolSidebar />
       <div className="flex-1 overflow-auto">
-        <div className="p-8 bg-gray-50 min-h-screen">
+        <main className="p-8 ml-64">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8 mt-4">
             <Card>
               <CardHeader className="flex flex-col items-center justify-center pb-2">
@@ -219,7 +219,7 @@ const SchoolDashboard = () => {
               <CurriculumModal />
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );
