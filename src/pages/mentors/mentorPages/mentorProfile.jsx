@@ -18,6 +18,8 @@ import ProfilePictureAvatar from "../../../userDefined_components/profileimage/P
 const IndividualMentor = () => {
   const mentorId = localStorage.getItem("teacher_id");
   const [teacher, setTeacher] = useState(null);
+  const [schoolsData, setSchoolsData] = useState({});
+  const [classesData, setClassesData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -26,6 +28,7 @@ const IndividualMentor = () => {
       try {
         const response = await apiClient.get(`/teacher/${mentorId}`);
         setTeacher(response.data.data);
+        await fetchSchoolsAndClassesData(response.data.data.schools);
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch teacher data");
@@ -35,6 +38,38 @@ const IndividualMentor = () => {
 
     fetchTeacherData();
   }, [mentorId]);
+
+  const fetchSchoolsAndClassesData = async (schools) => {
+    if (!schools) return;
+    const schoolPromises = schools.map((school) =>
+      getSchoolData(school.school_id)
+    );
+    const schoolsData = await Promise.all(schoolPromises);
+
+    const classPromises = schools.flatMap((school) =>
+      school.classes.map((classId) => getClassData(classId))
+    );
+    const classesData = await Promise.all(classPromises);
+
+    setSchoolsData(
+      Object.fromEntries(schoolsData.map((school) => [school.id, school]))
+    );
+    setClassesData(
+      Object.fromEntries(
+        classesData.map((classData) => [classData.id, classData])
+      )
+    );
+  };
+
+  const getSchoolData = async (schoolId) => {
+    const response = await apiClient.get(`/school/${schoolId}`);
+    return response.data.data;
+  };
+
+  const getClassData = async (classId) => {
+    const response = await apiClient.get(`/class/${classId}`);
+    return response.data.data;
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -98,15 +133,22 @@ const IndividualMentor = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center text-[#6C6C6C]">
-                    <School className="mr-2 h-5 w-5" /> Siddhartha Vanasthali
-                    Institute
-                  </li>
-                  <li className="flex items-center text-[#6C6C6C]">
-                    <School className="mr-2 h-5 w-5" /> Saurdeep Boarding School
-                  </li>
-                </ul>
+                {teacher.schools && teacher.schools.length > 0 ? (
+                  <ul className="space-y-2">
+                    {teacher.schools.map((school) => (
+                      <li
+                        key={school.school_id}
+                        className="flex items-center text-[#6C6C6C]"
+                      >
+                        <School className="mr-2 h-5 w-5" />
+                        {schoolsData[school.school_id]?.school_name ||
+                          `School ${school.school_id}`}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-[#6C6C6C]">No schools assigned</p>
+                )}
               </CardContent>
             </Card>
 
@@ -117,17 +159,24 @@ const IndividualMentor = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center text-[#6C6C6C]">
-                    <BookOpen className="mr-2 h-5 w-5" /> Coding 10A
-                  </li>
-                  <li className="flex items-center text-[#6C6C6C]">
-                    <BookOpen className="mr-2 h-5 w-5" /> Scratch 10A
-                  </li>
-                  <li className="flex items-center text-[#6C6C6C]">
-                    <BookOpen className="mr-2 h-5 w-5" /> Cyber security 10A
-                  </li>
-                </ul>
+                {teacher.schools && teacher.schools.length > 0 ? (
+                  <ul className="space-y-2">
+                    {teacher.schools.flatMap((school) =>
+                      school.classes.map((classId) => (
+                        <li
+                          key={classId}
+                          className="flex items-center text-[#6C6C6C]"
+                        >
+                          <BookOpen className="mr-2 h-5 w-5" />
+                          {classesData[classId]?.class_name ||
+                            `Class ${classId}`}
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                ) : (
+                  <p className="text-[#6C6C6C]">No classes assigned</p>
+                )}
               </CardContent>
             </Card>
           </div>
