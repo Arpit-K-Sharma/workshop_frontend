@@ -87,44 +87,48 @@ const IndividualMentor = () => {
     <div className="flex h-screen bg-[#EAEFFB]">
       <MentorSidebar />
       <main className="flex-1 overflow-auto p-6 ml-56">
-        <div className="flex">
-          <Card className="bg-transparent w-2/3 mr-6">
-            <CardContent className="p-6">
-              <h1 className="text-3xl font-bold mb-12 text-[#34486B]">
-                Mentor Profile
-              </h1>
-              <div className="flex justify-between items-start">
-                <div>
-                  <ProfilePictureAvatar
-                    profilePicture={teacher.profile_picture}
-                    studentName={teacher.name}
-                    className="w-24 h-24 mb-10"
-                  />
-                  <h2 className="text-heading font-bold text-[#34486B] mt-5 mb-2">
-                    {teacher.name}
-                  </h2>
-                  <p className="text-[#6C6C6C] mb-4">{teacher.username}</p>
-                  <div className="space-y-2">
-                    <p className="flex items-center text-[#6C6C6C]">
-                      {teacher.email}
-                    </p>
-                    <hr className="border-t border-gray-300 my-2" />
+        <h1 className="text-3xl font-bold mb-4  text-[#34486B]">
+          Mentor Profile
+        </h1>
+        <hr className="w-full  h-[1px] border-0 bg-[#34486B]"></hr>
+        <div className="flex h-[71vh]">
+          <div className="w-1/2">
+            <Card className="bg-transparent h-[10px] arent w-full mr-0  ">
+              <CardContent className="p-0 pt-6 pb-6 pl-6">
+                <div className="flex justify-between items-start  ">
+                  <div className="w-full">
+                    <div className="flex items-center justify-center w-full">
+                      <div className="rounded-2xl overflow-hidden ">
+                        <ProfilePictureAvatar
+                          profilePicture={teacher.profile_picture}
+                          studentName={teacher.name}
+                          className="w-full h-full object-fill"
+                        />
+                      </div>
+                    </div>
 
-                    <p className="flex items-center text-[#6C6C6C]">
-                      {teacher.phone_num}
-                    </p>
-                    <hr className="border-t border-gray-300 my-2" />
+                    <h2 className="text-heading font-bold w-full text-[#34486B] mt-5 mb-2">
+                      {teacher.name}
+                    </h2>
+                    <p className="text-[#6C6C6C] pt-6 ">{teacher.username}</p>
+                    <hr className="border-t border-gray-800 my-2 " />
+                    <div className="space-y-2 ">
+                      <p className="flex items-center pt-6 text-[#6C6C6C]">
+                        {teacher.phone_num}
+                      </p>
+                      <hr className="border-t border-gray-800 my-2 " />
 
-                    <p className="flex items-center text-[#6C6C6C]">
-                      {teacher.address}
-                    </p>
-                    <hr className="border-t border-gray-300 my-2" />
+                      <p className="flex items-center pt-6 text-[#6C6C6C]">
+                        {teacher.address}
+                      </p>
+                      <hr className="border-t border-gray-800 my-2" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-
+              </CardContent>
+            </Card>
+          </div>
+          <div className="h-[100%] w-[1px] bg-black"></div>
           <div className="w-1/3 space-y-6">
             <Card className="bg-transparent ">
               <CardHeader>

@@ -15,7 +15,7 @@ const DisplayProfile = ({ profilePicture, studentName }) => {
               responseType: "blob",
             }
           );
-          
+
           const imageUrl = URL.createObjectURL(response.data);
           setProfilePictureUrl(imageUrl);
         } catch (error) {
@@ -38,7 +38,7 @@ const DisplayProfile = ({ profilePicture, studentName }) => {
     : "";
 
   return (
-    <div className="h-[20rem] w-[20rem] relative overflow-hidden bg-gray-800">
+    <div className="h-[24rem] w-auto relative overflow-hidden bg-gray-800">
       {profilePictureUrl ? (
         <img
           src={profilePictureUrl}
