@@ -89,7 +89,7 @@ const MentorDashboard = () => {
               <Card key={index} className=" ">
                 <div className="flex items-center p-5">
                   <div className="flex-grow">
-                    <div className="text-sm text-gray-600 text-center">
+                    <div className="text-[18px] text-gray-600 text-center">
                       {card.description}
                     </div>
                     <div className="text-heading font-bold text-center">
@@ -101,7 +101,7 @@ const MentorDashboard = () => {
             ))}
           </div>
 
-          <div className="mt-8">
+          <div className="mt-[225px]">
             <DailyReflection />
           </div>
           <QuoteComponent />

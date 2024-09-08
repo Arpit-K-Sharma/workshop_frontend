@@ -62,6 +62,7 @@ const SchoolClasses = () => {
             ...detailsResponse.data.data,
           };
         })
+        
       );
       setClassResponse(classesWithDetails);
     } catch (error) {

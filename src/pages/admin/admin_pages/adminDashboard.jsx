@@ -208,9 +208,9 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="gap-8">
+          <div className="gap-8 absolute bottom-16 w-1/3">
             <h1 className="text-lg">Students per course</h1>
-            <div className="h-96 w-[50%]">
+            <div className="h-96 w-[100%]">
               <Suspense fallback={<LoadingSpinner />}>
                 <LazyBar data={schoolCourseChartData} options={options} />
               </Suspense>

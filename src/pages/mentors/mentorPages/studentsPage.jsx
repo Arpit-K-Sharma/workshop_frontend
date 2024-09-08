@@ -78,7 +78,7 @@ const StudentsPage = () => {
             </h3>
           </div>
         </div>
-        <Card className="border-none shadow-none mt-8 rounded-3xl">
+        <Card className="border-none shadow-none mt-8 rounded-3xl bg-white">
           <CardContent className="p-6 ">
             <div className="flex items-center ">
               <h3 className="w-[200px] mb-4 text-[#34486B] text-2xl font-bold">

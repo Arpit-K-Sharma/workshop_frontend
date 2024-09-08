@@ -190,7 +190,7 @@ const SchoolCalendar = () => {
       days.push(
         <div
           key={day}
-          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100`}
+          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100 `}
           onClick={() => handleDateSelect(date)}
         >
           {day}
@@ -208,7 +208,7 @@ const SchoolCalendar = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-5 gap-8">
             <div className="col-span-2 space-y-8">
-              <Card className="h-[40vh] border-none shadow-lg">
+              <Card className="h-[40vh] border-none">
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <Button
@@ -246,7 +246,10 @@ const SchoolCalendar = () => {
                   <div className="grid grid-cols-7 gap-2 text-center">
                     {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                       (day) => (
-                        <div key={day} className="font-medium text-gray-500">
+                        <div
+                          key={day}
+                          className="font-medium text-gray-500 bg-white"
+                        >
                           {day}
                         </div>
                       )
@@ -337,7 +340,7 @@ const SchoolCalendar = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className={`p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition ${
+                            className={`p-4 rounded-lg bg-white border  transition ${
                               isSaturday(
                                 new Date(
                                   selectedDate.getFullYear(),

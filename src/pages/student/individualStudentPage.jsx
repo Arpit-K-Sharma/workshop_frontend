@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 import {
   Table,
   TableBody,
@@ -69,11 +70,7 @@ const StudentAttendance = () => {
   }, [studentId, selectedMonth, selectedYear]);
 
   if (!student) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Loading...
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const generateMonthDates = (year, month) => {
