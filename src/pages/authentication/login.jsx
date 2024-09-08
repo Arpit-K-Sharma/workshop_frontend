@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { HelpCircle, Mail, School, AlertCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -9,6 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import Logo from "../../gallery/Logo.png";
 import Blur from "../../gallery/images/blur.jpg";
 import { useNavigate } from "react-router-dom";
@@ -122,6 +131,7 @@ function SignInPage() {
         return type.charAt(0) + type.slice(1);
     }
   };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Half: Placeholder Image */}
@@ -226,14 +236,39 @@ function SignInPage() {
               Sign In
             </Button>
 
-            {/* Additional Options */}
-            <div className="flex justify-between items-center mt-4 font-sans">
-              <a href="#" className="text-blue-600 hover:underline font-sans">
-                Forgot Password?
-              </a>
-              <a href="#" className="text-blue-600 hover:underline font-sans">
-                Help
-              </a>
+            <div className="flex items-end mt-4 font-sans">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="text-blue-600 hover:bg-blue-50 font-sans flex items-center gap-2"
+                  >
+                    <HelpCircle className="w-4 h-4" />
+                    Help
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader className="text-center">
+                    <DialogTitle className="flex justify-center items-center gap-2 text-2xl mb-2">
+                      <HelpCircle className="w-6 h-6 text-blue-600" />
+                      Help Information
+                    </DialogTitle>
+                    <DialogDescription className="mt-4 space-y-3">
+                      <p className="flex flex-col items-center gap-2 text-center">
+                        For Student's password, the mentor will do onboarding
+                        for you.
+                      </p>
+                      <p className="flex flex-col items-center mb-4 gap-2 text-center">
+                        For any issues, please contact the school administrator
+                        or the page administrator.
+                      </p>
+                      <p className="flex flex-col items-center gap-2 mb-4 text-center">
+                        Contact us at: hub@digitalhorizons.com
+                      </p>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
           </form>
         </div>
