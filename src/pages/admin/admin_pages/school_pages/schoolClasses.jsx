@@ -54,7 +54,7 @@ const SchoolClasses = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get(`/class/school/${schoolId}`);
-      setClassResponse(response.data.data);
+      setClassResponse(response.data.data || []);
     } catch (error) {
       console.log("Error fetching classes", error);
       setClassResponse([]);
@@ -79,9 +79,11 @@ const SchoolClasses = () => {
   };
 
   const sortedClasses = useMemo(() => {
-    return [...classResponse].sort((a, b) =>
-      a.class_name.localeCompare(b.class_name)
-    );
+    return Array.isArray(classResponse)
+      ? [...classResponse].sort((a, b) =>
+          a.class_name.localeCompare(b.class_name)
+        )
+      : [];
   }, [classResponse]);
 
   const addClass = async () => {
@@ -233,7 +235,7 @@ const SchoolClasses = () => {
 
           {isLoading ? (
             <LoadingSpinner />
-          ) : sortedClasses && sortedClasses.length > 0 ? (
+          ) : sortedClasses.length > 0 ? (
             <Table className="bg-white">
               <TableHeader className="text-white hover:text-white">
                 <TableRow className="bg-[#34486B] hover:bg-[#34486B]">
@@ -325,13 +327,12 @@ const SchoolClasses = () => {
           >
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Update</DialogTitle>
+                <DialogTitle>Update Class</DialogTitle>
               </DialogHeader>
               <div className="mt-4">
                 <Label htmlFor="update_class_name">Class Name</Label>
                 <Input
                   id="update_class_name"
-                  name="class_name"
                   value={updatingClass?.class_name || ""}
                   onChange={handleUpdateInputChange}
                 />
