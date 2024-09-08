@@ -14,14 +14,17 @@ const ClassItem = ({ classData }) => {
 
   return (
     <div className="mb-4 rounded-lg overflow-hidden">
-      <div className="flex h-full">
-        <Button
-          variant="ghost"
-          className="p-2 hover:bg-gray-100 transition-colors duration-200 h-full flex items-center"
-          onClick={() => navigate("/mentor/students/" + classData.id)}
-        >
-          <ArrowUpRight className="h-28 w-28" />
-        </Button>
+      <div className="flex h-full mt-8">
+        <div className="group">
+          <Button
+            variant=""
+            className="h-full flex items-center bg-[#6A7B99] hover:bg-[#424f65]"
+            onClick={() => navigate("/mentor/students/" + classData.id)}
+          >
+            <ArrowUpRight className="h-28 w-28 text-zinc-700 group-hover:text-white" />
+          </Button>
+        </div>
+
         <div className="flex-1 p-4 flex flex-col">
           <h3 className="text-3xl font-bold mb-2 text-[#34486B]">
             {classData.class_name}
@@ -96,7 +99,7 @@ const SchoolClasses = () => {
     <div className="flex h-screen bg-[#EAEFFB]">
       <MentorSidebar />
       <div className="flex-1 overflow-auto ml-56">
-        <main className="p-8 w-full mx-auto">
+        <main className="p-14 w-full mx-auto">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">
             Class selection
           </h1>

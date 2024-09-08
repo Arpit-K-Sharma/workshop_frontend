@@ -71,7 +71,7 @@ const SchoolsPage = () => {
   return (
     <div className="flex">
       <TeacherSidebar />
-      <div className="p-6 bg-white min-h-screen w-full ml-56">
+      <div className="p-6 bg-[#EAEFFB] min-h-screen w-full ml-56">
         <h1 className="text-3xl font-bold mb-6">Schools</h1>
         <div className="relative mb-8">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -86,43 +86,42 @@ const SchoolsPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredSchools.map((school) => (
-            <Card
-              key={school.id}
-              className="overflow-hidden hover:shadow-lg transition-shadow duration-300"
-            >
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <School className="h-5 w-5 text-blue-500" />
-                  <span>{school.school_name}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Mail className="h-4 w-4 text-gray-400" />
-                    <span className="text-sm text-gray-600">
-                      {school.email}
-                    </span>
+            <div className="border border-gray-300 border-spacing-1">
+              <Card key={school.id} className="overflow-hidden  duration-300">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <School className="h-5 w-5 text-blue-500" />
+                    <span>{school.school_name}</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      {/* <Mail className="h-4 w-4 text-gray-400" /> */}
+                      <span className="text-sm text-gray-600 mt-4 mb-2">
+                        {school.email}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      {/* <MapPin className="h-4 w-4 text-gray-400" /> */}
+                      <span className="text-sm text-gray-600 mb-4">
+                        {school.address}
+                      </span>
+                    </div>
+                    <div className="w-full">
+                      <Button
+                        variant="outline"
+                        className="w-full flex items-center justify-center bg-zinc-800 hover:bg-zinc-900 hover:text-white"
+                        onClick={() => handleViewClasses(school)}
+                      >
+                        <Eye className="mr-2 h-4 w-4 text-white" />
+                        <span className="text-white">View Classes</span>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="text-sm text-gray-600">
-                      {school.address}
-                    </span>
-                  </div>
-                  <div className="w-full">
-                    <Button
-                      variant="outline"
-                      className="w-full flex items-center justify-center"
-                      onClick={() => handleViewClasses(school)}
-                    >
-                      <Eye className="mr-2 h-4 w-4" />
-                      <span>View Classes</span>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           ))}
         </div>
       </div>

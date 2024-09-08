@@ -85,41 +85,45 @@ const StudentProfile = () => {
         <div className="flex w-full justify-center items-center ">
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="text-2xl font-semibold">
+              <CardTitle className="text-subheading font-semibold">
                 Student Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 ">
               <div className="flex space-x-4 justify-between items-center">
                 <div>
-                  <h2 className="text-2xl mb-[20px]">
+                  <h2 className="text-heading mb-[20px] font-bold">
                     {student?.student_name}
                   </h2>
                   <div className="flex items-center  space-x-2 mb-2">
-                    <User size={18} />
-                    <span>
-                      <strong className="font-semibold">Age:</strong>{" "}
+                    <span className="text-subtitle">
+                      <strong className="font-semibold text-subtitle">
+                        Age:
+                      </strong>{" "}
                       {student?.age}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2 mb-2">
-                    <Phone size={18} />
-                    <span>
-                      <strong className="font-semibold">Phone:</strong>{" "}
+                    <span className="text-subtitle">
+                      <strong className="font-semibold text-subtitle">
+                        Phone:
+                      </strong>{" "}
                       {student?.phone_num}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2 mb-2">
-                    <Mail size={18} />
-                    <span>
-                      <strong className="font-semibold">Email:</strong>{" "}
+                    <span className="text-subtitle">
+                      <strong className="font-semibold text-subtitle">
+                        Email:
+                      </strong>{" "}
                       {student?.student_email}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2 mb-2">
-                    <MapPin size={18} />
-                    <span>
-                      <strong className="font-semibold">Address:</strong>{" "}
+                    <span className="text-subtitle">
+                      <strong className="font-semibold text-subtitle">
+                        Address:
+                      </strong>{" "}
                       {student?.address}
                     </span>
                   </div>
@@ -135,9 +139,9 @@ const StudentProfile = () => {
           </Card>
         </div>
 
-        <Card className="mt-8">
+        <Card className="mt-0">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">Attendance</CardTitle>
+            <CardTitle className=" text-subheading mb-8">Attendance</CardTitle>
             <div className="flex space-x-4">
               <Select
                 value={selectedMonth.toString()}
@@ -178,12 +182,12 @@ const StudentProfile = () => {
             <div className="max-h-[38vh] overflow-y-auto">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-gray-50">
+                  {/* <TableRow className="bg-gray-50">
                     <TableHead className=" w-1/6 text-center">Date</TableHead>
                     <TableHead className="w-1/3 text-center">Status</TableHead>
                     <TableHead className="w-2/6">Remarks</TableHead>
                     <TableHead className="text-center w-1/12">Laptop</TableHead>
-                  </TableRow>
+                  </TableRow> */}
                 </TableHeader>
                 <TableBody>
                   {monthDates.map((date) => {
@@ -191,19 +195,19 @@ const StudentProfile = () => {
                       (record) => record.date === date
                     );
                     return (
-                      <TableRow key={date}>
-                        <TableCell className="text-center">{date}</TableCell>
-                        <TableCell className="text-center">
-                          {attendanceRecord
-                            ? attendanceRecord.status
-                            : "No class in this day / Attendance was not taken"}
+                      <TableRow key={date} className="text-subtitle">
+                        <TableCell className="text-center text-subtitle">
+                          {date}
+                        </TableCell>
+                        <TableCell className="text-center text-subtitle">
+                          {attendanceRecord ? attendanceRecord.status : "N/A"}
                         </TableCell>
                         <TableCell>
-                          <span className="w-[300px] truncate">
+                          <span className="w-[300px] truncate text-subtitle">
                             {attendanceRecord ? attendanceRecord.remarks : ""}
                           </span>
                         </TableCell>
-                        <TableCell className="text-center w-1/4">
+                        <TableCell className="text-center w-1/4 text-subtitle">
                           {attendanceRecord
                             ? attendanceRecord.laptop
                               ? "Yes"

@@ -41,10 +41,10 @@ const SchoolDashboard = () => {
       const response = await apiClient.get(`/student/school/${schoolId}`);
       const courseResponse = await apiClient.get(`/school/${schoolId}`);
       const classResponse = await apiClient.get(`/class/school/${schoolId}`);
-        setStudentCount( response.data.data?.length || 0);
-        setCourseCount(courseResponse.data.data.course_id?.length || 0);
-        setName(courseResponse.data.data?.school_name || 0);
-        setClasses(classResponse.data.data?.length || 0);
+      setStudentCount(response.data.data?.length || 0);
+      setCourseCount(courseResponse.data.data.course_id?.length || 0);
+      setName(courseResponse.data.data?.school_name || 0);
+      setClasses(classResponse.data.data?.length || 0);
     } catch (error) {
       console.error("Error fetching student count:", error);
       setStudentCount(0);
@@ -147,14 +147,22 @@ const SchoolDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total Students
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{studentCount}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium ">
                   Total Courses
                 </CardTitle>
-                <BookOpen className="h-6 w-6 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{courseCount}</div>
-                <div className="text-sm">Courses assigned to this school</div>
               </CardContent>
             </Card>
             <Card>
@@ -162,23 +170,9 @@ const SchoolDashboard = () => {
                 <CardTitle className="text-sm font-medium ">
                   Total Number of Classes
                 </CardTitle>
-                <BookOpen className="h-6 w-6 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{classes}</div>
-                <div className="text-sm">Classes teaching in this school</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Total Students
-                </CardTitle>
-                <Users className="h-6 w-6 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{studentCount}</div>
-                <div className="text-sm">Students Studying to this school</div>
               </CardContent>
             </Card>
           </div>
