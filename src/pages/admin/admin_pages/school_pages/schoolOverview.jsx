@@ -92,17 +92,6 @@ const SchoolDashboard = () => {
     ],
   };
 
-  const popularCoursesData = {
-    labels: ["HTML/CSS", "Scratch", "Cybersecurity"],
-    datasets: [
-      {
-        label: "Course Popularity",
-        data: [300, 250, 400, 350, 280],
-        backgroundColor: "rgba(153, 102, 255, 0.6)",
-      },
-    ],
-  };
-
   const options = {
     responsive: true,
     plugins: {
@@ -226,7 +215,9 @@ const SchoolDashboard = () => {
                 </div>
               </CardContent>
             </Card>
-            <CurriculumModal />
+            <div className="w-1/2 ml-6">
+              <CurriculumModal />
+            </div>
           </div>
         </div>
       </div>
