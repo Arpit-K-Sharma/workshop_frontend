@@ -115,24 +115,24 @@ const StudentDashboard = () => {
         </h1>
         <div className="grid grid-cols-4 gap-8 mb-8">
           <div className="flex flex-col ">
-            <p className="text-heading font-black text-[#34486B]">{`${presentClasses}/${totalClasses}`}</p>
-            <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C]">
+            <p className="text-heading font-black text-[#34486B] text-center">{`${presentClasses}/${totalClasses}`}</p>
+            <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] text-center">
               Attendance this month
             </h2>
           </div>
 
           <div className="flex flex-col">
-            <p className="text-heading font-black text-[#34486B]">{`${totalStudents}`}</p>
-            <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] ">
+            <p className="text-heading font-black text-[#34486B] text-center">{`${totalStudents}`}</p>
+            <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] text-center">
               Total Students in class
             </h2>
           </div>
 
           <div className="flex flex-col ">
-            <p className="text-heading font-bold text-[#34486B]">
+            <p className="text-heading font-bold text-[#34486B] text-center">
               {assignments.length}
             </p>
-            <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C]">
+            <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] text-center">
               Assignments
             </h2>
           </div>

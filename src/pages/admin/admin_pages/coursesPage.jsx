@@ -32,39 +32,77 @@ import {
 import { Code, Book, Clock, Info, Plus, Edit, Trash2 } from "lucide-react";
 import apiClient from "config/apiClient";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
-const CourseCard = ({ course, onEdit, onDelete }) => {
+
+const CourseDetailsDialog = ({ course, isOpen, onClose }) => {
   if (!course) return null;
 
   return (
-    <div className="border border-gray-50 p-4 mb-4 transition-transform duration-300 bg-white rounded-xl">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{course.course_name}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <p>
+            <strong>Content:</strong> {course.course_content}
+          </p>
+          <p>
+            <strong>Duration:</strong> {course.course_duration}
+          </p>
+          <p>
+            <strong>Description:</strong> {course.description}
+          </p>
+        </div>
+        <DialogFooter>
+          <Button onClick={onClose}>Close</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const CourseCard = ({ course, onEdit, onDelete }) => {
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+
+  if (!course) return null;
+
+  return (
+    <div className="border border-gray-50 p-8 mb-4 transition-transform duration-300 bg-white rounded-xl">
       <div className="flex justify-between items-center mb-2 rounded-lg">
-        <h2 className="text-2xl font-bold">{course.course_name}</h2>
+        <h2 className="text-2xl font-semibold">{course.course_name}</h2>
         <div>
           <button
             onClick={() => onEdit(course)}
-            className="mr-2 px-2 py-1 font-semibold   transition-colors duration-300"
+            className="mr-2 px-2 py-1 font-semibold transition-colors duration-300"
           >
             Edit
           </button>
           <button
             onClick={() => onDelete(course)}
-            className="px-2 text-red-400 py-1 border font-semibold  transition-colors duration-300 rounded-lg hover:bg-red-500 hover:text-white"
+            className="px-2 text-red-400 py-1 border font-semibold transition-colors duration-300 rounded-lg hover:bg-red-500 hover:text-white"
           >
             Delete
           </button>
         </div>
       </div>
-      <p className="text-lg font-semibold mb-2">{course.course_content}</p>
+      <p className="text-lg font-light mb-2">{course.course_content}</p>
       <div className="mb-2">
-        <span className="font-medium">Duration: </span>
-        <span className="font-bold">{course.course_duration}</span>
+        <span className="font-medium mb-2">Duration: </span>
+        <span className="font-light mb-4">{course.course_duration}</span>
       </div>
-      <button
-        onClick={() => alert(course.description)}
-        className="w-full bg-zinc-800 text-white py-2 border border-gray-100 hover:bg-zinc-900 hover:text-white transition-colors duration-300 rounded-lg"
-      >
-        View Details
-      </button>
+      <div className="mt-8">
+        <button
+          onClick={() => setIsDetailsDialogOpen(true)}
+          className="w-full bg-zinc-800 text-white py-2 border border-gray-100 hover:bg-zinc-900 hover:text-white transition-colors duration-300 rounded-lg"
+        >
+          View Details
+        </button>
+      </div>
+      <CourseDetailsDialog
+        course={course}
+        isOpen={isDetailsDialogOpen}
+        onClose={() => setIsDetailsDialogOpen(false)}
+      />
     </div>
   );
 };
@@ -74,7 +112,7 @@ const CoursesPage = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false); // State for loading spinner
+  const [loading, setLoading] = useState(false);
   const [currentCourse, setCurrentCourse] = useState({
     id: "",
     course_name: "",
@@ -89,14 +127,14 @@ const CoursesPage = () => {
   }, []);
 
   const fetchCourses = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const response = await apiClient.get("/course");
       setCourses(response.data.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -109,7 +147,7 @@ const CoursesPage = () => {
   };
 
   const handleAddCourse = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       await apiClient.post("/course", currentCourse);
       setCurrentCourse({
@@ -125,12 +163,12 @@ const CoursesPage = () => {
     } catch (error) {
       console.error("Error adding course:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   const handleEditCourse = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       await apiClient.put(`/course/${currentCourse.id}`, currentCourse);
       setIsEditDialogOpen(false);
@@ -138,12 +176,12 @@ const CoursesPage = () => {
     } catch (error) {
       console.error("Error updating course:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   const handleDeleteCourse = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       await apiClient.delete(`/course/${currentCourse.id}`);
       setIsDeleteDialogOpen(false);
@@ -151,7 +189,7 @@ const CoursesPage = () => {
     } catch (error) {
       console.error("Error deleting course:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -171,10 +209,9 @@ const CoursesPage = () => {
       <div className="ml-56 p-6 flex-1">
         <h1 className="text-4xl font-bold mb-6 text-gray-800">Courses</h1>
 
-        {/* Show spinner while loading */}
         {loading ? (
           <div className="flex justify-center items-center h-96">
-            <LoadingSpinner /> {/* Centered loading spinner */}
+            <LoadingSpinner />
           </div>
         ) : (
           <>

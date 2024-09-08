@@ -209,7 +209,7 @@ const SchoolCalendar = () => {
       days.push(
         <div
           key={day}
-          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100`}
+          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100 `}
           onClick={() => handleDateSelect(date)}
         >
           {day}
@@ -227,7 +227,7 @@ const SchoolCalendar = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-5 gap-8">
             <div className="col-span-2 space-y-8">
-              <Card className=" border-none shadow-lg">
+              <Card className=" border-none">
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <Button
@@ -262,7 +262,7 @@ const SchoolCalendar = () => {
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="grid grid-cols-7 gap-2 text-center">
+                  <div className="grid grid-cols-7 gap-2 text-center rounded-2xl bg-white p-8 ">
                     {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                       (day) => (
                         <div key={day} className="font-medium text-gray-500">
@@ -282,7 +282,7 @@ const SchoolCalendar = () => {
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="space-y-4 overflow-y-auto"
+                    className="space-y-4 overflow-y-auto "
                     style={{ maxHeight: "calc(45vh - 120px)" }}
                   >
                     <AnimatePresence>
@@ -344,7 +344,7 @@ const SchoolCalendar = () => {
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="space-y-4 overflow-y-auto"
+                    className="space-y-4 overflow-y-auto "
                     style={{ maxHeight: "calc(93vh - 100px)" }}
                   >
                     <AnimatePresence>
@@ -356,7 +356,7 @@ const SchoolCalendar = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className={`p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition ${
+                            className={`p-4 border rounded-lg bg-white  transition ${
                               isSaturday(
                                 new Date(
                                   selectedDate.getFullYear(),

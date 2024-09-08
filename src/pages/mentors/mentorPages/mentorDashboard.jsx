@@ -101,7 +101,7 @@ const MentorDashboard = () => {
             ))}
           </div>
 
-          <div className="mt-[225px]">
+          <div className="mt-10">
             <DailyReflection />
           </div>
           <QuoteComponent />
