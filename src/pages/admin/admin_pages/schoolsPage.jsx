@@ -3,6 +3,9 @@ import AdminSidebar from "../adminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -14,79 +17,207 @@ import {
 import apiClient from "config/apiClient";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import { Upload, Info } from "lucide-react";
-import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
+import {
+  ChevronDown,
+  Users,
+  BookOpen,
+  GraduationCap,
+  Send,
+} from "lucide-react";
+import { HelpCircle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import { useSchoolContext } from "context/SchoolContext";
+import { useNavigate } from "react-router-dom";
 
 const initialSchoolState = {
   school_name: "",
   email: "",
   password: "",
   address: "",
-  logo: null,
 };
 
-const InfoIcon = ({ text }) => (
-  <div className="relative group">
-    <Info className="w-5 h-5 text-gray-500 cursor-pointer" />
-    <div className="absolute left-0 top-full mt-2 w-48 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-      {text}
+const InfoIcon = ({ text }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <TooltipProvider>
+      <Tooltip open={isOpen} onOpenChange={setIsOpen}>
+        <TooltipTrigger asChild>
+          <HelpCircle
+            className="w-5 h-5 text-gray-500 cursor-help"
+            onClick={() => setIsOpen(!isOpen)}
+          />
+        </TooltipTrigger>
+        <TooltipContent>{text}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
+
+const SchoolCard = ({ school }) => {
+  const [showDetails, setShowDetails] = useState(false);
+  const [totalClass, setTotalClass] = useState(0);
+  const [totalStudent, setTotalStudent] = useState(0);
+  const [totalCourse, setTotalCourse] = useState(0);
+  const { schoolId, setSchoolId } = useSchoolContext();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    setSchoolId(school.id);
+    navigate("/admin/schools/overview");
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const classResponse = await apiClient.get(`/class/school/${school.id}`);
+        const studentsResponse = await apiClient.get(
+          `/student/school/${school.id}`
+        );
+
+        if (
+          classResponse.data.status === "success" &&
+          studentsResponse.data.status === "success"
+        ) {
+          setTotalClass(
+            classResponse.data.data ? classResponse.data.data.length : 0
+          );
+          setTotalStudent(
+            studentsResponse.data.data ? studentsResponse.data.data.length : 0
+          );
+        } else {
+          console.error("Error fetching data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [school.id]);
+
+  const logoImageUrl =
+    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80";
+  return (
+    <div className="bg-white  rounded-lg overflow-hidden transition-all duration-300w-full max-w-3xl mx-auto">
+      <div className="relative">
+        <div className="mt-5 flex justify-center">
+          <div
+            className="w-28 h-28 rounded-full border-4 border-white overflow-hidden"
+            style={{ boxShadow: "0 0 0 2px black" }}
+          >
+            <img
+              src={logoImageUrl}
+              alt="School Logo"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="pt-12 px-6 pb-6 cursor-pointer"
+        onClick={() => setShowDetails(!showDetails)}
+      >
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-bold text-gray-800">
+            {school.school_name}
+          </h3>
+          <div className="flex">
+            <Button
+              onClick={handleClick}
+              className="flex items-center underline bg-white hover:bg-white space-x-2  text-gray-800  rounded-lg "
+            >
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+        <p className="text-gray-600 mt-2 text-sm">
+          {school.email}, {school.address}
+        </p>
+        <div className="mt-4 flex items-center  text-blue-500 hover:text-blue-700 cursor-pointer transition-colors duration-200">
+          <span className="mr-2 font-semibold text-sm">
+            {showDetails ? "Hide Details" : "Overview"}
+          </span>
+          <ChevronDown
+            className={`w-5 h-5 transform transition-transform duration-200 ${
+              showDetails ? "rotate-180" : ""
+            }`}
+          />
+        </div>
+
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{
+            height: showDetails ? "auto" : 0,
+            opacity: showDetails ? 1 : 0,
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="overflow-hidden"
+        >
+          {showDetails && (
+            <div className="grid grid-cols-3 gap-4 mt-6 text-sm">
+              <InfoCard
+                icon={<BookOpen className="text-green-500" />}
+                title="Classes"
+                value={totalClass}
+              />
+              <InfoCard
+                icon={<Users className="text-blue-500" />}
+                title="Students"
+                value={totalStudent}
+              />
+              <InfoCard
+                icon={<GraduationCap className="text-purple-500" />}
+                title="Courses"
+                value="10"
+              />
+            </div>
+          )}
+        </motion.div>
+      </div>
     </div>
+  );
+};
+
+const InfoCard = ({ icon, title, value }) => (
+  <div className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col justify-between items-center h-full">
+    <div className="flex gap-2 items-center justify-center">
+      <div className="flex justify-center mb-2  h-5 w-5">{icon}</div>
+      <div>
+        <h4 className="font-semibold text-gray-700 text-sm">{title}</h4>
+      </div>
+    </div>
+    <p className="text-lg font-bold text-gray-900 mt-auto">{value}</p>
   </div>
 );
-
-const SchoolCard = ({ school }) => (
-  <div className="bg-white rounded-lg border border-spacing-2 border-zinc-100  p-6">
-    <img
-      src={school.logo_url || "/default-school-logo.png"}
-      alt={`${school.school_name} logo`}
-      className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
-    />
-    <h2 className="text-xl font-semibold text-center mb-2">
-      {school.school_name}
-    </h2>
-    <p className="text-gray-600 text-center mb-2">{school.email}</p>
-    <p className="text-gray-600 text-center">{school.address}</p>
-  </div>
-);
-
 const SchoolsPage = () => {
   const { toast } = useToast();
   const [schoolData, setSchoolData] = useState([]);
   const [newSchool, setNewSchool] = useState(initialSchoolState);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [previewLogo, setPreviewLogo] = useState(null);
 
   useEffect(() => {
     fetchSchools();
   }, []);
 
   const fetchSchools = async () => {
-    setLoading(true);
     try {
       const response = await apiClient.get("/school");
+      console.log(response);
       setSchoolData(response.data.data);
     } catch (error) {
       console.error("Error fetching schools:", error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch schools. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewSchool((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setNewSchool((prev) => ({ ...prev, logo: file }));
-    setPreviewLogo(URL.createObjectURL(file));
   };
 
   const validateSchoolData = (schoolData) => {
@@ -118,40 +249,40 @@ const SchoolsPage = () => {
     });
 
     try {
-      const formData = new FormData();
-      Object.keys(newSchool).forEach((key) => {
-        if (key === "logo") {
-          if (newSchool[key]) {
-            formData.append(key, newSchool[key]);
+      apiClient
+        .post("/school", newSchool)
+        .then((response) => {
+          if (response.data.status === "success") {
+            setNewSchool(initialSchoolState);
+            fetchSchools();
+            toast({
+              title: "Success",
+              description: "School added successfully",
+            });
+          } else {
+            console.error("Failed to add school:", response.data.message);
+            toast({
+              title: "Error",
+              description: "Failed to add school. Please try again.",
+              variant: "destructive",
+            });
           }
-        } else {
-          formData.append(key, newSchool[key]);
-        }
-      });
-
-      const response = await apiClient.post("/school", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (response.data.status === "success") {
-        setNewSchool(initialSchoolState);
-        setPreviewLogo(null);
-        await fetchSchools();
-        toast({
-          title: "Success",
-          description: "School added successfully",
-          variant: "success",
+        })
+        .catch((error) => {
+          console.error("Error adding school:", error);
+          toast({
+            title: "Error",
+            description:
+              "An error occurred while adding the school. Please try again.",
+            variant: "destructive",
+          });
         });
-      } else {
-        throw new Error(response.data.message || "Failed to add school");
-      }
     } catch (error) {
-      console.error("Error adding school:", error);
+      console.error("Error sending request:", error);
       toast({
         title: "Error",
-        description: "Failed to add school. Please try again.",
+        description:
+          "An error occurred while sending the request. Please try again.",
         variant: "destructive",
       });
     }
@@ -160,11 +291,11 @@ const SchoolsPage = () => {
   return (
     <div className="flex h-screen">
       <AdminSidebar />
-      <div className="flex-1 overflow-auto bg-[#EAEFFB]">
+      <div className="flex-1 overflow-auto">
         <main className="p-6 ml-56">
           <div className="flex justify-between">
             <div className="flex ">
-              <h1 className="text-4xl font-bold mb-6">School Management</h1>
+              <h1 className="text-2xl font-bold mb-6">School Management</h1>
               <div className="pt-1.5 ml-4">
                 <InfoIcon text="Click on the icon to go to the dashboard." />
               </div>
@@ -234,40 +365,6 @@ const SchoolsPage = () => {
                         className="col-span-3"
                       />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="logo" className="text-right">
-                        Logo
-                      </Label>
-                      <div className="col-span-3">
-                        <Input
-                          id="logo"
-                          name="logo"
-                          type="file"
-                          onChange={handleFileChange}
-                          accept="image/*"
-                          className="hidden"
-                        />
-                        <Label
-                          htmlFor="logo"
-                          className="cursor-pointer flex items-center justify-center border border-dashed border-gray-300 rounded-lg p-4 hover:bg-gray-50"
-                        >
-                          {previewLogo ? (
-                            <img
-                              src={previewLogo}
-                              alt="Logo preview"
-                              className="max-h-24 max-w-full"
-                            />
-                          ) : (
-                            <div className="flex flex-col items-center">
-                              <Upload className="w-8 h-8 text-gray-400" />
-                              <span className="mt-2 text-sm text-gray-500">
-                                Upload school logo
-                              </span>
-                            </div>
-                          )}
-                        </Label>
-                      </div>
-                    </div>
                   </div>
                   <DialogFooter>
                     <Button onClick={addSchool}>Save School</Button>
@@ -278,26 +375,15 @@ const SchoolsPage = () => {
           </div>
 
           {/* Display schools */}
-          {loading ? (
-            <div className="flex justify-center items-center h-96">
-              <LoadingSpinner />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {schoolData.length > 0 ? (
-                schoolData.map((school) => (
-                  <SchoolCard key={school.id} school={school} />
-                ))
-              ) : (
-                <p className="text-center text-gray-500">
-                  No schools available
-                </p>
-              )}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {schoolData &&
+              schoolData.map((school) => (
+                <SchoolCard key={school.id} school={school} />
+              ))}
+          </div>
         </main>
       </div>
-      <Toaster />
+      <Toaster duration={1000} />
     </div>
   );
 };
