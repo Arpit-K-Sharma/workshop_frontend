@@ -58,7 +58,7 @@ const SchoolDashboard = () => {
       const currentYear = new Date().getFullYear();
       const currentMonth = new Date().getMonth() + 1;
       const response = await fetch(
-        `${baseURL}/calendar/${currentYear}/${schoolId}/${currentMonth}`
+        `calendar/${currentYear}/${schoolId}/${currentMonth}`
       );
       const data = await response.json();
       console.log(data);

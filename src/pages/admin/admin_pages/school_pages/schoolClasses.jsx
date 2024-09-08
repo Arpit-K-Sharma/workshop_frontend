@@ -73,8 +73,8 @@ const SchoolClasses = () => {
   };
 
   useEffect(() => {
-    fetchClasses();
     setNewClass((prev) => ({ ...prev, school_id: schoolId }));
+    fetchClasses();
   }, [schoolId]);
 
   const handleInputChange = (e) => {
@@ -128,15 +128,18 @@ const SchoolClasses = () => {
         ...updatingClass,
         class_name: updatingClass.class_name,
         school_id: schoolId,
-        students: updatingClass.students && updatingClass.students.length > 0
-          ? updatingClass.students.map((student) => student.id) 
-          : [],
-        teachers: updatingClass.teachers && updatingClass.teachers.length > 0
-          ? updatingClass.teachers.map((teacher) => teacher.id) 
-          : [],
-        courses: updatingClass.courses && updatingClass.courses.length > 0
-          ? updatingClass.courses.map((course) => course.id)
-          : [],
+        students:
+          updatingClass.students && updatingClass.students.length > 0
+            ? updatingClass.students.map((student) => student.id)
+            : [],
+        teachers:
+          updatingClass.teachers && updatingClass.teachers.length > 0
+            ? updatingClass.teachers.map((teacher) => teacher.id)
+            : [],
+        courses:
+          updatingClass.courses && updatingClass.courses.length > 0
+            ? updatingClass.courses.map((course) => course.id)
+            : [],
       });
       if (response.data.status === "success") {
         fetchClasses();
