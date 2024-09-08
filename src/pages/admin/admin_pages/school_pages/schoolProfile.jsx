@@ -4,17 +4,14 @@ import { useSchoolContext } from "context/SchoolContext";
 import apiClient from "config/apiClient";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 import { useNavigate } from "react-router-dom";
-// import school from '../../../../gallery/images/school.jpg';
-// import banner from '../../../../gallery/images/banner.jpg';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit, Save, Trash2, School, Mail, Home, Key } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -133,17 +130,15 @@ const SchoolProfile = () => {
       </div>
     );
 
-  const bannerImageUrl =
-    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=400&q=80";
   const logoImageUrl =
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80";
+    "https://play-lh.googleusercontent.com/sWzGpfBbJC8ng4_9KEFolRzEnjfIEu5tzx1QuYOK5glSvmfX_i8itW-TUpEhkYiZ1Q";
 
   return (
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
       <div className="flex-1 overflow-auto">
         <main className="p-6">
-          <h1 className="text-4xl font-bold mb-8 text-gray-800 text-center">
+          <h1 className="text-4xl font-bold mb-14 text-gray-800 text-center">
             School Profile
           </h1>
           <Card className="w-full max-w-3xl mx-auto mb-8">
@@ -151,33 +146,28 @@ const SchoolProfile = () => {
               <LoadingSpinner />
             ) : schoolData ? (
               <>
-                <div className="relative">
-                  <img
-                    src={bannerImageUrl}
-                    alt="School Banner"
-                    className="w-full h-48 object-cover"
-                  />
+                <div className="flex justify-center -mt-12 mb-4">
                   <motion.div
-                    className="absolute -bottom-20 left-4"
+                    className="relative"
                     initial={{ scale: 1 }}
                     transition={{ duration: 0.3 }}
                   >
                     <div
-                      className="w-44 h-44 rounded-full border-4 border-white overflow-hidden shadow-lg"
+                      className="w-44 h-44 mt-8 rounded-full border-4 border-white overflow-hidden shadow-lg"
                       style={{ boxShadow: "0 0 0 2px black" }}
                     >
                       <img
                         src={logoImageUrl}
                         alt="School Logo"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full  object-cover"
                       />
                     </div>
                   </motion.div>
                 </div>
-                <CardContent className="p-6 pt-28">
+                <CardContent className="p-6">
                   <AnimatePresence>
                     <motion.div
-                      className="space-y-4 grid grid-cols-2 gap-6"
+                      className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-6"
                       initial={{ height: "auto" }}
                       animate={{ height: isEditing ? "auto" : "auto" }}
                       exit={{ height: "auto" }}
@@ -188,15 +178,9 @@ const SchoolProfile = () => {
                           key={field}
                           className="flex items-center space-x-4"
                         >
-                          {field === "school_name" && (
-                            <School className="text-gray-600 mt-2" />
-                          )}
-                          {field === "email" && (
-                            <Mail className="text-gray-600  mt-2" />
-                          )}
-                          {field === "address" && (
-                            <Home className="text-gray-600  mt-2" />
-                          )}
+                          {field === "school_name"}
+                          {field === "email"}
+                          {field === "address"}
                           <div className="flex-grow">
                             <p className="font-semibold text-gray-600 capitalize">
                               {field.replace("_", " ")}:
@@ -214,9 +198,8 @@ const SchoolProfile = () => {
                       ))}
                       {isEditing && (
                         <div className="flex items-center space-x-4">
-                          <Key className="text-gray-600  mt-2" />
                           <div className="flex-grow">
-                            <p className="font-semibold text-gray-600">
+                            {/* <p className="font-semibold text-gray-600">
                               Password:
                             </p>
                             <Input
@@ -226,16 +209,16 @@ const SchoolProfile = () => {
                               onChange={handleChange}
                               className="mt-1"
                               placeholder="Enter new password"
-                            />
+                            /> */}
                           </div>
                         </div>
                       )}
                     </motion.div>
                   </AnimatePresence>
-                  <div className="flex gap-4 mt-12 mb-6">
+                  <div className="flex flex-col sm:flex-row gap-4 mt-12 mb-6">
                     <Button
                       onClick={handleEdit}
-                      className="w-1/2"
+                      className="w-full sm:w-1/2"
                       disabled={loading}
                     >
                       {loading ? (
@@ -254,7 +237,7 @@ const SchoolProfile = () => {
                     </Button>
                     <Button
                       onClick={handleDeleteClick}
-                      className=" bg-red-500 w-1/2 hover:bg-red-600"
+                      className="bg-red-500 w-full sm:w-1/2 hover:bg-red-600"
                       disabled={loading}
                     >
                       <Trash2 className="mr-2" />

@@ -36,65 +36,36 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
   if (!course) return null;
 
   return (
-    <Card className="overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold text-gray-800 flex items-center">
-            <Code className="mr-2" size={24} color="#2c5282" />
-            {course.course_name}
-          </CardTitle>
-          <div className="flex space-x-2">
-            <Button
-              onClick={() => onEdit(course)}
-              variant="outline"
-              size="icon"
-              className="rounded-full"
-            >
-              <Edit className="w-4 h-4" />
-            </Button>
-            <Button
-              onClick={() => onDelete(course)}
-              variant="outline"
-              size="icon"
-              className="rounded-full text-red-500 hover:text-red-700"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          </div>
+    <div className="border border-gray-50 p-4 mb-4 transition-transform duration-300 ">
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-2xl font-bold">{course.course_name}</h2>
+        <div>
+          <button
+            onClick={() => onEdit(course)}
+            className="mr-2 px-2 py-1 font-semibold   transition-colors duration-300"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => onDelete(course)}
+            className="px-2 py-1 border font-semibold  transition-colors duration-300"
+          >
+            Delete
+          </button>
         </div>
-        <CardDescription className="text-lg font-semibold text-gray-600 flex items-center">
-          <Book className="mr-2" size={20} color="#4299e1" />
-          {course.course_content}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex justify-start items-center mt-4">
-          <span className="text-sm font-medium text-gray-800 flex items-center">
-            <Clock className="mr-2" color="#2c5282" size={20} />
-            Duration:{" "}
-            <span className="text-blue-600 ml-1 font-bold">
-              {course.course_duration}
-            </span>
-          </span>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="w-full" variant="secondary">
-              <Info className="w-4 h-4 mr-2" />
-              View Details
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{course.course_name}</DialogTitle>
-              <DialogDescription>{course.description}</DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-      </CardFooter>
-    </Card>
+      </div>
+      <p className="text-lg font-semibold mb-2">{course.course_content}</p>
+      <div className="mb-2">
+        <span className="font-medium">Duration: </span>
+        <span className="font-bold">{course.course_duration}</span>
+      </div>
+      <button
+        onClick={() => alert(course.description)}
+        className="w-full py-2 border border-gray-100 hover:bg-zinc-800 hover:text-white transition-colors duration-300"
+      >
+        View Details
+      </button>
+    </div>
   );
 };
 
@@ -198,9 +169,7 @@ const CoursesPage = () => {
     <div className="flex bg-gray-100 min-h-screen">
       <AdminSidebar />
       <div className="ml-56 p-6 flex-1">
-        <h1 className="text-4xl font-bold mb-6 text-gray-800">
-          Courses
-        </h1>
+        <h1 className="text-4xl font-bold mb-6 text-gray-800">Courses</h1>
 
         {/* Show spinner while loading */}
         {loading ? (

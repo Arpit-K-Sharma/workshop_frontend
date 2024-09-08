@@ -83,7 +83,7 @@ const SchoolCard = ({ school }) => {
 
         if (
           classResponse.data.status === "success" &&
-          studentsResponse.data.status === "success"&&
+          studentsResponse.data.status === "success" &&
           courseResponse.data.status === "success"
         ) {
           setTotalClass(
@@ -93,7 +93,10 @@ const SchoolCard = ({ school }) => {
             studentsResponse.data.data ? studentsResponse.data.data.length : 0
           );
           setTotalCourse(
-            courseResponse.data.data && courseResponse.data.data.course_id.length > 0? courseResponse.data.data.course_id.length : 0
+            courseResponse.data.data &&
+              courseResponse.data.data.course_id.length > 0
+              ? courseResponse.data.data.course_id.length
+              : 0
           );
         } else {
           console.error("Error fetching data");
@@ -108,18 +111,13 @@ const SchoolCard = ({ school }) => {
   const bannerImageUrl =
     "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&h=400&q=80";
   const logoImageUrl =
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80";
+    "https://play-lh.googleusercontent.com/sWzGpfBbJC8ng4_9KEFolRzEnjfIEu5tzx1QuYOK5glSvmfX_i8itW-TUpEhkYiZ1Q";
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl w-full max-w-3xl mx-auto">
+    <div className="bg-white rounded-lg overflow-hidden transition-all duration-300  w-full max-w-3xl mx-auto">
       <div className="relative">
-        <img
-          src={bannerImageUrl}
-          alt="School Banner"
-          className="w-full h-32 object-cover"
-        />
-        <div className="absolute -bottom-10 left-4">
+        <div className="mx-auto flex items-center justify-center mt-9">
           <div
-            className="w-28 h-28 rounded-full border-4 border-white overflow-hidden shadow-lg"
+            className=" size-36 rounded-full border-4 border-white overflow-hidden shadow-lg"
             style={{ boxShadow: "0 0 0 2px black" }}
           >
             <img
@@ -212,7 +210,7 @@ const SchoolsPage = () => {
   const [schoolData, setSchoolData] = useState([]);
   const [newSchool, setNewSchool] = useState(initialSchoolState);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const[loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchSchools();
@@ -389,7 +387,7 @@ const SchoolsPage = () => {
           </div>
 
           {/* Display schools */}
-    
+
           {loading ? ( // Show spinner while fetching data
             <div className="flex justify-center items-center h-96">
               <LoadingSpinner />
@@ -401,11 +399,12 @@ const SchoolsPage = () => {
                   <SchoolCard key={school.id} school={school} />
                 ))
               ) : (
-                <p className="text-center text-gray-500">No schools available</p>
+                <p className="text-center text-gray-500">
+                  No schools available
+                </p>
               )}
             </div>
           )}
-
         </main>
       </div>
       <Toaster duration={1000} />

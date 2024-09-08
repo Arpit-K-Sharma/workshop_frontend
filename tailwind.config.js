@@ -28,6 +28,7 @@ module.exports = {
         heading: "70px",
         headingtwo: "60px",
         subheading: "32px",
+        subheading2: "36px",
         subtitle: "20px",
       },
       colors: {
