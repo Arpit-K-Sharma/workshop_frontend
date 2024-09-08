@@ -108,125 +108,127 @@ const EventPage = () => {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="ml-[220px] flex w-full bg-white min-h-screen justify-center">
+      <div className="ml-[220px] flex w-full bg-[#EAEFFB] min-h-screen justify-center">
         <div className=" p-8 justify-center">
           <div className="flex justify-between items-center">
             <h3 className="text-3xl font-bold mt-[-15px] mb-[20px] flex items-center">
               Events
             </h3>
             {/* Add Event Button */}
-            <div className="mt-[-30px]">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="bg-[#34496C] hover:bg-[#1d2e4c]">
-                    Add Event
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>Add New Event</DialogHeader>
-                  <div className="flex flex-col space-y-4">
-                    <Input
-                      placeholder="School Name"
-                      value={newEvent.school_name}
-                      onChange={(e) =>
-                        setNewEvent({
-                          ...newEvent,
-                          school_name: e.target.value,
-                        })
-                      }
-                    />
-                    <Textarea
-                      placeholder="Description"
-                      value={newEvent.description}
-                      onChange={(e) =>
-                        setNewEvent({
-                          ...newEvent,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                    <Input
-                      type="date"
-                      value={newEvent.organized_date}
-                      onChange={(e) =>
-                        setNewEvent({
-                          ...newEvent,
-                          organized_date: e.target.value,
-                        })
-                      }
-                    />
-                    <Input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handlePhotoUpload}
-                    />
-                    <Input
-                      type="file"
-                      multiple
-                      accept="video/*"
-                      onChange={handleVideoUpload}
-                    />
-                    <p>{selectedPhotos.length} photos selected</p>
-                    <p>{selectedVideos.length} videos selected</p>
-                  </div>
-                  <DialogFooter>
-                    <Button
-                      className="bg-homeText hover:bg-homeText-hover"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
           </div>
-          {events.map((event) => (
-            <Card
-              key={event.id}
-              className="mb-8 rounded-lg shadow-lg bg-gray-100"
-            >
-              <CardHeader>
-                <div className="flex justify-between">
-                  <h2 className="text-xl font-bold text-gray-800 flex items-center">
-                    <School className="mr-2" /> {event.school_name}
-                  </h2>
+          <div className="mt-[40px]">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-[#34496C] hover:bg-[#1d2e4c]">
+                  Add Event
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>Add New Event</DialogHeader>
+                <div className="flex flex-col space-y-4">
+                  <Input
+                    placeholder="School Name"
+                    value={newEvent.school_name}
+                    onChange={(e) =>
+                      setNewEvent({
+                        ...newEvent,
+                        school_name: e.target.value,
+                      })
+                    }
+                  />
+                  <Textarea
+                    placeholder="Description"
+                    value={newEvent.description}
+                    onChange={(e) =>
+                      setNewEvent({
+                        ...newEvent,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                  <Input
+                    type="date"
+                    value={newEvent.organized_date}
+                    onChange={(e) =>
+                      setNewEvent({
+                        ...newEvent,
+                        organized_date: e.target.value,
+                      })
+                    }
+                  />
+                  <Input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                  />
+                  <Input
+                    type="file"
+                    multiple
+                    accept="video/*"
+                    onChange={handleVideoUpload}
+                  />
+                  <p>{selectedPhotos.length} photos selected</p>
+                  <p>{selectedVideos.length} videos selected</p>
+                </div>
+                <DialogFooter>
                   <Button
-                    variant="ghost"
-                    onClick={() => {
-                      setDeleteEventId(event.id);
-                      setShowDeleteDialog(true);
-                    }}
+                    className="bg-homeText hover:bg-homeText-hover"
+                    onClick={handleSubmit}
                   >
-                    <Trash2 className="text-red-500" />
+                    Submit
                   </Button>
-                </div>
-                <p className="text-sm text-gray-600 flex items-center">
-                  <Calendar className="mr-2" /> {event.organized_date}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg text-gray-700 flex items-center">
-                  <Camera className="mr-2" /> {event.description}
-                </p>
-                <div className="grid grid-cols-3 gap-4 mt-4">
-                  {getEventImages(
-                    event.organized_date === "2023-08-15"
-                      ? "farewell"
-                      : event.school_name
-                  ).map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Event Image ${index + 1}`}
-                      className="w-44 h-44 rounded-lg object-cover"
-                    />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+          {events &&
+            events.length > 0 &&
+            events.map((event) => (
+              <Card
+                key={event.id}
+                className="mb-8 rounded-lg shadow-lg bg-gray-100"
+              >
+                <CardHeader>
+                  <div className="flex justify-between">
+                    <h2 className="text-xl font-bold text-gray-800 flex items-center">
+                      <School className="mr-2" /> {event.school_name}
+                    </h2>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        setDeleteEventId(event.id);
+                        setShowDeleteDialog(true);
+                      }}
+                    >
+                      <Trash2 className="text-red-500" />
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-600 flex items-center">
+                    <Calendar className="mr-2" /> {event.organized_date}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg text-gray-700 flex items-center">
+                    <Camera className="mr-2" /> {event.description}
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 mt-4">
+                    {getEventImages(
+                      event.organized_date === "2023-08-15"
+                        ? "farewell"
+                        : event.school_name
+                    ).map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Event Image ${index + 1}`}
+                        className="w-44 h-44 rounded-lg object-cover"
+                      />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
 
         {/* Delete Confirmation Dialog */}

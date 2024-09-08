@@ -150,13 +150,11 @@ const MentorsPage = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <AdminSidebar />
       <div className="ml-56 p-6 flex-1">
         <div className="flex justify-between">
-          <h1 className="text-4xl font-bold mb-6">
-            Mentors
-          </h1>
+          <h1 className="text-4xl font-bold mb-6">Mentors</h1>
 
           <div>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -236,7 +234,6 @@ const MentorsPage = () => {
                   </div>
                 </div>
                 <DialogFooter>
-
                   <Button
                     className="bg-homeText hover:bg-homeText-hover"
                     onClick={handleCreate}
@@ -280,14 +277,12 @@ const MentorsPage = () => {
           </DialogContent>
         </Dialog>
 
-
         {loading ? (
           <div className="flex justify-center items-center min-h-[300px]">
             <LoadingSpinner /> {/* Display the spinner while loading */}
           </div>
-        ) :
-
-          (<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mentors && mentors.length > 0 ? (
               mentors.map((mentor) => (
                 <motion.div
@@ -335,7 +330,9 @@ const MentorsPage = () => {
                         <Button
                           variant="outline"
                           className="flex-1 mr-2 bg-blue-50 hover:bg-blue-100 text-blue-600"
-                          onClick={() => navigate(`/admin/mentor_profile/${mentor.id}`)}
+                          onClick={() =>
+                            navigate(`/admin/mentor_profile/${mentor.id}`)
+                          }
                         >
                           <Eye className="w-4 h-4 mr-2" /> View Details
                         </Button>
@@ -361,13 +358,14 @@ const MentorsPage = () => {
                 <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-6 rounded-md text-center mt-3 shadow-md">
                   <p className="font-bold text-xl mb-2">No Mentors Found</p>
                   <p className="text-lg">
-                    Start by adding new mentors using the 'Add Mentor' button above.
+                    Start by adding new mentors using the 'Add Mentor' button
+                    above.
                   </p>
                 </div>
               </motion.div>
             )}
           </div>
-          )}
+        )}
       </div>
     </div>
   );

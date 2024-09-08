@@ -152,7 +152,7 @@ const MentorProfile = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <AdminSidebar />
       <div className="flex-1 overflow-auto">
         <main className="p-8 ml-64">
@@ -167,10 +167,12 @@ const MentorProfile = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <Card className="shadow-lg">
+            <Card className="">
               <CardContent className="flex flex-col items-center pt-6">
-
-                <DisplayProfile profilePicture={teacher.profile_picture} studentName={teacher.name} />
+                <DisplayProfile
+                  profilePicture={teacher.profile_picture}
+                  studentName={teacher.name}
+                />
 
                 <h2 className="text-2xl font-semibold mb-4">{teacher.name}</h2>
                 <Separator className="mb-4" />
@@ -200,7 +202,7 @@ const MentorProfile = () => {
               </CardContent>
             </Card>
 
-            <Card className="col-span-2 shadow-lg">
+            <Card className="col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center text-2xl">
                   <School className="mr-2 w-6 h-6 text-blue-600" />
@@ -211,7 +213,7 @@ const MentorProfile = () => {
                 {teacher.schools && teacher.schools.length > 0 ? (
                   teacher.schools.map((school, index) => (
                     <div key={school.school_id} className="mb-6">
-                      <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
+                      <div className="bg-white p-4 rounded-lg mb-4">
                         <h3 className="text-xl font-semibold text-blue-600 mb-2">
                           {schoolsData[school.school_id]?.school_name ||
                             `School ID: ${school.school_id}`}
@@ -225,7 +227,7 @@ const MentorProfile = () => {
                           <p>{schoolsData[school.school_id]?.address}</p>
                         </div>
                       </div>
-                      <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                      <div className="bg-gray-50 p-4 rounded-lg ">
                         <h4 className="text-lg font-semibold mb-3 flex items-center">
                           <BookOpen className="mr-2 w-5 h-5 text-gray-600" />
                           Classes

@@ -69,7 +69,7 @@ const AdminDashboard = () => {
           totalCoursesResponse,
           schoolCourseDataResponse,
           popularCoursesResponse,
-          totalMentorResponse
+          totalMentorResponse,
         ] = await Promise.all([
           apiClient.get("/student"),
           apiClient.get("/school"),
@@ -123,7 +123,9 @@ const AdminDashboard = () => {
       datasets: [
         {
           data: dashboardData.popularCourses.map((course) => course.students),
-          backgroundColor: dashboardData.popularCourses.map((course) => course.color),
+          backgroundColor: dashboardData.popularCourses.map(
+            (course) => course.color
+          ),
         },
       ],
     }),
@@ -177,14 +179,23 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <AdminSidebar />
       <div className="flex-1 overflow-auto">
         <main className="p-8 ml-56">
           <div className="grid grid-cols-4 md:grid-cols-5 gap-1 mb-8 ml-2">
-            <StatCard title="Students Enrolled" value={dashboardData.totalStudents} />
-            <StatCard title="Partnered Schools" value={dashboardData.totalSchools} />
-            <StatCard title="Mentors Registered" value={dashboardData.totalMentors} />
+            <StatCard
+              title="Students Enrolled"
+              value={dashboardData.totalStudents}
+            />
+            <StatCard
+              title="Partnered Schools"
+              value={dashboardData.totalSchools}
+            />
+            <StatCard
+              title="Mentors Registered"
+              value={dashboardData.totalMentors}
+            />
             <div className="block">
               <div className="h-[32rem]">
                 <Suspense fallback={<LoadingSpinner />}>

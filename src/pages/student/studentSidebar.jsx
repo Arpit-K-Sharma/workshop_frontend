@@ -45,13 +45,17 @@ const StudentSidebar = () => {
   };
 
   return (
-    <aside className="w-56 bg-[#34496C] text-white font-archivo h-screen">
-      <div className="p-4 flex items-center justify-center flex-col mt-10">
-        <div className="mb-6">
+    <aside className="w-56 bg-[#34486B] text-white font-archivo h-screen">
+      <div className=" flex bg-[#EAEFFB] items-center justify-center flex-col mt-10">
+        <div
+          className={`bg-[#34486B] p-4  ${
+            window.location.pathname === "/student" ? " rounded-br-lg" : ""
+          }`}
+        >
           <img
             src={logo}
             alt="Digital Horizon"
-            className="h-full w-full rounded-lg cursor-pointer"
+            className={`h-full w-full cursor-pointer`}
             onClick={() => {
               navigate("/");
             }}
@@ -59,10 +63,14 @@ const StudentSidebar = () => {
         </div>
         <nav className="flex-grow w-[full]">
           <Button
-            className={`w-56 justify-start mb-2 rounded-none text-sm  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-56 justify-start p-6 rounded-none text-sm bg-[#34486B] hover:bg-[#203457]  hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/student"
-                ? "bg-[#EAEFFB] text-black"
-                : "bg-[#34496C]"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/student/classes"
+                ? " rounded-br-lg "
+                : ""
             }`}
             onClick={(e) => studentDashboard()}
           >
@@ -71,11 +79,18 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start rounded-none mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B]  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/classes")
-                ? "bg-white text-black"
+                ? "bg-[#EAEFFB] text-black  hover:bg-[#EAEFFB] hover:text-black"
                 : ""
-            }`}
+            } ${
+              window.location.pathname === "/student" ? " rounded-tr-lg" : ""
+            } ${
+              window.location.pathname.includes("/student/calendar")
+                ? " rounded-br-lg "
+                : ""
+            }
+                `}
             onClick={classesClick}
           >
             <BookOpen className="mr-2 h-5 w-5" />
@@ -83,11 +98,20 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 rounded-none  text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/calendar")
-                ? "bg-white text-black"
+                ? "bg-[#EAEFFB] text-black  hover:bg-[#EAEFFB] hover:text-black"
                 : ""
-            }`}
+            } ${
+              window.location.pathname === "/student/classes"
+                ? " rounded-tr-lg "
+                : ""
+            } 
+                ${
+                  window.location.pathname.includes("/student/attendances")
+                    ? " rounded-br-lg "
+                    : ""
+                }`}
             onClick={(e) => navigate("/student/calendar")}
           >
             <Calendar className="mr-2 h-5 w-5" />
@@ -95,11 +119,19 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 rounded-none  text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/attendances")
-                ? "bg-white text-black"
+                ? "bg-[#EAEFFB] text-black  hover:bg-[#EAEFFB] hover:text-black "
                 : ""
-            }`}
+            } ${
+              window.location.pathname.includes("/student/calendar")
+                ? " rounded-tr-lg"
+                : ""
+            } ${
+              window.location.pathname.includes("/student/assignment")
+                ? " rounded-br-lg "
+                : ""
+            } `}
             onClick={Attendance}
           >
             <History className="mr-2 h-5 w-5" />
@@ -107,11 +139,20 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm rounded-none  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start p-6  text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/assignment")
-                ? "bg-white text-black"
+                ? "bg-[#EAEFFB] text-black  hover:bg-[#EAEFFB] hover:text-black "
                 : ""
-            }`}
+            } ${
+              window.location.pathname.includes("/student/attendances")
+                ? " rounded-tr-lg "
+                : ""
+            }
+                 ${
+                   window.location.pathname.includes("/student/profile")
+                     ? " rounded-br-lg"
+                     : ""
+                 }`}
             onClick={Assignment}
           >
             <NotebookPen className="mr-2 h-5 w-5" />
@@ -119,11 +160,15 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 text-sm rounded-none  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start p-6 text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/profile")
-                ? "bg-white text-black"
+                ? "bg-[#EAEFFB] text-black  hover:bg-[#EAEFFB] hover:text-black"
                 : ""
-            }`}
+            } ${
+              window.location.pathname.includes("/student/assignment")
+                ? " rounded-tr-lg"
+                : ""
+            } `}
             onClick={studentProfile}
           >
             <User className="mr-2 h-5 w-5" />
@@ -131,11 +176,16 @@ const StudentSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start text-sm rounded-none  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+            className={`w-full justify-start p-6 text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/student/logout"
-                ? "bg-white text-black"
+                ? "bg-[#EAEFFB] text-black  hover:bg-[#EAEFFB] hover:text-black"
                 : ""
-            }`}
+            }
+                ${
+                  window.location.pathname.includes("/student/profile")
+                    ? " rounded-tr-lg "
+                    : ""
+                }`}
             onClick={handleLogout}
           >
             <LogOut className="mr-2 h-5 w-5" />

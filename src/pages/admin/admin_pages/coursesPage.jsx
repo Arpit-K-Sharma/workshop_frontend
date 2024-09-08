@@ -36,8 +36,8 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
   if (!course) return null;
 
   return (
-    <div className="border border-gray-50 p-4 mb-4 transition-transform duration-300 ">
-      <div className="flex justify-between items-center mb-2">
+    <div className="border border-gray-50 p-4 mb-4 transition-transform duration-300 bg-white rounded-xl">
+      <div className="flex justify-between items-center mb-2 rounded-lg">
         <h2 className="text-2xl font-bold">{course.course_name}</h2>
         <div>
           <button
@@ -48,7 +48,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
           </button>
           <button
             onClick={() => onDelete(course)}
-            className="px-2 py-1 border font-semibold  transition-colors duration-300"
+            className="px-2 text-red-400 py-1 border font-semibold  transition-colors duration-300 rounded-lg hover:bg-red-500 hover:text-white"
           >
             Delete
           </button>
@@ -61,7 +61,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
       </div>
       <button
         onClick={() => alert(course.description)}
-        className="w-full py-2 border border-gray-100 hover:bg-zinc-800 hover:text-white transition-colors duration-300"
+        className="w-full bg-zinc-800 text-white py-2 border border-gray-100 hover:bg-zinc-900 hover:text-white transition-colors duration-300 rounded-lg"
       >
         View Details
       </button>
@@ -166,7 +166,7 @@ const CoursesPage = () => {
   };
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="flex bg-[#EAEFFB] min-h-screen">
       <AdminSidebar />
       <div className="ml-56 p-6 flex-1">
         <h1 className="text-4xl font-bold mb-6 text-gray-800">Courses</h1>

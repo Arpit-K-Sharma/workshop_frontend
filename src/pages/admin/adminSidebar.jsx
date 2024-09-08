@@ -11,7 +11,6 @@ import {
 import logo from "gallery/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import WhiteLogo from "../../gallery/WhiteLogo.png";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
@@ -32,32 +31,45 @@ const AdminSidebar = () => {
   const schools = () => {
     navigate("/admin/schools");
   };
+
   const mentors = () => {
     navigate("/admin/mentors");
   };
+
   const courses = () => {
     navigate("/admin/courses");
   };
+
   const events = () => {
     navigate("/admin/events");
   };
 
   return (
-    <aside className="w-56 h-screen fixed bg-[#34496C] text-white shadow-lg font-archivo">
-      <div className="p-4 flex items-center justify-center flex-col mt-4">
-        <div className="mb-6">
+    <aside className="w-56 bg-[#34486B] text-white font-archivo h-screen fixed">
+      <div className="flex bg-[#EAEFFB] items-center justify-center flex-col mt-10">
+        <div
+          className={`bg-[#34486B] p-4 ${
+            window.location.pathname === "/admin" ? "rounded-br-lg" : ""
+          }`}
+        >
           <img
             src={logo}
             alt="Digital Horizon"
-            className="h-full w-full rounded-lg cursor-pointer"
+            className="h-full w-full cursor-pointer mb-6"
             onClick={homeClick}
           />
         </div>
-
-        <nav className="flex-grow overflow-y-auto w-full">
+        <nav className="flex-grow w-full">
           <Button
-            variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-56 justify-start p-6 rounded-none text-sm bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools"
+                ? "rounded-br-lg"
+                : ""
+            }`}
             onClick={adminDashboard}
           >
             <Home className="mr-2 h-5 w-5" />
@@ -65,7 +77,15 @@ const AdminSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname.includes("/admin/schools")
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${window.location.pathname === "/admin" ? "rounded-tr-lg" : ""} ${
+              window.location.pathname.includes("/admin/mentors")
+                ? "rounded-br-lg"
+                : ""
+            }`}
             onClick={schools}
           >
             <School className="mr-2 h-5 w-5" />
@@ -73,7 +93,19 @@ const AdminSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname.includes("/admin/mentors")
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname === "/admin/schools"
+                ? "rounded-tr-lg"
+                : ""
+            } ${
+              window.location.pathname.includes("/admin/courses")
+                ? "rounded-br-lg"
+                : ""
+            }`}
             onClick={mentors}
           >
             <Users className="mr-2 h-5 w-5" />
@@ -81,7 +113,19 @@ const AdminSidebar = () => {
           </Button>
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname.includes("/admin/courses")
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname.includes("/admin/mentors")
+                ? "rounded-tr-lg"
+                : ""
+            } ${
+              window.location.pathname.includes("/admin/events")
+                ? "rounded-br-lg"
+                : ""
+            }`}
             onClick={courses}
           >
             <GraduationCap className="mr-2 h-5 w-5" />
@@ -89,7 +133,15 @@ const AdminSidebar = () => {
           </Button>
           {/* <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname.includes("/admin/events")
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname.includes("/admin/courses")
+                ? "rounded-tr-lg"
+                : ""
+            }`}
             onClick={events}
           >
             <Calendar className="mr-2 h-5 w-5" />
@@ -97,7 +149,16 @@ const AdminSidebar = () => {
           </Button> */}
           <Button
             variant="ghost"
-            className="w-full justify-start mb-2 text-sm hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            className={`w-full justify-start p-6 text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
+              window.location.pathname === "/admin/logout"
+                ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
+                : ""
+            } ${
+              window.location.pathname.includes("/admin/courses") ||
+              window.location.pathname.includes("/admin/events")
+                ? "rounded-tr-lg"
+                : ""
+            }`}
             onClick={handleLogout}
           >
             <LogOut className="mr-2 h-5 w-5" />

@@ -98,11 +98,11 @@ const SchoolClasses = () => {
       const response = await apiClient.post("/class", newClass);
       if (response.data.status === "success") {
         setNewClass({ ...initialClassState, school_id: schoolId });
-        fetchClasses();
         toast({
           title: "Success",
           description: "Class Added Successfully",
         });
+        fetchClasses();
         setIsAddDialogOpen(false);
       } else {
         toast({
