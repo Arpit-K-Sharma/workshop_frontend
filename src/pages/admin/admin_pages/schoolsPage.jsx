@@ -3,6 +3,7 @@ import AdminSidebar from "../adminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ProfilePictureAvatar from "pages/mentors/mentorPages/profilePictureAvator";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Upload, Info } from "lucide-react";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
+import RoundedProfilePicture from "userDefined_components/profileimage/RoundedProfileImage";
 
 const initialSchoolState = {
   school_name: "",
@@ -36,12 +38,14 @@ const InfoIcon = ({ text }) => (
 
 const SchoolCard = ({ school }) => (
   <div className="bg-white rounded-lg shadow-md p-6">
-    <img
-      src={school.logo_url || "/default-school-logo.png"}
-      alt={`${school.school_name} logo`}
-      className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
-    />
-    <h2 className="text-xl font-semibold text-center mb-2">
+    <div className="flex justify-center items-center">
+      <RoundedProfilePicture
+        profilePicture={school.logo}
+        studentName={school.logo}
+        className="w-auto h-auto"
+      />
+    </div>
+    <h2 className="text-xl font-semibold text-center mb-2 mt-4">
       {school.school_name}
     </h2>
     <p className="text-gray-600 text-center mb-2">{school.email}</p>

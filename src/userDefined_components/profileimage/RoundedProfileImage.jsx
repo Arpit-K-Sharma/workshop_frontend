@@ -33,7 +33,7 @@ const RoundedProfilePicture = ({ profilePicture, studentName }) => {
   }, [profilePicture]);
 
   return (
-    <Avatar className="w-auto h-32 rounded-full">
+    <Avatar className="w-32 h-32 rounded-full">
       <AvatarImage src={profilePictureUrl} alt={studentName} />
       <AvatarFallback>
         {studentName ? studentName.charAt(0) : ""}
