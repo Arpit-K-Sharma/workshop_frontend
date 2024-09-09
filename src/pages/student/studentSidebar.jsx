@@ -23,9 +23,9 @@ const StudentSidebar = () => {
     navigate("/");
   };
 
-  const classesClick = () => {
-    navigate("/student/classes");
-  };
+  // const classesClick = () => {
+  //   navigate("/student/classes");
+  // };
 
   const studentDashboard = () => {
     navigate("/student");
@@ -77,7 +77,7 @@ const StudentSidebar = () => {
             <Home className="mr-2 h-5 w-5" />
             Dashboard
           </Button>
-          <Button
+          {/* <Button
             variant="ghost"
             className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B]  hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname.includes("/student/classes")
@@ -95,7 +95,7 @@ const StudentSidebar = () => {
           >
             <BookOpen className="mr-2 h-5 w-5" />
             Classes
-          </Button>
+          </Button> */}
           <Button
             variant="ghost"
             className={`w-full p-6 justify-start text-sm rounded-none bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${

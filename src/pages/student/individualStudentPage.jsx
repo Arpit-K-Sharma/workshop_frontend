@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import axios from "@/utils/axiosInstance";
 import {
   Select,
   SelectContent,
@@ -26,6 +27,9 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import StudentSidebar from "./studentSidebar";
+import { Check, X } from "lucide-react";
+import axiosInstance from "@/utils/axiosInstance";
+import { baseURL } from "@/utils/axiosInstance";
 
 const StudentAttendance = () => {
   const { studentId } = useParams();
@@ -36,38 +40,75 @@ const StudentAttendance = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedRemarks, setSelectedRemarks] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const studentResponse = await apiClient.get(`/student/${studentId}`);
-        setStudent(studentResponse.data.data);
-        let classid = studentResponse.data.data.class_id;
+  const [studentData, setStudentData] = useState({
+    id: "",
+    student_name: "",
+    age: "",
+    phone_num: "",
+    student_email: "",
+    address: "",
+    studentId: "",
+    profile_picture: "",
+  });
 
-        if (classid && classid.length > 0) {
-          const attendanceResponse = await apiClient.get(
-            `/attendances/student/${studentId}/class/${classid}/month/${selectedYear}/${selectedMonth
-              .toString()
-              .padStart(2, "0")}`
-          );
-          setAttendance(attendanceResponse.data.data.attendances);
+  const fetchStudentData = async () => {
+    const student_id = localStorage.getItem("student_id");
+    try {
+      const response = await axios.get(`${baseURL}/student/${student_id}`);
+      const { data } = response.data;
+      setStudentData({
+        student_name: data.student_name,
+        age: data.age,
+        phone_num: data.phone_num,
+        student_email: data.student_email,
+        address: data.address,
+        school_id: data.school_id,
+        course_id: data.course_id,
+        class_id: data.class_id,
+        studentId: data.studentId,
+        profile_picture: data.profile_picture,
+      });
+    } catch (error) {
+      console.error("Error fetching student data:", error);
+    }
+  };
+
+  useEffect(
+    () => {
+      const fetchData = async () => {
+        try {
+          const studentResponse = await apiClient.get(`/student/${studentId}`);
+          setStudent(studentResponse.data.data);
+          let classid = studentResponse.data.data.class_id;
+
+          if (classid && classid.length > 0) {
+            const attendanceResponse = await apiClient.get(
+              `/attendances/student/${studentId}/class/${classid}/month/${selectedYear}/${selectedMonth
+                .toString()
+                .padStart(2, "0")}`
+            );
+            setAttendance(attendanceResponse.data.data.attendances);
+          }
+
+          if (
+            studentResponse.data.data.course_id &&
+            studentResponse.data.data.course_id.length > 0
+          ) {
+            const courseResponse = await apiClient.get(
+              `/course/${studentResponse.data.data.course_id[0]}`
+            );
+            setCourse(courseResponse.data.data);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
+      };
 
-        if (
-          studentResponse.data.data.course_id &&
-          studentResponse.data.data.course_id.length > 0
-        ) {
-          const courseResponse = await apiClient.get(
-            `/course/${studentResponse.data.data.course_id[0]}`
-          );
-          setCourse(courseResponse.data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [studentId, selectedMonth, selectedYear]);
+      fetchData();
+    },
+    [studentId, selectedMonth, selectedYear],
+    fetchStudentData()
+  );
 
   if (!student) {
     return <LoadingSpinner />;
@@ -104,45 +145,61 @@ const StudentAttendance = () => {
     <div className="flex h-screen">
       <StudentSidebar />
       <div className="flex-1 p-8 bg-[#EAEFFB] flex flex-col">
+        <div className="flex justify-between items-center pl-8 pr-16">
+          <div>
+            <h1 className="font-bold text-sm text-[#303030]">Coding 10A</h1>
+            <h1 className="text-3xl font-bold mb-4 mt-2">
+              {" "}
+              {studentData.student_name}
+            </h1>
+          </div>
+          <div>
+            <h1 className="text-[#7189B2]">Attendance History</h1>
+          </div>
+        </div>
         <Card className="flex-1 flex flex-col overflow-hidden">
           <CardHeader className="flex-shrink-0">
-            <CardTitle className="text-xl font-semibold">
-              Attendance History
-            </CardTitle>
             <div className="flex space-x-4 mt-4">
-              <Select
-                value={selectedMonth.toString()}
-                onValueChange={(value) => setSelectedMonth(parseInt(value))}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {months.map((month) => (
-                    <SelectItem
-                      key={month.value}
-                      value={month.value.toString()}
-                    >
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select
-                value={selectedYear.toString()}
-                onValueChange={(value) => setSelectedYear(parseInt(value))}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {years.map((year) => (
-                    <SelectItem key={year} value={year.toString()}>
-                      {year}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div>
+                <Select
+                  value={selectedMonth.toString()}
+                  onValueChange={(value) => setSelectedMonth(parseInt(value))}
+                >
+                  <SelectTrigger className="w-[150px] bg-[#EAEFFB] border-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {months.map((month) => (
+                      <SelectItem
+                        key={month.value}
+                        value={month.value.toString()}
+                      >
+                        {month.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <div className="w-[90%] ml-2 h-[2px] bg-[#B9B9B9]"></div>
+              </div>
+              <div>
+                <Select
+                  value={selectedYear.toString()}
+                  onValueChange={(value) => setSelectedYear(parseInt(value))}
+                  className="border border-black"
+                >
+                  <SelectTrigger className="w-[150px] bg-[#EAEFFB] border-none ">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((year) => (
+                      <SelectItem key={year} value={year.toString()}>
+                        {year}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <div className="w-[90%] ml-2 h-[2px] bg-[#B9B9B9]"></div>
+              </div>
             </div>
           </CardHeader>
           <CardContent className="flex-1 overflow-hidden">
@@ -150,16 +207,16 @@ const StudentAttendance = () => {
               <div className="overflow-hidden">
                 <Table>
                   <TableHeader>
-                    <TableRow className="bg-gray-50">
-                      <TableHead className="text-center w-1/4">Date</TableHead>
+                    <TableRow className="">
+                      <TableHead className=" w-1/4">Date</TableHead>
                       <TableHead className="text-center w-1/4">
-                        Status
+                        <span className="pr-6"> Attendance</span>
                       </TableHead>
                       <TableHead className="text-center w-1/4">
                         Remarks
                       </TableHead>
                       <TableHead className="text-center w-1/4">
-                        Laptop
+                        Laptop Status
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -174,15 +231,15 @@ const StudentAttendance = () => {
                       );
                       return (
                         <TableRow key={date}>
-                          <TableCell className="text-center w-1/4">
+                          <TableCell className=" w-1/4 p-6 pl-4 ">
                             {date}
                           </TableCell>
-                          <TableCell className="text-center w-1/4">
+                          <TableCell className="text-center w-1/4 ${}">
                             {attendanceRecord ? attendanceRecord.status : "N/A"}
                           </TableCell>
                           <TableCell className="text-center w-1/4">
                             <div className="w-[300px] mx-auto truncate">
-                              {attendanceRecord?.remarks && (
+                              {(attendanceRecord?.remarks && (
                                 <Dialog>
                                   <DialogTrigger asChild>
                                     <button
@@ -194,6 +251,7 @@ const StudentAttendance = () => {
                                       }
                                     >
                                       {attendanceRecord.remarks}
+                                      <div className="w-full h-[1px] bg-black"></div>
                                     </button>
                                   </DialogTrigger>
                                   <DialogContent>
@@ -202,15 +260,24 @@ const StudentAttendance = () => {
                                     <DialogClose />
                                   </DialogContent>
                                 </Dialog>
+                              )) || (
+                                <>
+                                  {"N/A"}
+                                  <div className="w-full h-[1px] bg-black"></div>
+                                </>
                               )}
                             </div>
                           </TableCell>
                           <TableCell className="text-center w-1/4">
-                            {attendanceRecord
-                              ? attendanceRecord.laptop
-                                ? "Yes"
-                                : "No"
-                              : "---"}
+                            {attendanceRecord ? (
+                              attendanceRecord.laptop ? (
+                                <Check className="text-[#34486b]" />
+                              ) : (
+                                <X className="text-[#740000]" />
+                              )
+                            ) : (
+                              "---"
+                            )}
                           </TableCell>
                         </TableRow>
                       );

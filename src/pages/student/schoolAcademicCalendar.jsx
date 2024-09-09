@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSchoolContext } from "context/AdminSchoolContext";
+import { useSchoolContext } from "context/SchoolContext";
 import {
   ChevronLeft,
   ChevronRight,
@@ -27,7 +27,7 @@ import StudentSidebar from "./studentSidebar";
 import { motion, AnimatePresence } from "framer-motion";
 import App from "App";
 
-const NewSchoolCalendar = () => {
+const SchoolCalendar = () => {
   const [schoolId, setSchoolId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [monthlyEvents, setMonthlyEvents] = useState([]);
@@ -209,7 +209,7 @@ const NewSchoolCalendar = () => {
       days.push(
         <div
           key={day}
-          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100 `}
+          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100 ml-2 `}
           onClick={() => handleDateSelect(date)}
         >
           {day}
@@ -227,11 +227,12 @@ const NewSchoolCalendar = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-5 gap-8">
             <div className="col-span-2 space-y-8">
-              <Card className=" border-none">
+              <Card className="h-[40vh] border-none">
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <Button
                       variant="outline"
+                      className="bg-[#EAEFFB]"
                       onClick={() =>
                         setSelectedDate(
                           new Date(
@@ -249,6 +250,7 @@ const NewSchoolCalendar = () => {
                     </h2>
                     <Button
                       variant="outline"
+                      className="bg-[#EAEFFB]"
                       onClick={() =>
                         setSelectedDate(
                           new Date(
@@ -262,39 +264,45 @@ const NewSchoolCalendar = () => {
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="grid grid-cols-7 gap-2 text-center rounded-2xl bg-white p-8 ">
+                  <div className="grid grid-cols-7 gap-2 text-center">
                     {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                       (day) => (
-                        <div key={day} className="font-medium text-gray-500">
+                        <div
+                          key={day}
+                          className="font-medium text-gray-500  bg-[#EAEFFB]"
+                        >
                           {day}
                         </div>
                       )
                     )}
+                    
                     {renderCalendar()}
+                    
                   </div>
                 </CardContent>
               </Card>
               <Card className="h-[50vh] border-none">
                 <CardHeader>
-                  <CardTitle className="text-xl font-semibold text-gray-700">
+                  <CardTitle className="text-xl font-semibold text-gray-700 ml-4">
                     Events for {format(selectedDate, "MMMM d, yyyy")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="space-y-4 overflow-y-auto "
+                    className="space-y-4 overflow-y-auto"
                     style={{ maxHeight: "calc(45vh - 120px)" }}
                   >
                     <AnimatePresence>
                       {dailyEvents.length > 0 ? (
                         dailyEvents.map((event) => (
+                          <div >
                           <motion.div
                             key={event.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className={`p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition ${
+                            className={`p-4 rounded-lg  cursor-pointer transition ${
                               isSaturday(selectedDate)
                                 ? "border-red-300"
                                 : "border-gray-200"
@@ -313,10 +321,13 @@ const NewSchoolCalendar = () => {
                             <p className="text-gray-600">
                               {event.event_description}
                             </p>
+                            <div className="w-full h-[1px] bg-black mb-[-30px] mt-[30px]"></div>
                           </motion.div>
+                          
+                          </div>
                         ))
                       ) : (
-                        <p className="text-gray-500">No events for this day.</p>
+                        <p className="text-gray-500 ml-4">No events for this day.</p>
                       )}
                     </AnimatePresence>
                   </div>
@@ -338,13 +349,13 @@ const NewSchoolCalendar = () => {
               <Card className="h-[94vh] border-none">
                 <CardHeader>
                   {" "}
-                  <CardTitle className="text-2xl font-semibold text-gray-800">
+                  <CardTitle className="text-2xl font-semibold ml-4 text-gray-800">
                     Monthly Events
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="space-y-4 overflow-y-auto "
+                    className="space-y-4 overflow-y-auto"
                     style={{ maxHeight: "calc(93vh - 100px)" }}
                   >
                     <AnimatePresence>
@@ -356,7 +367,7 @@ const NewSchoolCalendar = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className={`p-4 border rounded-lg bg-white  transition ${
+                            className={`p-4 rounded-lg bg-[#EAEFFB]  transition ${
                               isSaturday(
                                 new Date(
                                   selectedDate.getFullYear(),
@@ -387,7 +398,7 @@ const NewSchoolCalendar = () => {
                               >
                                 {event.event_name}
                               </h3>
-                              <Badge variant="secondary" className="mb-2">
+                              <Badge variant="secondary" className="mb-2 hover:bg-[#EAEFFB] bg-[#EAEFFB]">
                                 {format(
                                   new Date(
                                     selectedDate.getFullYear(),
@@ -460,4 +471,4 @@ const NewSchoolCalendar = () => {
   );
 };
 
-export default NewSchoolCalendar;
+export default SchoolCalendar;
