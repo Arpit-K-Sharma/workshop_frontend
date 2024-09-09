@@ -5,7 +5,7 @@ import PublicRoutes from "routes/publicRoutes";
 import SchoolRoutes from "routes/schoolRoutes";
 import TeacherRoutes from "routes/mentorRoutes";
 import StudentRoutes from "routes/studentRoutes";
-import SchoolRoutesProtection from "routes/newSchoolRoutes";
+import SchoolRoutesProtection from "routes/schoolAdminRoutes";
 
 function App() {
   return (

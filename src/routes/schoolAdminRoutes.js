@@ -10,6 +10,9 @@ import SchoolClasses from "pages/school/schoolClasses";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { NewSchoolContextProvider } from "context/NewSchoolContext";
+import SchoolCoursesPage from "pages/school/coursesPage";
+import NewSchoolCalendar from "pages/school/schoolCalendar";
+import NewSchoolProfile from "pages/school/schoolProfile";
 
 const SchoolRoutesProtection = (
   <NewSchoolContextProvider>
@@ -19,9 +22,9 @@ const SchoolRoutesProtection = (
         <Route path="/school" element={<SchoolDashboard />} />
         <Route path="/school/classes" element={<SchoolClasses />} />
         <Route path="/school/classes/:classId" element={<ClassDetails />} />
-        <Route path="/school/courses" element={<SchoolCourses />} />
-        <Route path="/school/calendar" element={<SchoolCalendar />} />
-        <Route path="/school/profile" element={<SchoolProfile />} />
+        <Route path="/school/courses" element={<SchoolCoursesPage />} />
+        <Route path="/school/calendar" element={<NewSchoolCalendar />} />
+        <Route path="/school/profile" element={<NewSchoolProfile />} />
         <Route
           path="/class/attendance/:classId"
           element={<ClassAttendancePage />}

@@ -28,6 +28,7 @@ import {
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { motion } from "framer-motion";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
+import { useNewSchoolContext } from "context/NewSchoolContext";
 
 const initialClassState = {
   class_name: "",
@@ -35,7 +36,7 @@ const initialClassState = {
 };
 
 const SchoolClasses = () => {
-  const { schoolId } = useSchoolContext();
+  const { schoolId } = useNewSchoolContext();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
