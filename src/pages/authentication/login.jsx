@@ -74,19 +74,25 @@ function SignInPage() {
       if (["student", "teacher", "school"].includes(userType)) {
         const decodedToken = jwtDecode(access_token);
         const id = decodedToken.id || decodedToken.sub;
-        localStorage.setItem(`${userType}_id`, id);
+
+        if (userType === "school") {
+          localStorage.setItem("schoolId", id);
+        } else {
+          localStorage.setItem(`${userType}_id`, id);
+        }
+
         if (userType === "student") {
           const is_password_changed = decodedToken.is_password_changed;
           console.log(is_password_changed);
-          localStorage.setItem(`is_password_changed`, is_password_changed);
+          localStorage.setItem("is_password_changed", is_password_changed);
         }
+
         console.log(
           `${userType.charAt(0).toUpperCase() + userType.slice(1)} ID:`,
           id
         );
       }
 
-      // Redirect based on user type
       switch (userType) {
         case "student":
           navigate("/student");
@@ -98,7 +104,7 @@ function SignInPage() {
           navigate("/mentor/dashboard");
           break;
         case "school":
-          navigate("/school/dashboard");
+          navigate("/school");
           break;
       }
     } catch (err) {

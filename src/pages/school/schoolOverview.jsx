@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Calendar, Users, BookOpen, School } from "lucide-react";
 import { Bar } from "react-chartjs-2";
 import apiClient from "@/utils/axiosInstance";
-import SchoolSidebar from "./schoolSidebar";
-import CurriculumModal from "./curriculumModal";
+import SchoolSidebar from "pages/admin/admin_pages/school_pages/schoolSidebar";
+import CurriculumModal from "pages/admin/admin_pages/school_pages/curriculumModal";
 import { Button } from "@/components/ui/button";
 import {
   Chart as ChartJS,

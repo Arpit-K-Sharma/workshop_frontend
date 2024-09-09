@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Edit, Save, Trash2, School, Mail, Home, Key } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import RoundedProfilePicture from "userDefined_components/profileimage/RoundedProfileImage";
 
 const SchoolProfile = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const SchoolProfile = () => {
     password: "",
     address: "",
     course_id: [],
+    logo: "",
   });
 
   useEffect(() => {
@@ -43,6 +45,7 @@ const SchoolProfile = () => {
           address: response.data.data.address,
           password: response.data.data.password,
           course_id: response.data.data.course_id,
+          logo: response.data.data.logo,
         });
         setLoading(false);
       } catch (err) {
@@ -130,9 +133,6 @@ const SchoolProfile = () => {
       </div>
     );
 
-  const logoImageUrl =
-    "https://play-lh.googleusercontent.com/sWzGpfBbJC8ng4_9KEFolRzEnjfIEu5tzx1QuYOK5glSvmfX_i8itW-TUpEhkYiZ1Q";
-
   return (
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
@@ -146,22 +146,17 @@ const SchoolProfile = () => {
               <LoadingSpinner />
             ) : schoolData ? (
               <>
-                <div className="flex justify-center -mt-12 mb-4">
+                <div className="flex justify-center mb-4">
                   <motion.div
                     className="relative"
                     initial={{ scale: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div
-                      className="w-44 h-44 mt-8 rounded-full border-4 border-white overflow-hidden shadow-lg"
-                      style={{ boxShadow: "0 0 0 2px black" }}
-                    >
-                      <img
-                        src={logoImageUrl}
-                        alt="School Logo"
-                        className="w-full h-full  object-cover"
-                      />
-                    </div>
+                    <RoundedProfilePicture
+                      profilePicture={schoolData.logo}
+                      studentName={schoolData.school_name}
+                      className="w-auto h-auto mt-4 mb-4"
+                    />
                   </motion.div>
                 </div>
                 <CardContent className="p-6">
@@ -173,33 +168,45 @@ const SchoolProfile = () => {
                       exit={{ height: "auto" }}
                       transition={{ duration: 0.3 }}
                     >
-                      {["school_name", "email", "address"].map((field) => (
-                        <div
-                          key={field}
-                          className="flex items-center space-x-4"
-                        >
-                          {field === "school_name"}
-                          {field === "email"}
-                          {field === "address"}
-                          <div className="flex-grow">
-                            <p className="font-semibold text-gray-600 capitalize">
-                              {field.replace("_", " ")}:
-                            </p>
-                            <Input
-                              type={field === "email" ? "email" : "text"}
-                              name={field}
-                              value={editedData[field]}
-                              onChange={handleChange}
-                              className="mt-1"
-                              disabled={!isEditing}
-                            />
+                      {["school_name", "email", "address", "logo"].map(
+                        (field) => (
+                          <div
+                            key={field}
+                            className="flex items-center space-x-4"
+                          >
+                            {field === "school_name" && (
+                              <School className="w-5 h-5 text-gray-500" />
+                            )}
+                            {field === "email" && (
+                              <Mail className="w-5 h-5 text-gray-500" />
+                            )}
+                            {field === "address" && (
+                              <Home className="w-5 h-5 text-gray-500" />
+                            )}
+                            {field === "logo" && (
+                              <School className="w-5 h-5 text-gray-500" />
+                            )}
+                            <div className="flex-grow">
+                              <p className="font-semibold text-gray-600 capitalize">
+                                {field.replace("_", " ")}:
+                              </p>
+                              <Input
+                                type={field === "email" ? "email" : "text"}
+                                name={field}
+                                value={editedData[field]}
+                                onChange={handleChange}
+                                className="mt-1"
+                                disabled={!isEditing}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        )
+                      )}
                       {isEditing && (
                         <div className="flex items-center space-x-4">
+                          <Key className="w-5 h-5 text-gray-500" />
                           <div className="flex-grow">
-                            {/* <p className="font-semibold text-gray-600">
+                            <p className="font-semibold text-gray-600">
                               Password:
                             </p>
                             <Input
@@ -209,7 +216,7 @@ const SchoolProfile = () => {
                               onChange={handleChange}
                               className="mt-1"
                               placeholder="Enter new password"
-                            /> */}
+                            />
                           </div>
                         </div>
                       )}

@@ -25,6 +25,7 @@ const AdminSidebar = () => {
 
   const handleLogout = () => {
     Cookies.remove("access_token");
+    localStorage.removeItem("schoolId");
     navigate("/");
   };
 
