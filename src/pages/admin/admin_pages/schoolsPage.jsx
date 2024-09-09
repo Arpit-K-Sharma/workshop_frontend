@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../adminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ProfilePictureAvatar from "pages/mentors/mentorPages/profilePictureAvator";
+import { useSchoolContext } from "context/SchoolContext";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +17,7 @@ import {
 import apiClient from "config/apiClient";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import { Upload, Info } from "lucide-react";
+import { Upload, Info, ArrowRight } from "lucide-react";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 import RoundedProfilePicture from "userDefined_components/profileimage/RoundedProfileImage";
 
@@ -36,8 +38,8 @@ const InfoIcon = ({ text }) => (
   </div>
 );
 
-const SchoolCard = ({ school }) => (
-  <div className="bg-white rounded-lg shadow-md p-6">
+const SchoolCard = ({ school, onRedirect }) => (
+  <div className="bg-white rounded-lg border border-spacing-2 border-gray-200 p-6">
     <div className="flex justify-center items-center">
       <RoundedProfilePicture
         profilePicture={school.logo}
@@ -50,6 +52,14 @@ const SchoolCard = ({ school }) => (
     </h2>
     <p className="text-gray-600 text-center mb-2">{school.email}</p>
     <p className="text-gray-600 text-center">{school.address}</p>
+    <div className="flex justify-end mt-4">
+      <Button
+        className="flex items-center underline bg-white hover:bg-white space-x-2 text-gray-800 rounded-lg"
+        onClick={() => onRedirect(school.id)}
+      >
+        <ArrowRight className="w-5 h-5" />
+      </Button>
+    </div>
   </div>
 );
 
@@ -60,6 +70,8 @@ const SchoolsPage = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [previewLogo, setPreviewLogo] = useState(null);
+  const navigate = useNavigate();
+  const { schoolId, setSchoolId } = useSchoolContext();
 
   useEffect(() => {
     fetchSchools();
@@ -159,6 +171,11 @@ const SchoolsPage = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleRedirect = (schoolId) => {
+    setSchoolId(schoolId);
+    navigate("/admin/schools/overview");
   };
 
   return (
@@ -290,7 +307,11 @@ const SchoolsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {schoolData.length > 0 ? (
                 schoolData.map((school) => (
-                  <SchoolCard key={school.id} school={school} />
+                  <SchoolCard
+                    key={school.id}
+                    school={school}
+                    onRedirect={handleRedirect}
+                  />
                 ))
               ) : (
                 <p className="text-center text-gray-500">
@@ -305,5 +326,4 @@ const SchoolsPage = () => {
     </div>
   );
 };
-
 export default SchoolsPage;
