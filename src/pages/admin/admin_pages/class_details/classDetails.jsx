@@ -32,7 +32,7 @@ const ClassDetails = () => {
       setTotalTeacher(response.data.data.teachers?.length || 0);
     } catch (error) {
       console.error("Error fetching class data:", error);
-      // Handle error (e.g., show error message to user)                              
+      // Handle error (e.g., show error message to user)
     } finally {
       setIsLoading(false);
     }
@@ -44,16 +44,15 @@ const ClassDetails = () => {
 
   const handleAddStudent = async (newStudent) => {
     try {
-      const courseId = classData.courses &&
-        classData.courses.length > 0 ?
-        classData.courses.map((course) => course.id) : [];
+      const courseId =
+        classData.courses && classData.courses.length > 0
+          ? classData.courses.map((course) => course.id)
+          : [];
       const addStudent = {
         ...newStudent,
         school_id: classData.school_id,
         class_id: classId,
-        course_id: courseId && courseId.length > 0
-          ? courseId.join(",")
-          : ""
+        course_id: courseId && courseId.length > 0 ? courseId.join(",") : "",
       };
       console.log(classData.courses);
       console.log(addStudent);
@@ -190,12 +189,14 @@ const ClassDetails = () => {
     ];
 
     // Return the updated course IDs
-    return updatedCourseIds && updatedCourseIds.length > 0 ? updatedCourseIds : [];
+    return updatedCourseIds && updatedCourseIds.length > 0
+      ? updatedCourseIds
+      : [];
   };
 
   // const updateStudentPromises = classData.students && classData.students.length > 0
   // ? classData.students.map(async (student) => {
-  //     return apiClient.put(`/student/${student.id}`, 
+  //     return apiClient.put(`/student/${student.id}`,
   //       {course_id: selectedCourses})
   //     }): [];
 
@@ -246,144 +247,148 @@ const ClassDetails = () => {
 
         await fetchClassData();
 
-        const updateAddedTeacher = newlySelectedTeacher && newlySelectedTeacher.length > 0 ? newlySelectedTeacher.map(
-          async (teacherId) => {
-            const teacherResponse = await apiClient.get(
-              `/teacher/${teacherId}`
-            );
-            const teacher = teacherResponse.data.data;
-            let updatedCourse = [];
-            let totalSchoolInfo = [];
-
-            console.log("Teacher School Info:", teacher.schools); // Debug log
-
-            if (
-              teacher.schools &&
-              Array.isArray(teacher.schools) &&
-              teacher.schools.length > 0
-            ) {
-              console.log("Entering schoolInfo condition"); // Debug log
-              totalSchoolInfo = [...teacher.schools];
-
-              let schoolInfoUpdated = false;
-
-              for (const school_info of totalSchoolInfo) {
-                if (school_info.school_id === classData.school_id) {
-                  console.log("Matching school found:", school_info); // Debug log
-                  const new_class = [
-                    ...(school_info.classes || []),
-                    classData.id,
-                  ];
-                  updatedCourse = getUpdatedCourseIds(school_info.courses);
-                  const perSchoolInfo = assignSchoolInfo(
-                    school_info.school_id,
-                    new_class,
-                    updatedCourse
-                  );
-
-                  console.log(perSchoolInfo);
-
-                  // Update the existing school info instead of filtering and pushing
-                  Object.assign(school_info, perSchoolInfo);
-                  schoolInfoUpdated = true;
-                  break; // Exit the loop once we've updated the matching school
-                }
-              }
-
-              // If no matching school was found, add a new school info
-              if (!schoolInfoUpdated) {
-                const newSchoolInfo = assignSchoolInfo(
-                  classData.school_id,
-                  [classData.id],
-                  classData.courses && classData.courses.length > 0
-                    ? classData.courses.map((course) => course.id)
-                    : []
+        const updateAddedTeacher =
+          newlySelectedTeacher && newlySelectedTeacher.length > 0
+            ? newlySelectedTeacher.map(async (teacherId) => {
+                const teacherResponse = await apiClient.get(
+                  `/teacher/${teacherId}`
                 );
-                totalSchoolInfo.push(newSchoolInfo);
-              }
+                const teacher = teacherResponse.data.data;
+                let updatedCourse = [];
+                let totalSchoolInfo = [];
 
-              console.log("Updated totalSchoolInfo:", totalSchoolInfo); // Debug log
-            } else {
-              console.log("Entering else condition"); // Debug log
-              totalSchoolInfo = [
-                assignSchoolInfo(
-                  classData.school_id,
-                  [classData.id],
-                  classData.courses && classData.courses.length > 0
-                    ? classData.courses.map((course) => course.id)
-                    : []
-                ),
-              ];
-            }
+                console.log("Teacher School Info:", teacher.schools); // Debug log
 
-            await handleTeacherAPI(teacher, totalSchoolInfo);
-          }
-        ) : [];
+                if (
+                  teacher.schools &&
+                  Array.isArray(teacher.schools) &&
+                  teacher.schools.length > 0
+                ) {
+                  console.log("Entering schoolInfo condition"); // Debug log
+                  totalSchoolInfo = [...teacher.schools];
 
-        const updateRemovedTeacher = newlyRemovedTeacher && newlyRemovedTeacher.length > 0 ? newlyRemovedTeacher.map(
-          async (teacherId) => {
-            const teacherResponse = await apiClient.get(
-              `/teacher/${teacherId}`
-            );
-            const teacher = teacherResponse.data.data;
-            let updatedCourse = [];
-            let totalSchoolInfo = [];
+                  let schoolInfoUpdated = false;
 
-            console.log("Teacher School Info:", teacher.schools); // Debug log
+                  for (const school_info of totalSchoolInfo) {
+                    if (school_info.school_id === classData.school_id) {
+                      console.log("Matching school found:", school_info); // Debug log
+                      const new_class = [
+                        ...(school_info.classes || []),
+                        classData.id,
+                      ];
+                      updatedCourse = getUpdatedCourseIds(school_info.courses);
+                      const perSchoolInfo = assignSchoolInfo(
+                        school_info.school_id,
+                        new_class,
+                        updatedCourse
+                      );
 
-            if (
-              teacher.schools &&
-              Array.isArray(teacher.schools) &&
-              teacher.schools.length > 0
-            ) {
-              console.log("Entering schools condition for removal"); // Debug log
-              totalSchoolInfo = [...teacher.schools];
+                      console.log(perSchoolInfo);
 
-              totalSchoolInfo = totalSchoolInfo.filter((school_info) => {
-                if (school_info.school_id === classData.school_id) {
-                  console.log(
-                    "Matching school found for removal:",
-                    school_info
-                  ); // Debug log
-
-                  // Remove the class from the school's classes
-                  school_info.classes = school_info.classes.filter(
-                    (classId) => classId !== classData.id
-                  );
-
-                  // Update courses if necessary
-                  updatedCourse = getUpdatedCourseIds(school_info.courses);
-
-                  // If classes become empty, return false to remove this school
-                  if (school_info.classes.length === 0) {
-                    console.log("Removing school as it has no more classes"); // Debug log
-                    return false;
+                      // Update the existing school info instead of filtering and pushing
+                      Object.assign(school_info, perSchoolInfo);
+                      schoolInfoUpdated = true;
+                      break; // Exit the loop once we've updated the matching school
+                    }
                   }
 
-                  // Update the school info
-                  const perSchoolInfo = assignSchoolInfo(
-                    school_info.school_id,
-                    school_info.classes,
-                    updatedCourse
-                  );
-                  console.log(perSchoolInfo);
-                  Object.assign(school_info, perSchoolInfo);
+                  // If no matching school was found, add a new school info
+                  if (!schoolInfoUpdated) {
+                    const newSchoolInfo = assignSchoolInfo(
+                      classData.school_id,
+                      [classData.id],
+                      classData.courses && classData.courses.length > 0
+                        ? classData.courses.map((course) => course.id)
+                        : []
+                    );
+                    totalSchoolInfo.push(newSchoolInfo);
+                  }
+
+                  console.log("Updated totalSchoolInfo:", totalSchoolInfo); // Debug log
+                } else {
+                  console.log("Entering else condition"); // Debug log
+                  totalSchoolInfo = [
+                    assignSchoolInfo(
+                      classData.school_id,
+                      [classData.id],
+                      classData.courses && classData.courses.length > 0
+                        ? classData.courses.map((course) => course.id)
+                        : []
+                    ),
+                  ];
                 }
-                return true; // Keep this school in the array
-              });
 
-              console.log(
-                "Updated totalSchoolInfo after removal:",
-                totalSchoolInfo
-              ); // Debug log
-            } else {
-              console.log("No schools to remove from"); // Debug log
-              totalSchoolInfo = []; // No schools to update
-            }
+                await handleTeacherAPI(teacher, totalSchoolInfo);
+              })
+            : [];
 
-            await handleTeacherAPI(teacher, totalSchoolInfo);
-          }
-        ) : [];
+        const updateRemovedTeacher =
+          newlyRemovedTeacher && newlyRemovedTeacher.length > 0
+            ? newlyRemovedTeacher.map(async (teacherId) => {
+                const teacherResponse = await apiClient.get(
+                  `/teacher/${teacherId}`
+                );
+                const teacher = teacherResponse.data.data;
+                let updatedCourse = [];
+                let totalSchoolInfo = [];
+
+                console.log("Teacher School Info:", teacher.schools); // Debug log
+
+                if (
+                  teacher.schools &&
+                  Array.isArray(teacher.schools) &&
+                  teacher.schools.length > 0
+                ) {
+                  console.log("Entering schools condition for removal"); // Debug log
+                  totalSchoolInfo = [...teacher.schools];
+
+                  totalSchoolInfo = totalSchoolInfo.filter((school_info) => {
+                    if (school_info.school_id === classData.school_id) {
+                      console.log(
+                        "Matching school found for removal:",
+                        school_info
+                      ); // Debug log
+
+                      // Remove the class from the school's classes
+                      school_info.classes = school_info.classes.filter(
+                        (classId) => classId !== classData.id
+                      );
+
+                      // Update courses if necessary
+                      updatedCourse = getUpdatedCourseIds(school_info.courses);
+
+                      // If classes become empty, return false to remove this school
+                      if (school_info.classes.length === 0) {
+                        console.log(
+                          "Removing school as it has no more classes"
+                        ); // Debug log
+                        return false;
+                      }
+
+                      // Update the school info
+                      const perSchoolInfo = assignSchoolInfo(
+                        school_info.school_id,
+                        school_info.classes,
+                        updatedCourse
+                      );
+                      console.log(perSchoolInfo);
+                      Object.assign(school_info, perSchoolInfo);
+                    }
+                    return true; // Keep this school in the array
+                  });
+
+                  console.log(
+                    "Updated totalSchoolInfo after removal:",
+                    totalSchoolInfo
+                  ); // Debug log
+                } else {
+                  console.log("No schools to remove from"); // Debug log
+                  totalSchoolInfo = []; // No schools to update
+                }
+
+                await handleTeacherAPI(teacher, totalSchoolInfo);
+              })
+            : [];
 
         await Promise.all(updateAddedTeacher);
         await Promise.all(updateRemovedTeacher);
@@ -426,19 +431,19 @@ const ClassDetails = () => {
           throw new Error("Failed to update class data");
         }
 
-
         // const courseId = selectedCourses && selectedCourses.length > 0
         // ? selectedCourses.join(",")
         // : "";
         // console.log(courseId);
 
-
-        const updateStudentPromises = classData.students && classData.students.length > 0
-          ? classData.students.map(async (student) => {
-            return apiClient.put(`/student/${student.id}`,
-              { course_id: selectedCourses })
-          }) : [];
-
+        const updateStudentPromises =
+          classData.students && classData.students.length > 0
+            ? classData.students.map(async (student) => {
+                return apiClient.put(`/student/${student.id}`, {
+                  course_id: selectedCourses,
+                });
+              })
+            : [];
 
         // const updateTeacherPromises = classData.teachers.map(teacher =>
         //     apiClient.put(`/teacher/${teacher.id}`, {
@@ -472,7 +477,7 @@ const ClassDetails = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto ml-64">
         <main className="p-8">
           {isLoading ? (
             <LoadingSpinner />

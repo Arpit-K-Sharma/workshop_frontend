@@ -54,7 +54,16 @@ const SchoolClasses = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get(`/class/school/${schoolId}`);
-      setClassResponse(response.data.data || []);
+      const classesWithDetails = await Promise.all(
+        response.data.data.map(async (classItem) => {
+          const detailsResponse = await apiClient.get(`/class/${classItem.id}`);
+          return {
+            ...classItem,
+            ...detailsResponse.data.data,
+          };
+        })
+      );
+      setClassResponse(classesWithDetails);
     } catch (error) {
       console.log("Error fetching classes", error);
       setClassResponse([]);
@@ -70,7 +79,12 @@ const SchoolClasses = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewClass((prev) => ({ ...prev, [name]: value, school_id: schoolId }));
+    console.log("Input changed:", name, value); // Add this line
+    setNewClass((prev) => {
+      const updatedClass = { ...prev, [name]: value, school_id: schoolId };
+      console.log("Updated newClass:", updatedClass); // Add this line
+      return updatedClass;
+    });
   };
 
   const handleUpdateInputChange = (e) => {
@@ -118,9 +132,22 @@ const SchoolClasses = () => {
   const updateClass = async () => {
     try {
       const response = await apiClient.put(`/class/${updatingClass.id}`, {
+        ...updatingClass,
         class_name: updatingClass.class_name,
+        school_id: schoolId,
+        students:
+          updatingClass.students && updatingClass.students.length > 0
+            ? updatingClass.students.map((student) => student.id)
+            : [],
+        teachers:
+          updatingClass.teachers && updatingClass.teachers.length > 0
+            ? updatingClass.teachers.map((teacher) => teacher.id)
+            : [],
+        courses:
+          updatingClass.courses && updatingClass.courses.length > 0
+            ? updatingClass.courses.map((course) => course.id)
+            : [],
       });
-
       if (response.data.status === "success") {
         fetchClasses();
         toast({
