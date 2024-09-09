@@ -60,6 +60,13 @@ const SchoolSidebar = () => {
         </div>
         <nav className="flex-grow w-full">
           <Button
+            className="w-56 justify-start p-6 rounded-none text-sm bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
+            onClick={() => navigate("/admin")}
+          >
+            <ArrowLeft className="mr-2 h-5 w-5" />
+            Return to Dashboard
+          </Button>
+          <Button
             className={`w-56 justify-start p-6 rounded-none text-sm bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out ${
               window.location.pathname === "/admin/schools/overview"
                 ? "bg-[#EAEFFB] text-black hover:bg-[#EAEFFB] hover:text-black"
