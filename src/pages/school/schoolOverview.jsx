@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useSchoolContext } from "context/SchoolContext";
+import { useSchoolContext } from "context/AdminSchoolContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Calendar, Users, BookOpen, School } from "lucide-react";
 import { Bar } from "react-chartjs-2";
 import apiClient from "@/utils/axiosInstance";
-import SchoolSidebar from "pages/admin/admin_pages/school_pages/schoolSidebar";
-import CurriculumModal from "pages/admin/admin_pages/school_pages/curriculumModal";
+import ISidebar from "./sidebarSchool";
+import CurriculumModal from "./curriculumModal";
 import { Button } from "@/components/ui/button";
 import {
   Chart as ChartJS,
@@ -17,6 +17,7 @@ import {
   Legend,
 } from "chart.js";
 import { baseURL } from "@/utils/axiosInstance";
+import { useNewSchoolContext } from "../../context/NewSchoolContext";
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +29,7 @@ ChartJS.register(
 );
 
 const SchoolDashboard = () => {
-  const { schoolId } = useSchoolContext();
+  const { schoolId } = useNewSchoolContext();
   const [events, setEvents] = useState([]);
   const [studentCount, setStudentCount] = useState(0);
   const [courseCount, setCourseCount] = useState(0);
@@ -82,23 +83,12 @@ const SchoolDashboard = () => {
   }, [schoolId]);
 
   const studentPerCourseData = {
-    labels: ["React", "Node.js", "Python", "Java", "JavaScript"],
-    datasets: [
-      {
-        label: "Students per Course",
-        data: [65, 59, 80, 81, 56],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-      },
-    ],
-  };
-
-  const popularCoursesData = {
     labels: ["HTML/CSS", "Scratch", "Cybersecurity"],
     datasets: [
       {
-        label: "Course Popularity",
-        data: [300, 250, 400, 350, 280],
-        backgroundColor: "rgba(153, 102, 255, 0.6)",
+        label: "Students registered",
+        data: [65, 59, 80, 81, 56],
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
     ],
   };
@@ -136,49 +126,45 @@ const SchoolDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 ">
-      <SchoolSidebar />
+    <div className="flex h-screen bg-gray-50">
+      <ISidebar />
       <div className="flex-1 overflow-auto">
-        <div className="p-8 bg-gray-50 min-h-screen">
-          <h1 className="text-4xl font-bold mb-8 text-gray-800 ">
-            {name} Dashboard
-          </h1>
-          <CurriculumModal />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-4">
+        <main className="p-8 ml-64">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8 mt-4">
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium ">
-                  Total Courses
-                </CardTitle>
-                <BookOpen className="h-6 w-6 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{courseCount}</div>
-                <div className="text-sm">Courses assigned to this school</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium ">
-                  Total Number of Classes
-                </CardTitle>
-                <BookOpen className="h-6 w-6 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{classes}</div>
-                <div className="text-sm">Classes teaching in this school</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
+              <CardHeader className="flex flex-col items-center justify-center pb-2">
+                <CardTitle className="text-[18px] font-medium text-center">
                   Total Students
                 </CardTitle>
-                <Users className="h-6 w-6 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{studentCount}</div>
-                <div className="text-sm">Students Studying to this school</div>
+                <div className="text-heading font-bold text-center">
+                  {studentCount}
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-col items-center justify-center pb-2">
+                <CardTitle className="text-[18px] font-medium text-center">
+                  Total Courses
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-heading font-bold text-center">
+                  {courseCount}
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-col items-center justify-center pb-2">
+                <CardTitle className="text-[18px] font-medium text-center">
+                  Total Number of Classes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-heading font-bold text-center">
+                  {classes}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -186,7 +172,9 @@ const SchoolDashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <Card className="col-span-2">
               <CardHeader>
-                <CardTitle>Students per Course</CardTitle>
+                <CardTitle className="text-subheading">
+                  Students registered
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <Bar data={studentPerCourseData} options={options} />
@@ -194,7 +182,9 @@ const SchoolDashboard = () => {
             </Card>
             <Card className="lg:row-span-2">
               <CardHeader>
-                <CardTitle>Upcoming Events</CardTitle>
+                <CardTitle className="text-subheading">
+                  Events for (Month name)
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-8">
@@ -226,8 +216,11 @@ const SchoolDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+            <div className="w-1/2 ml-6">
+              <CurriculumModal />
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

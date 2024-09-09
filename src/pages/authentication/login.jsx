@@ -76,7 +76,7 @@ function SignInPage() {
         const id = decodedToken.id || decodedToken.sub;
 
         if (userType === "school") {
-          localStorage.setItem("schoolId", id);
+          localStorage.setItem("school_admin_id", id);
         } else {
           localStorage.setItem(`${userType}_id`, id);
         }

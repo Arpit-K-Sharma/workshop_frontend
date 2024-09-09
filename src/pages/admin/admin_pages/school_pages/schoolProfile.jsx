@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SchoolSidebar from "./schoolSidebar";
-import { useSchoolContext } from "context/SchoolContext";
+import { useSchoolContext } from "context/AdminSchoolContext";
 import apiClient from "config/apiClient";
 import LoadingSpinner from "userDefined_components/loading_spinner/loadingSpinner";
 import { useNavigate } from "react-router-dom";

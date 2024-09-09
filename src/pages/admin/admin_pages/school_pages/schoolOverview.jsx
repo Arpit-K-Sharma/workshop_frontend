@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSchoolContext } from "context/SchoolContext";
+import { useSchoolContext } from "context/AdminSchoolContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Calendar, Users, BookOpen, School } from "lucide-react";
 import { Bar } from "react-chartjs-2";

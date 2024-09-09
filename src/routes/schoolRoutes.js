@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import SchoolOverview from "pages/admin/admin_pages/school_pages/schoolOverview";
 import SchoolProfile from "pages/admin/admin_pages/school_pages/schoolProfile";
-import { SchoolContextProvider } from "context/SchoolContext";
+import { SchoolContextProvider } from "context/AdminSchoolContext";
 import SchoolsPage from "pages/admin/admin_pages/schoolsPage";
 import SchoolClasses from "pages/admin/admin_pages/school_pages/schoolClasses";
 import SchoolCourses from "pages/admin/admin_pages/school_pages/schoolCourses";

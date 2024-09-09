@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SchoolSidebar from "./schoolSidebar";
-import { useSchoolContext } from "context/SchoolContext";
+import { useSchoolContext } from "context/AdminSchoolContext";
 import apiClient from "config/apiClient";
 import {
   Dialog,

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ProfilePictureAvatar from "pages/mentors/mentorPages/profilePictureAvator";
-import { useSchoolContext } from "context/SchoolContext";
+import { useSchoolContext } from "context/AdminSchoolContext";
 import {
   Dialog,
   DialogContent,

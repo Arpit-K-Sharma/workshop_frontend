@@ -4,7 +4,7 @@ import apiClient from "config/apiClient";
 import { useSchoolContext } from "context/AdminSchoolContext";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import SchoolSidebar from "./schoolSidebar";
+import ISidebar from "./sidebarSchool";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -194,7 +194,7 @@ const SchoolClasses = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <SchoolSidebar />
+      <ISidebar />
       <div className="flex-1 overflow-auto">
         <main className="p-6 ml-64">
           <div className="flex justify-between items-center mb-8">

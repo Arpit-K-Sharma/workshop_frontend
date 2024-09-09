@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSchoolContext } from "context/SchoolContext";
+import { useSchoolContext } from "context/AdminSchoolContext";
 import {
   ChevronLeft,
   ChevronRight,
