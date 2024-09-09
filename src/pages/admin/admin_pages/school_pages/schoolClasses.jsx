@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import apiClient from "config/apiClient";
-import { useSchoolContext } from "context/AdminSchoolContext";
+
+import React, { useEffect, useState, useMemo } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import SchoolSidebar from "./schoolSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSchoolContext } from "context/AdminSchoolContext";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -79,12 +80,7 @@ const SchoolClasses = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log("Input changed:", name, value); // Add this line
-    setNewClass((prev) => {
-      const updatedClass = { ...prev, [name]: value, school_id: schoolId };
-      console.log("Updated newClass:", updatedClass); // Add this line
-      return updatedClass;
-    });
+    setNewClass((prev) => ({ ...prev, [name]: value, school_id: schoolId }));
   };
 
   const handleUpdateInputChange = (e) => {
@@ -93,11 +89,9 @@ const SchoolClasses = () => {
   };
 
   const sortedClasses = useMemo(() => {
-    return Array.isArray(classResponse)
-      ? [...classResponse].sort((a, b) =>
-          a.class_name.localeCompare(b.class_name)
-        )
-      : [];
+    return [...classResponse].sort((a, b) =>
+      a.class_name.localeCompare(b.class_name)
+    );
   }, [classResponse]);
 
   const addClass = async () => {
@@ -222,8 +216,8 @@ const SchoolClasses = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
-      <div className="flex-1 overflow-auto">
-        <main className="p-6 ml-64">
+      <div className="flex-1 overflow-auto ml-64">
+        <main className="p-8">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">
               Class Management
@@ -262,10 +256,10 @@ const SchoolClasses = () => {
 
           {isLoading ? (
             <LoadingSpinner />
-          ) : sortedClasses.length > 0 ? (
+          ) : sortedClasses && sortedClasses.length > 0 ? (
             <Table className="bg-white">
               <TableHeader className="text-white hover:text-white">
-                <TableRow className="bg-[#34486B] hover:bg-[#34486B]">
+                <TableRow className="bg-[#0a0a28] hover:bg-[#0a0a28]">
                   <TableHead className="text-white text-center">
                     Class Name
                   </TableHead>
@@ -302,7 +296,6 @@ const SchoolClasses = () => {
                       <Button
                         onClick={() => handleViewDetails(classItem.id)}
                         size="sm"
-                        className="bg-[#34486B] hover:bg-[#203457] text-white"
                       >
                         View Details
                       </Button>
@@ -310,7 +303,7 @@ const SchoolClasses = () => {
                         onClick={() => handleViewAttendance(classItem.id)}
                         variant="outline"
                         size="sm"
-                        className="ml-2 border-[#34486B] text-[#34486B] hover:bg-[#34486B] hover:text-white"
+                        className="ml-2"
                       >
                         View Attendance
                       </Button>
@@ -318,7 +311,7 @@ const SchoolClasses = () => {
                         onClick={() => handleUpdateClick(classItem)}
                         variant="secondary"
                         size="sm"
-                        className="ml-2 bg-[#EAEFFB] text-[#34486B] hover:bg-[#34486B] hover:text-white"
+                        className="ml-2"
                       >
                         <FaEdit className="mr-2" /> Update
                       </Button>
@@ -348,6 +341,7 @@ const SchoolClasses = () => {
             </motion.div>
           )}
 
+          {/* Update Class Dialog */}
           <Dialog
             open={isUpdateDialogOpen}
             onOpenChange={setIsUpdateDialogOpen}
@@ -360,21 +354,18 @@ const SchoolClasses = () => {
                 <Label htmlFor="update_class_name">Class Name</Label>
                 <Input
                   id="update_class_name"
+                  name="class_name"
                   value={updatingClass?.class_name || ""}
                   onChange={handleUpdateInputChange}
                 />
               </div>
               <DialogFooter className="mt-6">
-                <Button
-                  onClick={updateClass}
-                  className="bg-[#34486B] hover:bg-[#203457]"
-                >
-                  Update Class
-                </Button>
+                <Button onClick={updateClass}>Update Class</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
 
+          {/* Delete Class Confirmation Dialog */}
           <Dialog
             open={isDeleteDialogOpen}
             onOpenChange={setIsDeleteDialogOpen}
@@ -391,7 +382,6 @@ const SchoolClasses = () => {
                 <Button
                   variant="outline"
                   onClick={() => setIsDeleteDialogOpen(false)}
-                  className="border-[#34486B] text-[#34486B] hover:bg-[#34486B] hover:text-white"
                 >
                   Cancel
                 </Button>
