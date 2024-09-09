@@ -56,7 +56,18 @@ const SchoolClasses = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get(`/class/school/${schoolId}`);
-      setClassResponse(response.data.data || []);
+      const classesWithDetails = await Promise.all(
+        response.data.data.map(async (classItem) => {
+          const detailsResponse = await apiClient.get(
+            `/class/school/${classItem.id}`
+          );
+          return {
+            ...classItem,
+            ...detailsResponse.data.data,
+          };
+        })
+      );
+      setClassResponse(classesWithDetails);
     } catch (error) {
       console.log("Error fetching classes", error);
       setClassResponse([]);
@@ -177,11 +188,11 @@ const SchoolClasses = () => {
   };
 
   const handleViewDetails = (classId) => {
-    navigate(`/admin/schools/classes/${classId}`);
+    navigate(`/school/classes/${classId}`);
   };
 
   const handleViewAttendance = (classId) => {
-    navigate(`/admin/class/attendance/${classId}`);
+    navigate(`/school/class/attendance/${classId}`);
   };
 
   const handleUpdateClick = (classItem) => {
