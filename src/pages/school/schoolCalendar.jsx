@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSchoolContext } from "context/AdminSchoolContext";
 import ISidebar from "./sidebarSchool";
 import {
   ChevronLeft,
@@ -8,7 +7,7 @@ import {
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import apiClient from "config/apiClient";
-import { isAdmin } from "pages/authentication/util";
+import { isAdmin, isSchool } from "pages/authentication/util";
 import { format, isSaturday } from "date-fns";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +28,7 @@ import { useNewSchoolContext } from "context/NewSchoolContext";
 
 const NewSchoolCalendar = () => {
   const { schoolId } = useNewSchoolContext();
+  console.log("The school id is", schoolId);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [monthlyEvents, setMonthlyEvents] = useState([]);
   const [dailyEvents, setDailyEvents] = useState([]);
@@ -76,7 +76,7 @@ const NewSchoolCalendar = () => {
   };
 
   const handleEventClick = (event) => {
-    if (isAdmin()) {
+    if (isAdmin() || isSchool()) {
       if (event.day) {
         const newDate = new Date(
           selectedDate.getFullYear(),
@@ -93,7 +93,7 @@ const NewSchoolCalendar = () => {
   };
 
   const onSubmit = async (formData) => {
-    if (!isAdmin()) return;
+    if (!isSchool()) return;
 
     const eventData = {
       year: selectedDate.getFullYear(),
@@ -305,7 +305,7 @@ const NewSchoolCalendar = () => {
                       )}
                     </AnimatePresence>
                   </div>
-                  {isAdmin() && (
+                  {isSchool() && (
                     <Button
                       className="mt-4 w-full"
                       onClick={() => {
@@ -397,7 +397,7 @@ const NewSchoolCalendar = () => {
           </div>
         </div>
 
-        {isAdmin() && (
+        {isSchool() && (
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>

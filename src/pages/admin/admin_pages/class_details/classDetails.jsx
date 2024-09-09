@@ -24,19 +24,21 @@ const ClassDetails = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get(`/class/${classId}`);
-      // console.log(response);
-      // if (!response.ok) throw new Error('Failed to fetch class data');
       setClassData(response.data.data);
       setTotalStudent(response.data.data.students?.length || 0);
       setTotalCourse(response.data.data.courses?.length || 0);
       setTotalTeacher(response.data.data.teachers?.length || 0);
     } catch (error) {
       console.error("Error fetching class data:", error);
-      // Handle error (e.g., show error message to user)
+      toast({
+        title: "Error",
+        description: "Failed to fetch class data. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
-  }, [classId]);
+  }, [classId, toast]);
 
   useEffect(() => {
     fetchClassData();
@@ -477,8 +479,8 @@ const ClassDetails = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
-      <div className="flex-1 overflow-auto ml-64">
-        <main className="p-8">
+      <div className="flex-1 overflow-auto">
+        <main className="p-8 ml-64">
           {isLoading ? (
             <LoadingSpinner />
           ) : classData ? (
@@ -542,12 +544,20 @@ const ClassDetails = () => {
               />
             </>
           ) : (
-            <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md text-center">
-              <p className="font-bold">No Class Data Found</p>
-              <p>
-                There was an issue retrieving the class data. Please try again
-                later.
-              </p>
+            <div>
+              <div className="flex space-x-4 mb-8">
+                <AssignTeacherButton onAssignTeacher={handleAssignTeacher} />
+                <AssignCoursesButton onAssignCourse={handleAssignCourse} />
+                <AddStudentButton onAddStudent={handleAddStudent} />
+              </div>
+
+              <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md text-center">
+                <p className="font-bold">No Class Data Found</p>
+                <p>
+                  There was an issue retrieving the class data. Please try again
+                  later.
+                </p>
+              </div>
             </div>
           )}
         </main>

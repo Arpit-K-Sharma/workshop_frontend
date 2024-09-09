@@ -5,11 +5,22 @@ const NewSchoolContext = createContext();
 export const NewSchoolContextProvider = ({ children }) => {
   const [schoolId, setSchoolId] = useState(() => {
     const savedSchoolId = localStorage.getItem("school_admin_id");
-    return savedSchoolId ? JSON.parse(savedSchoolId) : null;
+    try {
+      // Attempt to parse the saved value
+      return savedSchoolId ? JSON.parse(savedSchoolId) : null;
+    } catch (error) {
+      // If parsing fails, return the raw string
+      console.error("Error parsing school_admin_id:", error);
+      return savedSchoolId;
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem("school_admin_id", JSON.stringify(schoolId));
+    if (schoolId !== null && schoolId !== undefined) {
+      localStorage.setItem("school_admin_id", JSON.stringify(schoolId));
+    } else {
+      localStorage.removeItem("school_admin_id");
+    }
   }, [schoolId]);
 
   return (

@@ -80,18 +80,9 @@ const SchoolCourses = () => {
   const assignCourses = async () => {
     setIsAssigning(true);
     try {
-      const updatedSchoolData = {
-        ...currentSchoolData,
+      const response = await apiClient.put(`/school/${schoolId}`, {
         course_id: selectedCourses,
-      };
-
-      delete updatedSchoolData.id;
-      console.log(updatedSchoolData);
-
-      const response = await apiClient.put(
-        `/school/${schoolId}`,
-        updatedSchoolData
-      );
+      });
 
       if (response.data.status === "success") {
         toast({
@@ -117,8 +108,8 @@ const SchoolCourses = () => {
   return (
     <div className="flex h-screen">
       <SchoolSidebar />
-      <div className="flex-1 overflow-auto">
-        <main className="p-6 ml-64 ">
+      <div className="flex-1 overflow-auto ml-64">
+        <main className="p-6">
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-2xl font-bold">Course Management</h1>

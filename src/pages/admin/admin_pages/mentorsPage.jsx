@@ -164,7 +164,7 @@ const MentorsPage = () => {
                   onClick={handleOpenDialog}
                 >
                   <Plus className="mr-2" />
-                  Add School
+                  Add Mentors
                 </Button>
               </DialogTrigger>
               <DialogContent>

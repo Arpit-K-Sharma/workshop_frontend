@@ -43,7 +43,7 @@ const AssignTeacherButton = ({ onAssignTeacher, class_data }) => {
   const fetchAllTeachers = useCallback(async () => {
     try {
       const teacherData = await apiClient.get("/teacher");
-      setAllTeachers(teacherData?teacherData.data:[]);
+      setAllTeachers(teacherData ? teacherData.data : []);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast({

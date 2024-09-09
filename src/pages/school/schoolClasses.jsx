@@ -37,6 +37,7 @@ const initialClassState = {
 
 const SchoolClasses = () => {
   const { schoolId } = useNewSchoolContext();
+
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);

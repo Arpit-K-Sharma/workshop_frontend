@@ -57,7 +57,9 @@ const SchoolClasses = () => {
       const response = await apiClient.get(`/class/school/${schoolId}`);
       const classesWithDetails = await Promise.all(
         response.data.data.map(async (classItem) => {
-          const detailsResponse = await apiClient.get(`/class/${classItem.id}`);
+          const detailsResponse = await apiClient.get(
+            `/class/school/${classItem.id}`
+          );
           return {
             ...classItem,
             ...detailsResponse.data.data,
@@ -216,8 +218,8 @@ const SchoolClasses = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <SchoolSidebar />
-      <div className="flex-1 overflow-auto ml-64">
-        <main className="p-8">
+      <div className="flex-1 overflow-auto">
+        <main className="p-8 ml-64">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">
               Class Management

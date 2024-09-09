@@ -61,7 +61,7 @@ const SchoolSidebar = () => {
         <nav className="flex-grow w-full">
           <Button
             className="w-56 justify-start p-6 rounded-none text-sm bg-[#34486B] hover:bg-[#203457] hover:text-white transition-all duration-300 ease-in-out"
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/admin/schools")}
           >
             <ArrowLeft className="mr-2 h-5 w-5" />
             Return to Dashboard

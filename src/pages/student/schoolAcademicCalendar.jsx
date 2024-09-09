@@ -27,7 +27,7 @@ import StudentSidebar from "./studentSidebar";
 import { motion, AnimatePresence } from "framer-motion";
 import App from "App";
 
-const SchoolCalendar = () => {
+const NewSchoolCalendar = () => {
   const [schoolId, setSchoolId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [monthlyEvents, setMonthlyEvents] = useState([]);
@@ -460,4 +460,4 @@ const SchoolCalendar = () => {
   );
 };
 
-export default SchoolCalendar;
+export default NewSchoolCalendar;
