@@ -17,10 +17,12 @@ const DetailModal = () => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex items-center cursor-pointer group">
-          <p className="underline text-md text-[#3e70c2]">Details</p>
+          <p className="underline text-md text-[#3e70c2] max-sm:hidden">
+            Details
+          </p>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[800spx]">
         <DialogHeader>
           <DialogTitle>Course Details</DialogTitle>
           <DialogDescription>
@@ -41,8 +43,10 @@ const DetailModal = () => {
               transition={{ duration: 0.3 }}
               className="mt-4 space-y-4"
             >
-              <h3 className="text-xl font-bold mb-2">HTML/CSS</h3>
-              <p className="mb-2">
+              <h3 className="text-xl font-bold mb-2 max-sm:text-lg">
+                HTML/CSS
+              </h3>
+              <p className="mb-2 max-sm:text-sm">
                 HTML (Hypertext Markup Language) is the standard language used
                 to create the structure and content of web pages, including
                 elements like headings, paragraphs, images, and links. CSS
