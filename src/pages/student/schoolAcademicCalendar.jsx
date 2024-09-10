@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import StudentSidebar from "./studentSidebar";
 import { motion, AnimatePresence } from "framer-motion";
 import App from "App";
+import MobileSidebar from "./studentMobileSidebar";
 
 const SchoolCalendar = () => {
   const [schoolId, setSchoolId] = useState(null);
@@ -209,7 +210,9 @@ const SchoolCalendar = () => {
       days.push(
         <div
           key={day}
-          className={`${getDayClass(date)} cursor-pointer hover:bg-blue-100 ml-2 `}
+          className={`${getDayClass(
+            date
+          )} cursor-pointer hover:bg-blue-100 ml-2 `}
           onClick={() => handleDateSelect(date)}
         >
           {day}
@@ -223,12 +226,13 @@ const SchoolCalendar = () => {
   return (
     <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
-      <div className="min-h-screen p-8 w-full bg-[#EAEFFB]">
+      <MobileSidebar />
+      <div className="min-h-screen p-8 w-full bg-[#EAEFFB] max-sm:p-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-5 gap-8">
-            <div className="col-span-2 space-y-8">
-              <Card className="h-[40vh] border-none">
-                <CardContent className="p-6">
+          <div className="grid grid-cols-5 gap-8 max-sm:grid-cols-1">
+            <div className="col-span-2 space-y-8 max-sm:col-span-1">
+              <Card className="h-[40vh] border-none max-sm:h-auto">
+                <CardContent className="p-6 max-sm:p-4">
                   <div className="flex justify-between items-center mb-4">
                     <Button
                       variant="outline"
@@ -245,7 +249,7 @@ const SchoolCalendar = () => {
                     >
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
-                    <h2 className="text-xl font-semibold text-gray-700">
+                    <h2 className="text-xl font-semibold text-gray-700 max-sm:text-lg">
                       {format(selectedDate, "MMMM yyyy")}
                     </h2>
                     <Button
@@ -264,76 +268,75 @@ const SchoolCalendar = () => {
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="grid grid-cols-7 gap-2 text-center">
+                  <div className="grid grid-cols-7 gap-2 text-center max-sm:gap-1">
                     {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                       (day) => (
                         <div
                           key={day}
-                          className="font-medium text-gray-500  bg-[#EAEFFB]"
+                          className="font-medium text-gray-500 bg-[#EAEFFB] max-sm:text-xs"
                         >
                           {day}
                         </div>
                       )
                     )}
-                    
+
                     {renderCalendar()}
-                    
                   </div>
                 </CardContent>
               </Card>
-              <Card className="h-[50vh] border-none">
+              <Card className="h-[50vh] border-none max-sm:h-auto">
                 <CardHeader>
-                  <CardTitle className="text-xl font-semibold text-gray-700 ml-4">
+                  <CardTitle className="text-xl font-semibold text-gray-700 ml-4 max-sm:text-lg max-sm:ml-2">
                     Events for {format(selectedDate, "MMMM d, yyyy")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="space-y-4 overflow-y-auto"
+                    className="space-y-4 overflow-y-auto max-sm:space-y-2"
                     style={{ maxHeight: "calc(45vh - 120px)" }}
                   >
                     <AnimatePresence>
                       {dailyEvents.length > 0 ? (
                         dailyEvents.map((event) => (
-                          <div >
-                          <motion.div
-                            key={event.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className={`p-4 rounded-lg  cursor-pointer transition ${
-                              isSaturday(selectedDate)
-                                ? "border-red-300"
-                                : "border-gray-200"
-                            }`}
-                            onClick={() => handleEventClick(event)}
-                          >
-                            <h3
-                              className={`text-lg font-medium ${
+                          <div key={event.id}>
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 0.3 }}
+                              className={`p-4 rounded-lg cursor-pointer transition max-sm:p-2 ${
                                 isSaturday(selectedDate)
-                                  ? "text-red-600"
-                                  : "text-black"
+                                  ? "border-red-300"
+                                  : "border-gray-200"
                               }`}
+                              onClick={() => handleEventClick(event)}
                             >
-                              {event.event_name}
-                            </h3>
-                            <p className="text-gray-600">
-                              {event.event_description}
-                            </p>
-                            <div className="w-full h-[1px] bg-black mb-[-30px] mt-[30px]"></div>
-                          </motion.div>
-                          
+                              <h3
+                                className={`text-lg font-medium max-sm:text-base ${
+                                  isSaturday(selectedDate)
+                                    ? "text-red-600"
+                                    : "text-black"
+                                }`}
+                              >
+                                {event.event_name}
+                              </h3>
+                              <p className="text-gray-600 max-sm:text-sm">
+                                {event.event_description}
+                              </p>
+                              <div className="w-full h-[1px] bg-black mb-[-30px] mt-[30px] max-sm:mt-[15px] max-sm:mb-[-15px]"></div>
+                            </motion.div>
                           </div>
                         ))
                       ) : (
-                        <p className="text-gray-500 ml-4">No events for this day.</p>
+                        <p className="text-gray-500 ml-4 max-sm:ml-2 max-sm:text-sm">
+                          No events for this day.
+                        </p>
                       )}
                     </AnimatePresence>
                   </div>
                   {isAdmin() && (
                     <Button
-                      className="mt-4 w-full"
+                      className="mt-4 w-full max-sm:mt-2"
                       onClick={() => {
                         setSelectedEvent(null);
                         setIsOpen(true);
@@ -345,17 +348,16 @@ const SchoolCalendar = () => {
                 </CardContent>
               </Card>
             </div>
-            <div className="col-span-3">
-              <Card className="h-[94vh] border-none">
+            <div className="col-span-3 max-sm:col-span-1 max-sm:h-screen bg-[#EAEFFB] ">
+              <Card className="lg:h-[94vh] border-none bg-[#EAEFFB] ">
                 <CardHeader>
-                  {" "}
-                  <CardTitle className="text-2xl font-semibold ml-4 text-gray-800">
+                  <CardTitle className="text-2xl font-semibold ml-4 text-gray-800 max-sm:text-xl max-sm:ml-2">
                     Monthly Events
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="space-y-4 overflow-y-auto"
+                    className="space-y-4 overflow-y-auto max-sm:space-y-2 bg-[#EAEFFB]"
                     style={{ maxHeight: "calc(93vh - 100px)" }}
                   >
                     <AnimatePresence>
@@ -367,7 +369,7 @@ const SchoolCalendar = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className={`p-4 rounded-lg bg-[#EAEFFB]  transition ${
+                            className={`p-4 rounded-lg bg-[#EAEFFB] transition max-sm:p-2 ${
                               isSaturday(
                                 new Date(
                                   selectedDate.getFullYear(),
@@ -382,9 +384,9 @@ const SchoolCalendar = () => {
                               handleEventClick({ ...event, day: day.day })
                             }
                           >
-                            <div className="flex justify-between ">
+                            <div className="flex justify-between max-sm:flex-col bg-[#EAEFFB]">
                               <h3
-                                className={`text-lg font-medium ${
+                                className={`text-lg font-medium max-sm:text-base bg-[#EAEFFB] ${
                                   isSaturday(
                                     new Date(
                                       selectedDate.getFullYear(),
@@ -398,7 +400,10 @@ const SchoolCalendar = () => {
                               >
                                 {event.event_name}
                               </h3>
-                              <Badge variant="secondary" className="mb-2 hover:bg-[#EAEFFB] bg-[#EAEFFB]">
+                              <Badge
+                                variant="secondary"
+                                className="mb-2 hover:bg-[#EAEFFB] bg-[#EAEFFB] max-sm:mb-1 max-sm:text-xs"
+                              >
                                 {format(
                                   new Date(
                                     selectedDate.getFullYear(),
@@ -409,7 +414,7 @@ const SchoolCalendar = () => {
                                 )}
                               </Badge>
                             </div>
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 max-sm:text-sm">
                               {event.event_description}
                             </p>
                           </motion.div>
@@ -425,10 +430,10 @@ const SchoolCalendar = () => {
 
         {isAdmin() && (
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-sm:max-w-[90vw]">
               <DialogHeader>
                 <DialogTitle>
-                  {selectedEvent ? "Update Event" : "Add Event"}
+                  {selectedEvent ? "Edit Event" : "Add Event"}
                 </DialogTitle>
                 <DialogDescription>
                   {selectedEvent
@@ -438,24 +443,30 @@ const SchoolCalendar = () => {
               </DialogHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="event_name" className="text-right">
+                  <div className="grid grid-cols-4 items-center gap-4 max-sm:grid-cols-1">
+                    <Label
+                      htmlFor="event_name"
+                      className="text-right max-sm:text-left"
+                    >
                       Event Name
                     </Label>
                     <Input
                       id="event_name"
                       {...register("event_name")}
-                      className="col-span-3"
+                      className="col-span-3 max-sm:col-span-1"
                     />
                   </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="event_description" className="text-right">
+                  <div className="grid grid-cols-4 items-center gap-4 max-sm:grid-cols-1">
+                    <Label
+                      htmlFor="event_description"
+                      className="text-right max-sm:text-left"
+                    >
                       Description
                     </Label>
                     <Input
                       id="event_description"
                       {...register("event_description")}
-                      className="col-span-3"
+                      className="col-span-3 max-sm:col-span-1"
                     />
                   </div>
                 </div>

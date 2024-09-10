@@ -17,12 +17,10 @@ const DetailModal = () => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex items-center cursor-pointer group">
-          <p className="underline text-md text-[#3e70c2] max-sm:hidden">
-            Details
-          </p>
+          <p className="underline text-md text-[#3e70c2] ">Details</p>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800spx]">
+      <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto max-sm:text-sm">
         <DialogHeader>
           <DialogTitle>Course Details</DialogTitle>
           <DialogDescription>
@@ -129,7 +127,7 @@ const DetailModal = () => {
                 </li>
               </ul>
 
-              <h4 className="text-sm font-semibold mt-4 mb-2">
+              <h4 className="text-lg font-semibold mt-4 mb-2">
                 Ethical Considerations:
               </h4>
               <ul className="list-disc pl-5 mb-4">

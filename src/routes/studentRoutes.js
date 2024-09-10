@@ -28,6 +28,11 @@ const StudentRoutes = (
       />
       <Route
         key="attendance"
+        path="/student/attendances/"
+        element={<StudentAttendance />}
+      />
+      <Route
+        key="attendance"
         path="/student/calendar"
         element={<SchoolCalendar />}
       />

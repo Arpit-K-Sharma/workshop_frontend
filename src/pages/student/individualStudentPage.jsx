@@ -30,9 +30,11 @@ import StudentSidebar from "./studentSidebar";
 import { Check, X } from "lucide-react";
 import axiosInstance from "@/utils/axiosInstance";
 import { baseURL } from "@/utils/axiosInstance";
+import { useNewSchoolContext } from "context/NewSchoolContext";
 
 const StudentAttendance = () => {
-  const { studentId } = useParams();
+  const studentId = localStorage.getItem("student_id");
+  console.log("Student ID:", studentId);
   const [student, setStudent] = useState(null);
   const [attendance, setAttendance] = useState([]);
   const [course, setCourse] = useState(null);
@@ -73,42 +75,41 @@ const StudentAttendance = () => {
     }
   };
 
-  useEffect(
-    () => {
-      const fetchData = async () => {
-        try {
-          const studentResponse = await apiClient.get(`/student/${studentId}`);
-          setStudent(studentResponse.data.data);
-          let classid = studentResponse.data.data.class_id;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const studentResponse = await apiClient.get(`/student/${studentId}`);
+        setStudent(studentResponse.data.data);
+        let classid = studentResponse.data.data.class_id;
 
-          if (classid && classid.length > 0) {
-            const attendanceResponse = await apiClient.get(
-              `/attendances/student/${studentId}/class/${classid}/month/${selectedYear}/${selectedMonth
-                .toString()
-                .padStart(2, "0")}`
-            );
-            setAttendance(attendanceResponse.data.data.attendances);
-          }
-
-          if (
-            studentResponse.data.data.course_id &&
-            studentResponse.data.data.course_id.length > 0
-          ) {
-            const courseResponse = await apiClient.get(
-              `/course/${studentResponse.data.data.course_id[0]}`
-            );
-            setCourse(courseResponse.data.data);
-          }
-        } catch (error) {
-          console.error("Error fetching data:", error);
+        if (classid && classid.length > 0) {
+          const attendanceResponse = await apiClient.get(
+            `/attendances/student/${studentId}/class/${classid}/month/${selectedYear}/${selectedMonth
+              .toString()
+              .padStart(2, "0")}`
+          );
+          setAttendance(attendanceResponse.data.data.attendances);
         }
-      };
 
-      fetchData();
-    },
-    [studentId, selectedMonth, selectedYear],
-    fetchStudentData()
-  );
+        if (
+          studentResponse.data.data.course_id &&
+          studentResponse.data.data.course_id.length > 0
+        ) {
+          const courseResponse = await apiClient.get(
+            `/course/${studentResponse.data.data.course_id[0]}`
+          );
+          setCourse(courseResponse.data.data);
+        }
+
+        // Call fetchStudentData here
+        await fetchStudentData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [studentId, selectedMonth, selectedYear]); // Remove fetchStudentData from dependencies
 
   if (!student) {
     return <LoadingSpinner />;
