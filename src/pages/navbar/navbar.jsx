@@ -123,24 +123,96 @@ function Navbar() {
                   exit="closed"
                   variants={menuVariants}
                 >
-                  {[
-                    { name: "Home", route: "/" },
-                    { name: "Dashboard", route: "/admin" },
-                    { name: "Login", route: "/login" },
-                  ].map((item, index) => (
+                  <motion.a
+                    className="text-xl font-sans font-regular cursor-pointer"
+                    onClick={() => {
+                      navigate("/");
+                      setIsOpen(false);
+                    }}
+                    variants={menuItemVariants}
+                  >
+                    Home
+                  </motion.a>
+                  <motion.a
+                    className="text-xl font-sans font-regular cursor-pointer"
+                    onClick={() => {
+                      navigate("/about");
+                      setIsOpen(false);
+                    }}
+                    variants={menuItemVariants}
+                  >
+                    About Us
+                  </motion.a>
+                  <motion.a
+                    className="text-xl font-sans font-regular cursor-pointer"
+                    onClick={() => {
+                      navigate("/courses");
+                      setIsOpen(false);
+                    }}
+                    variants={menuItemVariants}
+                  >
+                    Courses
+                  </motion.a>
+                  {!(isAdmin() || isMentor() || isStudent()) && (
                     <motion.a
-                      key={item.name}
                       className="text-xl font-sans font-regular cursor-pointer"
                       onClick={() => {
-                        navigate(item.route);
-                        setIsOpen(false); // Close the mobile menu after navigation
+                        loginClick();
+                        setIsOpen(false);
                       }}
                       variants={menuItemVariants}
-                      transition={{ delay: index * 0.1 }}
                     >
-                      {item.name}
+                      Login
                     </motion.a>
-                  ))}
+                  )}
+                  {isAdmin() && (
+                    <motion.a
+                      className="text-xl font-sans font-regular cursor-pointer"
+                      onClick={() => {
+                        adminDashboard();
+                        setIsOpen(false);
+                      }}
+                      variants={menuItemVariants}
+                    >
+                      Admin Dashboard
+                    </motion.a>
+                  )}
+                  {isMentor() && (
+                    <motion.a
+                      className="text-xl font-sans font-regular cursor-pointer"
+                      onClick={() => {
+                        mentorDashboard();
+                        setIsOpen(false);
+                      }}
+                      variants={menuItemVariants}
+                    >
+                      Mentor Dashboard
+                    </motion.a>
+                  )}
+                  {isStudent() && (
+                    <motion.a
+                      className="text-xl font-sans font-regular cursor-pointer"
+                      onClick={() => {
+                        studentDashboard();
+                        setIsOpen(false);
+                      }}
+                      variants={menuItemVariants}
+                    >
+                      Student Dashboard
+                    </motion.a>
+                  )}
+                  {!(isAdmin() || isMentor() || isStudent()) && (
+                    <motion.a
+                      className="text-xl font-sans font-regular cursor-pointer"
+                      onClick={() => {
+                        navigate("/contact");
+                        setIsOpen(false);
+                      }}
+                      variants={menuItemVariants}
+                    >
+                      Get Info
+                    </motion.a>
+                  )}
                 </motion.nav>
               )}
             </AnimatePresence>

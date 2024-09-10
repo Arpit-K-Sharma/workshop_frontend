@@ -146,11 +146,10 @@ const StudentAttendance = () => {
     <div className="flex flex-col md:flex-row h-screen">
       <StudentSidebar className="w-full md:w-auto" />
       <MobileSidebar />
-      <div className="flex-1 p-4 md:p-8 bg-[#EAEFFB] flex flex-col overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 bg-[#EAEFFB] flex flex-col overflow-y-auto ">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center pl-2 md:pl-8 pr-2 md:pr-16 mb-4 ml-4 lg:ml-0 mt-8 lg:mt-0">
           <div>
-            <h1 className="font-bold text-sm text-[#303030]">Coding 10A</h1>
-            <h1 className="text-2xl md:text-3xl font-bold mt-2">
+            <h1 className="text-2xl md:text-3xl font-bold mt-2 max-sm:mt-4">
               {studentData.student_name}
             </h1>
           </div>
