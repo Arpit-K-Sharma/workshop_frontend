@@ -179,7 +179,7 @@ const SchoolsPage = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[#EAEFFB]">
       <AdminSidebar />
       <div className="flex-1 overflow-auto">
         <main className="p-6 ml-56">
