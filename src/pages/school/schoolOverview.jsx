@@ -158,7 +158,7 @@ const SchoolDashboard = () => {
             <Card>
               <CardHeader className="flex flex-col items-center justify-center pb-2">
                 <CardTitle className="text-[18px] font-medium text-center">
-                  Total Number of Classes
+                  Total Classes
                 </CardTitle>
               </CardHeader>
               <CardContent>
