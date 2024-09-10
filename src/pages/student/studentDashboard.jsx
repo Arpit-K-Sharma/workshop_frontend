@@ -122,30 +122,30 @@ const StudentDashboard = () => {
             profilePicture={studentData?.profile_picture}
             studentName={studentData?.student_name}
           />
-          <h2 className="text-3xl font-bold mt-2 text-center max-sm:text-xl max-sm:mt-4">
+          <h2 className="text-3xl font-bold mt-2 text-center max-sm:text-2xl max-sm:mt-4">
             {studentData?.student_name}
           </h2>
         </div>
-        <h1 className="text-3xl font-semibold mb-10 text-gray-900 max-sm:text-2xl max-sm:mb-6 max-sm:mt-10 max-sm:text-center max-sm:mx-auto">
+        <h1 className="text-3xl font-semibold mb-10 text-gray-900 max-sm:text-4xl max-sm:mb-6 max-sm:mt-10 max-sm:text-center max-sm:mx-auto">
           Hello, look through your Dashboard
         </h1>
-        <div className="grid grid-cols-4 gap-8 mb-8 max-sm:grid-cols-2 max-sm:gap-4">
+        <div className="grid grid-cols-4 gap-8 mb-8 max-sm:grid-cols-2 max-sm:gap-4 max-sm:mt-9">
           <div className="flex flex-col">
-            <p className="text-heading font-black text-[#34486B] text-center max-sm:text-lg">{`${presentClasses}/${totalClasses}`}</p>
+            <p className="text-heading font-black text-[#34486B] text-center max-sm:text-5xl">{`${presentClasses}/${totalClasses}`}</p>
             <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] text-center max-sm:text-sm">
               Attendance this month
             </h2>
           </div>
 
           <div className="flex flex-col">
-            <p className="text-heading font-black text-[#34486B] text-center max-sm:text-lg">{`${totalStudents}`}</p>
+            <p className="text-heading font-black text-[#34486B] text-center max-sm:text-5xl">{`${totalStudents}`}</p>
             <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] text-center max-sm:text-sm">
               Total Students in class
             </h2>
           </div>
 
-          <div className="flex flex-col">
-            <p className="text-heading font-bold text-[#34486B] text-center max-sm:text-lg">
+          <div className="flex flex-col items-center max-sm:col-span-2 max-sm:mx-auto">
+            <p className="text-heading font-black text-[#34486B] text-center max-sm:text-5xl">
               {assignments.length}
             </p>
             <h2 className="text-subtitle font-medium mt-1 text-[#6C6C6C] text-center max-sm:text-sm">
@@ -164,11 +164,11 @@ const StudentDashboard = () => {
               />
             </div>
 
-            <h2 className="text-3xl font-bold mt-2 text-center max-sm:text-xl max-sm:hidden max-sm:invisible">
+            <h2 className="text-3xl font-bold mt-2 text-center max-sm:text-2xl max-sm:hidden max-sm:invisible">
               {studentData?.student_name}
             </h2>
             <div className="mt-12 absolute top-40 w-full max-sm:static max-sm:mt-4">
-              <h3 className="text-subheading font-semibold text-2xl w-[290px] mb-5 text-center mt-2 text-semibold max-sm:text-xl max-sm:w-full">
+              <h3 className="text-subheading font-semax-sm:text-2xl w-[290px] mb-5 text-center mt-2 text-semibold max-sm:text-2xl max-sm:w-full">
                 Assignments Given
               </h3>
               <div className="space-y-4 w-full">
@@ -202,7 +202,7 @@ const StudentDashboard = () => {
                   ))
                 ) : (
                   <p className="text-gray-600 text-center">
-                    <span className="grid mt-20 max-sm:mt-10">
+                    <span className="grid mt-20 max-sm:mt-10 max-sm:block">
                       <span> Assignments</span>{" "}
                       <span className="mt-4">will</span>{" "}
                       <span className="mt-4">be </span>{" "}
@@ -218,7 +218,7 @@ const StudentDashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="col-span-1 md:col-span-2">
-            <h2 className="text-subsemibold mb-4 text-gray-900 flex flex-row items-center max-sm:text-xl max-sm:mx-auto max-sm:items-center">
+            <h2 className="text-subsemibold mb-4 text-gray-900 flex flex-row items-center max-sm:text-2xl max-sm:mx-auto max-sm:items-center">
               <EnrolledCoursesModal coursesData={coursesData} />
             </h2>
           </div>
@@ -249,8 +249,8 @@ const StudentDashboard = () => {
           </div>
         </div>
         <div className="w-2/3 max-sm:w-full max-sm:mb-9">
-          <h2 className="text-subheading font-semibold mb-4 text-gray-900 mt-16 max-sm:text-xl max-sm:mt-8">
-            Feedbacks from mentors
+          <h2 className="text-subheading font-semibold mb-4 text-gray-900 mt-16 max-sm:text-2xl max-sm:mt-8">
+            Feedback from mentors
           </h2>
           <div className="overflow-x-auto scrollbar-hide">
             <div className="flex space-x-4 pb-4">

@@ -83,7 +83,7 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
       >
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-zinc-600">
-            Welcome to Digital Horizon
+            Welcome to Digital Horizons
           </DialogTitle>
           <div className="text-center space-y-2">
             <Shield className="w-16 h-16 mx-auto text-blue-500" />
@@ -162,7 +162,7 @@ function FirstTimeLoginDialog({ isOpen, onClose, studentId }) {
         <div className="mt-4 text-center">
           <p className="text-xs text-gray-500">
             Note: Please ensure you remember this password or store it securely.
-            You'll need it for future logins to access your Digital Horizon
+            You'll need it for future logins to access your Digital Horizons
             account.
           </p>
         </div>

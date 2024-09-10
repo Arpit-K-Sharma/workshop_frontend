@@ -11,6 +11,7 @@ import StudentSidebar from "./studentSidebar";
 import Arpit from "../../gallery/members/Arpit1.png";
 import ProfilePictureAvatar from "pages/mentors/mentorPages/profilePictureAvator";
 import DisplayProfile from "userDefined_components/profileimage/ProfileImage";
+import MobileSidebar from "./studentMobileSidebar";
 
 const StudentsProfile = () => {
   const navigate = useNavigate();
@@ -55,8 +56,9 @@ const StudentsProfile = () => {
   return (
     <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
+      <MobileSidebar />
       <div className="flex-1 flex flex-col p-8 md:p-16 lg:p-28 overflow-y-scroll">
-        <h1 className="text-2xl font-semibold mb-4 text-[#34486B]">
+        <h1 className="text-2xl font-semibold mb-4 text-[#34486B] max-sm:mt-5">
           Students Profile
         </h1>
         <hr className="w-full border border-gray-600" />

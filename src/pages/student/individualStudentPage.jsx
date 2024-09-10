@@ -31,6 +31,7 @@ import { Check, X } from "lucide-react";
 import axiosInstance from "@/utils/axiosInstance";
 import { baseURL } from "@/utils/axiosInstance";
 import { useNewSchoolContext } from "context/NewSchoolContext";
+import MobileSidebar from "./studentMobileSidebar";
 
 const StudentAttendance = () => {
   const studentId = localStorage.getItem("student_id");
@@ -101,7 +102,6 @@ const StudentAttendance = () => {
           setCourse(courseResponse.data.data);
         }
 
-        // Call fetchStudentData here
         await fetchStudentData();
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -109,7 +109,7 @@ const StudentAttendance = () => {
     };
 
     fetchData();
-  }, [studentId, selectedMonth, selectedYear]); // Remove fetchStudentData from dependencies
+  }, [studentId, selectedMonth, selectedYear]);
 
   if (!student) {
     return <LoadingSpinner />;
@@ -143,30 +143,30 @@ const StudentAttendance = () => {
   const years = Array.from({ length: 10 }, (_, i) => selectedYear - 5 + i);
 
   return (
-    <div className="flex h-screen">
-      <StudentSidebar />
-      <div className="flex-1 p-8 bg-[#EAEFFB] flex flex-col">
-        <div className="flex justify-between items-center pl-8 pr-16">
+    <div className="flex flex-col md:flex-row h-screen">
+      <StudentSidebar className="w-full md:w-auto" />
+      <MobileSidebar />
+      <div className="flex-1 p-4 md:p-8 bg-[#EAEFFB] flex flex-col overflow-y-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center pl-2 md:pl-8 pr-2 md:pr-16 mb-4 ml-4 lg:ml-0 mt-8 lg:mt-0">
           <div>
             <h1 className="font-bold text-sm text-[#303030]">Coding 10A</h1>
-            <h1 className="text-3xl font-bold mb-4 mt-2">
-              {" "}
+            <h1 className="text-2xl md:text-3xl font-bold mt-2">
               {studentData.student_name}
             </h1>
           </div>
-          <div>
+          <div className="mt-2 md:mt-0">
             <h1 className="text-[#7189B2]">Attendance History</h1>
           </div>
         </div>
         <Card className="flex-1 flex flex-col overflow-hidden">
           <CardHeader className="flex-shrink-0">
-            <div className="flex space-x-4 mt-4">
-              <div>
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
+              <div className="w-full sm:w-auto">
                 <Select
                   value={selectedMonth.toString()}
                   onValueChange={(value) => setSelectedMonth(parseInt(value))}
                 >
-                  <SelectTrigger className="w-[150px] bg-[#EAEFFB] border-none">
+                  <SelectTrigger className="w-full sm:w-[150px] bg-[#EAEFFB] border-none">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -182,13 +182,13 @@ const StudentAttendance = () => {
                 </Select>
                 <div className="w-[90%] ml-2 h-[2px] bg-[#B9B9B9]"></div>
               </div>
-              <div>
+              <div className="w-full sm:w-auto">
                 <Select
                   value={selectedYear.toString()}
                   onValueChange={(value) => setSelectedYear(parseInt(value))}
                   className="border border-black"
                 >
-                  <SelectTrigger className="w-[150px] bg-[#EAEFFB] border-none ">
+                  <SelectTrigger className="w-full sm:w-[150px] bg-[#EAEFFB] border-none">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -205,13 +205,13 @@ const StudentAttendance = () => {
           </CardHeader>
           <CardContent className="flex-1 overflow-hidden">
             <div className="flex flex-col h-full">
-              <div className="overflow-hidden">
+              <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow className="">
-                      <TableHead className=" w-1/4">Date</TableHead>
+                    <TableRow>
+                      <TableHead className="w-1/4">Date</TableHead>
                       <TableHead className="text-center w-1/4">
-                        <span className="pr-6"> Attendance</span>
+                        <span className="pr-2 md:pr-6">Attendance</span>
                       </TableHead>
                       <TableHead className="text-center w-1/4">
                         Remarks
@@ -232,53 +232,42 @@ const StudentAttendance = () => {
                       );
                       return (
                         <TableRow key={date}>
-                          <TableCell className=" w-1/4 p-6 pl-4 ">
-                            {date}
+                          <TableCell className="w-1/4 p-4 md:p-6 pl-2 md:pl-4">
+                            {new Date(date).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })}
                           </TableCell>
-                          <TableCell className="text-center w-1/4 ${}">
+                          <TableCell className="text-center w-1/4">
                             {attendanceRecord ? attendanceRecord.status : "N/A"}
                           </TableCell>
                           <TableCell className="text-center w-1/4">
-                            <div className="w-[300px] mx-auto truncate">
-                              {(attendanceRecord?.remarks && (
+                            {attendanceRecord ? (
+                              <div className="space-x-2">
                                 <Dialog>
                                   <DialogTrigger asChild>
-                                    <button
-                                      className="hover:underline focus:outline-none truncate w-full text-left"
-                                      onClick={() =>
-                                        setSelectedRemarks(
-                                          attendanceRecord.remarks
-                                        )
-                                      }
-                                    >
-                                      {attendanceRecord.remarks}
-                                      <div className="w-full h-[1px] bg-black"></div>
+                                    <button className="text-blue-600">
+                                      {attendanceRecord.remarks || "N/A"}
                                     </button>
                                   </DialogTrigger>
                                   <DialogContent>
-                                    <DialogTitle>Full Remarks</DialogTitle>
-                                    <p>{selectedRemarks}</p>
-                                    <DialogClose />
+                                    <DialogTitle>Remarks</DialogTitle>
+                                    <p>{attendanceRecord.remarks}</p>
+                                    <DialogClose asChild>
+                                      <button>Close</button>
+                                    </DialogClose>
                                   </DialogContent>
                                 </Dialog>
-                              )) || (
-                                <>
-                                  {"N/A"}
-                                  <div className="w-full h-[1px] bg-black"></div>
-                                </>
-                              )}
-                            </div>
+                              </div>
+                            ) : (
+                              "N/A"
+                            )}
+                            <div className="w-full h-[1px] bg-black"> </div>
                           </TableCell>
                           <TableCell className="text-center w-1/4">
-                            {attendanceRecord ? (
-                              attendanceRecord.laptop ? (
-                                <Check className="text-[#34486b]" />
-                              ) : (
-                                <X className="text-[#740000]" />
-                              )
-                            ) : (
-                              "---"
-                            )}
+                            {attendanceRecord
+                              ? attendanceRecord.laptopStatus
+                              : "N/A"}
                           </TableCell>
                         </TableRow>
                       );

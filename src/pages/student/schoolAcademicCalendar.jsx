@@ -228,7 +228,7 @@ const SchoolCalendar = () => {
       <StudentSidebar />
       <MobileSidebar />
       <div className="min-h-screen p-8 w-full bg-[#EAEFFB] max-sm:p-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto bg-[#EAEFFB] ">
           <div className="grid grid-cols-5 gap-8 max-sm:grid-cols-1">
             <div className="col-span-2 space-y-8 max-sm:col-span-1">
               <Card className="h-[40vh] border-none max-sm:h-auto">
@@ -348,8 +348,8 @@ const SchoolCalendar = () => {
                 </CardContent>
               </Card>
             </div>
-            <div className="col-span-3 max-sm:col-span-1 max-sm:h-screen bg-[#EAEFFB] ">
-              <Card className="lg:h-[94vh] border-none bg-[#EAEFFB] ">
+            <div className="col-span-3 max-sm:col-span-1 bg-[#EAEFFB] ">
+              <Card className="border-none bg-[#EAEFFB]">
                 <CardHeader>
                   <CardTitle className="text-2xl font-semibold ml-4 text-gray-800 max-sm:text-xl max-sm:ml-2">
                     Monthly Events

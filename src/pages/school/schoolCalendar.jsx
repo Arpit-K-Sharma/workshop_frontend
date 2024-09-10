@@ -203,7 +203,10 @@ const NewSchoolCalendar = () => {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div
+      className="flex h-screen bg-white"
+      style={{ "--background": "220 92% 95%" }}
+    >
       <ISidebar />
       <div className="min-h-screen p-8 w-full bg-white ml-64">
         <div className="max-w-7xl mx-auto">

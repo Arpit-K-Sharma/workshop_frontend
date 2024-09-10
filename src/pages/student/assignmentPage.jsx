@@ -17,6 +17,7 @@ import StudentSidebar from "./studentSidebar";
 import axios from "@/utils/axiosInstance";
 import { baseURL } from "@/utils/axiosInstance";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import MobileSidebar from "./studentMobileSidebar";
 
 const AssignmentPage = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const AssignmentPage = () => {
   return (
     <div className="flex h-screen bg-[#EAEFFB]">
       <StudentSidebar />
+      <MobileSidebar />
       <main className="flex-1 p-8 bg-[#EAEFFB]">
         <Card className="h-[300px]">
           <CardHeader>

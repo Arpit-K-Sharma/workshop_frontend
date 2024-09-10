@@ -235,16 +235,16 @@ const MentorsPage = () => {
                 </div>
                 <DialogFooter>
                   <Button
-                    className="bg-homeText hover:bg-homeText-hover"
-                    onClick={handleCreate}
-                  >
-                    <Check /> Save
-                  </Button>
-                  <Button
-                    className="bg-homeText hover:bg-homeText-hover"
+                    className="bg-red-600 hover:bg-red-800 text-white"
                     onClick={handleCloseDialog}
                   >
                     <X /> Cancel
+                  </Button>
+                  <Button
+                    className="bg-green-900 hover:bg-green-800 text-white"
+                    onClick={handleCreate}
+                  >
+                    <Check /> Save
                   </Button>
                 </DialogFooter>
               </DialogContent>
